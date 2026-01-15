@@ -12,13 +12,20 @@
             <span class="text-lg font-bold text-white tracking-tight">Ticket Hub</span>
         </div>
 
-        <div class="flex items-center gap-3">
-            <x-gray-button href="/login" class="!px-4 !py-1.5 !text-xs border-white/10 hover:bg-white/5 transition-all">
-                Sign in
-            </x-gray-button>
-            <x-blue-button href="/register" class="!px-4 !py-1.5 !text-xs shadow-lg shadow-blue-600/20">
-                Get Started
+        @guest
+            <div class="flex items-center gap-3">
+                <x-gray-button href="/login" class="!px-4 !py-1.5 !text-xs border-white/10 hover:bg-white/5 transition-all">
+                    Sign in
+                </x-gray-button>
+                <x-blue-button href="/register" class="!px-4 !py-1.5 !text-xs shadow-lg shadow-blue-600/20">
+                    Get Started
+                </x-blue-button>
+            </div>
+        @endguest
+        @auth
+            <x-blue-button href="/dashboard" class="!px-4 !py-1.5 !text-xs shadow-lg shadow-blue-600/20">
+                Open Dashboard
             </x-blue-button>
-        </div>
+        @endauth
     </div>
 </header>

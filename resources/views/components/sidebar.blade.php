@@ -67,10 +67,11 @@
                 <p class="text-xs text-slate-500 truncate">john@tickethub.com</p>
             </div>
         </div>
-        
-        <form action="/logout" method="POST">
+
+        <form method="POST" action="/logout">
             @csrf
-            <button type="submit" class="w-full flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors group">
+            @method('DELETE')
+            <button class="w-full flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors group">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out w-4 h-4 text-slate-500 group-hover:text-red-400 transition-colors">
                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                     <polyline points="16 17 21 12 16 7"></polyline>

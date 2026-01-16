@@ -30,4 +30,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/tickets', [TicketsController::class, 'index']);
 
     Route::get('/tickets/{ticket}', [TicketsController::class, 'show']);
+    Route::patch('/tickets/{ticket}', [TicketsController::class, 'update']);
 });

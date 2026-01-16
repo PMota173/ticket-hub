@@ -76,7 +76,24 @@ class TicketsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // get ticket by id
+        $ticket = Ticket::findOrFail($id);
+
+        // authorize that the user can view the ticket
+        if(Auth::user()->id != $ticket->user_id) {
+            abort(403);
+        }
+
+        // Validate (patch request for updating status)
+        $request->validate([
+            'status' => ['required', 'in:open,in_progress,waiting,closed'],
+        ]);
+
+        // Update ticket status
+        $ticket->status = $request->status;
+        $ticket->save();
+
+        return redirect('/tickets/' . $ticket->id);
     }
 
     /**

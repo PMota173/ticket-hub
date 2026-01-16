@@ -1,6 +1,11 @@
 @props(['ticket'])
 
-<div draggable="true" class="bg-slate-900/50 border border-slate-700 rounded-lg p-4 mb-3 hover:border-slate-500 cursor-grab active:cursor-grabbing shadow-sm transition-all group flex gap-3">
+<div 
+    id="ticket-{{ $ticket->id }}"
+    data-id="{{ $ticket->id }}"
+    draggable="true" 
+    class="bg-slate-900/50 border border-slate-700 rounded-lg p-4 mb-3 hover:border-slate-500 cursor-grab active:cursor-grabbing shadow-sm transition-all group flex gap-3 draggable-card"
+>
     <!-- Move Indicator -->
     <div class="flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-grip-vertical w-4 h-4 text-gray-500 flex-shrink-0"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>

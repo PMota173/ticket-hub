@@ -76,3 +76,43 @@ test('getting all tickets for kanban board', function () {
     });
 });
 
+test('getting a single ticket detail view', function () {
+    // 1. Create a user
+    $user = User::factory()->create();
+
+    // 2. Create a ticket for the user
+    $ticket = Ticket::factory()->create(['user_id' => $user->id]);
+
+    // 3. Act as created user
+    $this->actingAs($user);
+
+    // 4. GET ticket detail
+    $response = $this->get("/tickets/{$ticket->id}");
+
+    // 5. Assert that the response contains the ticket details
+    $response->assertStatus(200);
+
+    $response->assertViewIs('tickets.show');
+
+    $response->assertViewHas('ticket', function ($viewTicket) use ($ticket) {
+        return $viewTicket->id === $ticket->id;
+    });
+});
+
+test('user1 cant access user2 ticket detail view', function () {
+    // 1. Create two users
+    $user1 = User::factory()->create();
+    $user2 = User::factory()->create();
+
+    // 2. Create a ticket for user2
+    $ticket = Ticket::factory()->create(['user_id' => $user2->id]);
+
+    // 3. Act as user1
+    $this->actingAs($user1);
+
+    // 4. GET user2 ticket detail
+    $response = $this->get("/tickets/{$ticket->id}");
+
+    // 5. Assert that the response is 403 Forbidden
+    $response->assertStatus(403);
+});

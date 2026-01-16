@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TicketsController extends Controller
 {
@@ -51,9 +52,15 @@ class TicketsController extends Controller
      */
     public function show(string $id)
     {
+        // get ticket by id
         $ticket = Ticket::findOrFail($id);
 
-        return view('tickets.show', ['ticket' => $ticket]);
+        // authorize that the user can view the ticket
+        if(Auth::user()->id != $ticket->user_id) {
+            abort(403);
+        }
+
+        return view('tickets.show', compact('ticket'));
     }
 
     /**

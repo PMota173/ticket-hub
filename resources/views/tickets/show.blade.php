@@ -1,6 +1,6 @@
 <x-layouts.app title="Ticket #{{ $ticket->id }} - {{ config('app.name', 'Ticket Hub') }}">
     <div class="mb-8">
-        <x-back-button href="/tickets">Back to Board</x-back-button>
+        <x-back-button href="{{ route('tickets.index', $team) }}">Back to Board</x-back-button>
     </div>
 
     <div class="max-w-4xl">
@@ -27,7 +27,7 @@
                 <div class="flex items-center gap-4 mt-2 text-sm text-slate-400">
                     <div class="flex items-center gap-1.5">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user w-4 h-4"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                        <span>{{ Auth::user()->name }}</span>
+                        <span>{{ $ticket->user->name }}</span>
                     </div>
                     <div class="flex items-center gap-1.5">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar w-4 h-4"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
@@ -37,14 +37,14 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <x-gray-button href="/tickets/{{ $ticket->id }}/edit">
+                <x-gray-button href="{{ route('tickets.edit', [$team, $ticket]) }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil w-4 h-4"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
                     Edit
                 </x-gray-button>
                 
                 <div class="h-8 w-px bg-slate-800 hidden md:block"></div>
 
-                <form action="/tickets/{{ $ticket->id }}" method="POST" class="flex items-center gap-3">
+                <form action="{{ route('tickets.update', [$team, $ticket]) }}" method="POST" class="flex items-center gap-3">
                     @csrf
                     @method('PATCH')
                     <label for="status" class="text-sm font-medium text-slate-400">Status:</label>

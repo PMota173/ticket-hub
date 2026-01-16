@@ -4,7 +4,7 @@
             <h2 class="text-3xl font-bold tracking-tight text-white">Tickets Board</h2>
             <p class="text-slate-400 mt-2">Manage your tickets by dragging them across columns.</p>
         </div>
-        <x-blue-button href="/tickets/create">
+        <x-blue-button href="{{ route('tickets.create', $team) }}">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus mr-2"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             New Ticket
         </x-blue-button>
@@ -152,7 +152,7 @@
             }
 
             function updateTicketStatus(ticketId, status) {
-                fetch(`/tickets/${ticketId}`, {
+                fetch(`/teams/{{ $team->slug }}/tickets/${ticketId}`, {
                     method: 'POST', // Using POST with _method PATCH
                     headers: {
                         'Content-Type': 'application/json',

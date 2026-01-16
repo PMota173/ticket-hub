@@ -4,34 +4,34 @@ use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 
-//test('authenticated user can create tickets', function () {
-//
-//    // AAA Pattern
-//    // Arrange, Act, Assert
-//
-//    // 1. Create a user
-//    $user = User::factory()->create();
-//
-//    // 2. Act as the created user
-//    $this->actingAs($user);
-//
-//    $this->withoutMiddleware(VerifyCsrfToken::class);
-//
-//    // 3. Send a POST request to create a ticket
-//    $response = $this->post(route('tickets.store'), [
-//        'title' => 'Sample Ticket',
-//        'description' => 'This is a sample ticket description.',
-//        'priority' => 'high',
-//    ]);
-//
-//    // 4. Assert that the ticket was created in the database
-//    $this->assertDatabaseHas('tickets', [
-//        'title' => 'Sample Ticket',
-//        'description' => 'This is a sample ticket description.',
-//        'priority' => 'high',
-//        'user_id' => $user->id,
-//    ]);
-//});
+test('authenticated user can create tickets', function () {
+
+    // AAA Pattern
+    // Arrange, Act, Assert
+
+    // 1. Create a user
+    $user = User::factory()->create();
+
+    // 2. Act as the created user
+    $this->actingAs($user);
+
+    $this->withoutMiddleware(VerifyCsrfToken::class);
+
+    // 3. Send a POST request to create a ticket
+    $response = $this->post(route('tickets.store'), [
+        'title' => 'Sample Ticket',
+        'description' => 'This is a sample ticket description.',
+        'priority' => 'high',
+    ]);
+
+    // 4. Assert that the ticket was created in the database
+    $this->assertDatabaseHas('tickets', [
+        'title' => 'Sample Ticket',
+        'description' => 'This is a sample ticket description.',
+        'priority' => 'high',
+        'user_id' => $user->id,
+    ]);
+});
 
 test('getting recent tickets for dashboard view', function () {
     // 1. Create a user
@@ -50,7 +50,7 @@ test('getting recent tickets for dashboard view', function () {
     $response->assertStatus(200);
 
     $response->assertViewHas('recentTickets', function ($tickets) use ($user) {
-        return $tickets->every(fn($ticket) => $ticket->user_id === $user->id);
+        return $tickets->every(fn ($ticket) => $ticket->user_id === $user->id);
     });
 });
 
@@ -73,7 +73,7 @@ test('getting all tickets for kanban board', function () {
     $response->assertViewIs('tickets.index');
 
     $response->assertViewHas('tickets', function ($tickets) use ($user) {
-        return $tickets->count() === 5 && $tickets->every(fn($ticket) => $ticket->user_id === $user->id);
+        return $tickets->count() === 5 && $tickets->every(fn ($ticket) => $ticket->user_id === $user->id);
     });
 });
 
@@ -117,7 +117,6 @@ test('user1 cant access user2 ticket detail view', function () {
     // 5. Assert that the response is 403 Forbidden
     $response->assertStatus(403);
 });
-
 
 test('guest cannot create tickets', function () {
     // 1. Send a POST request to create a ticket as a guest

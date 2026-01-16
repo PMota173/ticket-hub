@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
-use App\Models\Ticket;
 use Illuminate\Http\Request;
 
 class TeamController extends Controller
@@ -51,10 +50,10 @@ class TeamController extends Controller
 
         $slug = \Str::slug($attributes['name']);
 
-        if (!Team::where('slug', $slug)->exists()) {
+        if (! Team::where('slug', $slug)->exists()) {
             $attributes['slug'] = $slug;
         } else {
-            $attributes['slug'] = $slug . '-' . uniqid();
+            $attributes['slug'] = $slug.'-'.uniqid();
         }
 
         $team = Team::create($attributes);
@@ -67,9 +66,26 @@ class TeamController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Team $team)
     {
-        //
+        // Check if user belongs to team
+        if (! $team->users->contains(auth()->user())) {
+            abort(403);
+        }
+
+        $stats = [
+            'open' => $team->tickets()->where('status', 'open')->count(),
+            'in_progress' => $team->tickets()->where('status', 'in_progress')->count(),
+            'waiting' => $team->tickets()->where('status', 'waiting')->count(),
+            'closed' => $team->tickets()->where('status', 'closed')->count(),
+        ];
+
+        $recentTickets = $team->tickets()
+            ->latest()
+            ->limit(10)
+            ->get();
+
+        return view('teams.dashboard', compact('team', 'stats', 'recentTickets'));
     }
 
     /**
@@ -94,5 +110,17 @@ class TeamController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function members(Team $team)
+    {
+        // Check if user belongs to team
+        if (! $team->users->contains(auth()->user())) {
+            abort(403);
+        }
+
+        $members = $team->users()->get();
+
+        return view('teams.members', compact('team', 'members'));
     }
 }

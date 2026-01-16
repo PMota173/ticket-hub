@@ -13,10 +13,16 @@
     @else
     @endif
 </head>
+@props(['title', 'sidebar' => 'team'])
+
 <body class="text-white bg-slate-950 font-sans antialiased">
     <div class="flex min-h-screen">
         <!-- Sidebar -->
-        <x-sidebar />
+        @if($sidebar === 'global')
+            <x-global-sidebar />
+        @else
+            <x-sidebar />
+        @endif
 
         <!-- Main Content -->
         <main class="flex-1 overflow-y-auto">

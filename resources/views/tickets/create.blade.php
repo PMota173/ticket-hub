@@ -8,7 +8,7 @@
 
         <!-- Form Card -->
         <div class="bg-slate-900/50 border border-slate-700 rounded-xl shadow-sm p-8">
-            <form action="/tickets" method="POST" class="space-y-8">
+            <form action="{{ route('tickets.store', $team) }}" method="POST" class="space-y-8">
                 @csrf
 
                 <!-- Title & Description -->
@@ -78,7 +78,7 @@
 
                 <!-- Actions -->
                 <div class="flex items-center justify-end gap-4 pt-4 border-t border-slate-800">
-                    <a href="/dashboard" class="px-5 py-2.5 text-sm font-medium text-slate-300 hover:text-white transition-colors">
+                    <a href="{{ route('teams.show', $team) }}" class="px-5 py-2.5 text-sm font-medium text-slate-300 hover:text-white transition-colors">
                         Cancel
                     </a>
                     <x-blue-button type="submit" class="px-6 py-2.5">

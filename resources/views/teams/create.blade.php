@@ -1,4 +1,4 @@
-<x-layouts.app title="Create Team - {{ config('app.name', 'Ticket Hub') }}">
+<x-layouts.app title="Create Team - {{ config('app.name', 'Ticket Hub') }}" sidebar="global">
     <div class="max-w-2xl mx-auto">
         <!-- Header -->
         <div class="mb-8">

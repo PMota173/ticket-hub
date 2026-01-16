@@ -2,92 +2,86 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Team;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use JetBrains\PhpStorm\NoReturn;
 
 class TicketsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Team $team)
     {
-        $tickets = request()->user()->tickets()->get();
+        $this->authorizeTeamAccess($team);
 
-        return view('tickets.index', compact('tickets'));
+        $tickets = $team->tickets()->get();
+
+        return view('tickets.index', compact('team', 'tickets'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Team $team)
     {
-        return view('tickets.create');
+        $this->authorizeTeamAccess($team);
+
+        return view('tickets.create', compact('team'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Team $team)
     {
+        $this->authorizeTeamAccess($team);
+
         $request->validate([
             'title' => ['required'],
             'description' => ['required'],
             'priority' => ['required', 'in:low,medium,high'],
         ]);
 
-        Ticket::create([
+        $team->tickets()->create([
             'title' => $request->title,
             'description' => $request->description,
             'priority' => $request->priority,
             'user_id' => $request->user()->id,
         ]);
 
-        return redirect('/tickets');
+        return redirect()->route('tickets.index', $team);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Team $team, Ticket $ticket)
     {
-        // get ticket by id
-        $ticket = Ticket::findOrFail($id);
+        $this->authorizeTeamAccess($team);
+        $this->authorizeTicketAccess($team, $ticket);
 
-        // authorize that the user can view the ticket
-        if(Auth::user()->id != $ticket->user_id) {
-            abort(403);
-        }
-
-        return view('tickets.show', compact('ticket'));
+        return view('tickets.show', compact('team', 'ticket'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Team $team, Ticket $ticket)
     {
-        $ticket = Ticket::findOrFail($id);
+        $this->authorizeTeamAccess($team);
+        $this->authorizeTicketAccess($team, $ticket);
 
-        if(Auth::user()->id != $ticket->user_id) {
-            abort(403);
-        }
-
-        return view('tickets.edit', compact('ticket'));
+        return view('tickets.edit', compact('team', 'ticket'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Team $team, Ticket $ticket)
     {
-        $ticket = Ticket::findOrFail($id);
-
-        if(Auth::user()->id != $ticket->user_id) {
-            abort(403);
-        }
+        $this->authorizeTeamAccess($team);
+        $this->authorizeTicketAccess($team, $ticket);
 
         $attributes = $request->validate([
             'title' => ['sometimes', 'required'],
@@ -98,26 +92,37 @@ class TicketsController extends Controller
 
         $ticket->update($attributes);
 
-        if ($request->has('status') && !$request->has('title')) {
+        if ($request->has('status') && ! $request->has('title')) {
             return back();
         }
 
-        return redirect('/tickets/' . $ticket->id);
+        return redirect()->route('tickets.show', [$team, $ticket]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Team $team, Ticket $ticket)
     {
-        $ticket = Ticket::findOrFail($id);
-
-        if(Auth::user()->id != $ticket->user_id) {
-            abort(403);
-        }
+        $this->authorizeTeamAccess($team);
+        $this->authorizeTicketAccess($team, $ticket);
 
         $ticket->delete();
 
-        return redirect('/tickets');
+        return redirect()->route('tickets.index', $team);
+    }
+
+    protected function authorizeTeamAccess(Team $team): void
+    {
+        if (! $team->users->contains(auth()->user())) {
+            abort(403);
+        }
+    }
+
+    protected function authorizeTicketAccess(Team $team, Ticket $ticket): void
+    {
+        if ($ticket->team_id !== $team->id) {
+            abort(404);
+        }
     }
 }

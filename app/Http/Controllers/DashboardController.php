@@ -2,27 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class DashboardController extends Controller
 {
-
     public function __invoke()
     {
-        $user = request()->user();
+        $teams = request()->user()->teams()->get();
 
-        $stats = [
-            'in_progress' => $user->tickets()->where('status', 'in_progress')->count(),
-            'open' => $user->tickets()->where('status', 'open')->count(),
-            'waiting' => $user->tickets()->where('status', 'waiting')->count(),
-            'closed' => $user->tickets()->where('status', 'closed')->count(),
-        ];
+        foreach ($teams as $team) {
+            $team->is_admin = $team->users()->where('user_id', request()->user()->id)->first()->pivot->is_admin;
+            $team->members_count = $team->users()->count();
+            $team->tickets_count = $team->tickets()->count();
+        }
 
-        $recentTickets = $user->tickets()->latest()->limit(10)->get();
-
-        return view('dashboard', [
-            'stats' => $stats,
-            'recentTickets' => $recentTickets,
-        ]);
+        return view('dashboard');
     }
 }

@@ -23,6 +23,7 @@ class TicketFactory extends Factory
             'status' => fake()->randomElement(['open', 'in_progress', 'waiting', 'closed']),
             'priority' => fake()->randomElement(['low', 'medium', 'high']),
             'user_id' => User::factory(),
+            'team_id' => \App\Models\Team::factory(),
         ];
     }
 }

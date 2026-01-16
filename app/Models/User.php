@@ -22,7 +22,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
     ];
 
     /**
@@ -51,5 +50,15 @@ class User extends Authenticatable
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);
+    }
+
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class, 'team_user')->withPivot('is_admin')->withTimestamps();
+    }
+
+    public function ownedTeams()
+    {
+        return $this->hasMany(Team::class, 'user_id');
     }
 }

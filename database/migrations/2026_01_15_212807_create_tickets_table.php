@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('status', ['open', 'in_progress', 'waiting', 'closed'])->default('open');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->enum('priority', ['low', 'medium', 'high'])->default('low');
+            $table->foreignId('team_id')->constrained()->onDelete('cascade');
         });
     }
 

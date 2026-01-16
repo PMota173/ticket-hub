@@ -25,5 +25,49 @@
             </div>
         </main>
     </div>
+    <script>
+        function openModal(modalId, actionUrl) {
+            const modal = document.getElementById(modalId);
+            const backdrop = document.getElementById(modalId + '-backdrop');
+            const panel = document.getElementById(modalId + '-panel');
+            const form = document.getElementById(modalId + '-form');
+
+            if (form && actionUrl) {
+                form.action = actionUrl;
+            }
+
+            modal.classList.remove('hidden');
+            
+            // Trigger reflow
+            void modal.offsetWidth;
+
+            // Add transition classes for opening
+            backdrop.classList.remove('opacity-0');
+            panel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const backdrop = document.getElementById(modalId + '-backdrop');
+            const panel = document.getElementById(modalId + '-panel');
+
+            // Add transition classes for closing
+            backdrop.classList.add('opacity-0');
+            panel.classList.add('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+
+            // Wait for transition to finish before hiding
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.id && event.target.id.endsWith('-backdrop')) {
+                const modalId = event.target.id.replace('-backdrop', '');
+                closeModal(modalId);
+            }
+        }
+    </script>
 </body>
 </html>

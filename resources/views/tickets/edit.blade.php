@@ -117,14 +117,21 @@
                     <h4 class="text-white font-semibold">Danger Zone</h4>
                     <p class="text-slate-400">Once you delete a ticket, there is no going back. Please be certain.</p>
                 </div>
-                <form action="/tickets/{{ $ticket->id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this ticket?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="px-4 py-2 text-sm font-semibold text-red-500 border border-red-500/30 rounded-lg hover:bg-red-500/10 transition-all duration-200">
-                        Delete Ticket
-                    </button>
-                </form>
+                <button 
+                    type="button" 
+                    onclick="openModal('delete-ticket-modal', '/tickets/{{ $ticket->id }}')" 
+                    class="px-4 py-2 text-sm font-semibold text-red-500 border border-red-500/30 rounded-lg hover:bg-red-500/10 transition-all duration-200"
+                >
+                    Delete Ticket
+                </button>
             </div>
         </div>
     </div>
+
+    <x-confirm-modal 
+        id="delete-ticket-modal" 
+        title="Delete Ticket" 
+        message="Are you sure you want to delete this ticket? This action cannot be undone." 
+        confirmText="Delete Ticket" 
+    />
 </x-layouts.app>

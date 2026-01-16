@@ -73,7 +73,7 @@
         <div class="p-6 border-b border-slate-700">
             <h3 class="text-lg font-semibold text-white">Recent Tickets</h3>
         </div>
-        
+
         @if($recentTickets->isEmpty())
             <div class="p-12 text-center">
                 <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-800 mb-4">
@@ -97,14 +97,14 @@
                             <th class="px-6 py-4 font-medium">Status</th>
                             <th class="px-6 py-4 font-medium">Priority</th>
                             <th class="px-6 py-4 font-medium">Created</th>
-                            <th class="px-6 py-4 font-medium text-right">Action</th>
+                            <th class="px-6 py-4 font-medium text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-800">
                         @foreach($recentTickets as $ticket)
                             <tr class="hover:bg-slate-800/30 transition-colors">
                                 <td class="px-6 py-4">
-                                    <div class="font-medium text-white">{{ $ticket->title }}</div>
+                                    <a href="/tickets/{{ $ticket->id }}" class="font-medium text-white hover:text-blue-400 transition-colors">{{ $ticket->title }}</a>
                                     <div class="text-xs text-slate-500 truncate max-w-xs">{{ Str::limit($ticket->description, 50) }}</div>
                                 </td>
                                 <td class="px-6 py-4">
@@ -139,9 +139,21 @@
                                     {{ $ticket->created_at->diffForHumans() }}
                                 </td>
                                 <td class="px-6 py-4 text-right">
-                                    <button class="text-slate-400 hover:text-white transition-colors">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
-                                    </button>
+                                    <div class="flex justify-end items-center gap-3">
+                                        <a href="/tickets/{{ $ticket->id }}" class="text-slate-400 hover:text-white transition-colors" title="View">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0z"/><circle cx="12" cy="12" r="3"/></svg>
+                                        </a>
+                                        <a href="/tickets/{{ $ticket->id }}/edit" class="text-slate-400 hover:text-blue-400 transition-colors" title="Edit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                                        </a>
+                                        <button 
+                                            onclick="openModal('delete-ticket-modal', '/tickets/{{ $ticket->id }}')" 
+                                            class="text-slate-400 hover:text-red-500 transition-colors" 
+                                            title="Delete"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -150,4 +162,11 @@
             </div>
         @endif
     </div>
+
+    <x-confirm-modal 
+        id="delete-ticket-modal" 
+        title="Delete Ticket" 
+        message="Are you sure you want to delete this ticket? This action cannot be undone." 
+        confirmText="Delete Ticket" 
+    />
 </x-layouts.app>

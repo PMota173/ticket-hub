@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use JetBrains\PhpStorm\NoReturn;
 
 class TicketsController extends Controller
 {
@@ -68,7 +69,13 @@ class TicketsController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+
+        if(Auth::user()->id != $ticket->user_id) {
+            abort(403);
+        }
+
+        return view('tickets.edit', compact('ticket'));
     }
 
     /**
@@ -76,22 +83,24 @@ class TicketsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // get ticket by id
         $ticket = Ticket::findOrFail($id);
 
-        // authorize that the user can view the ticket
         if(Auth::user()->id != $ticket->user_id) {
             abort(403);
         }
 
-        // Validate (patch request for updating status)
-        $request->validate([
-            'status' => ['required', 'in:open,in_progress,waiting,closed'],
+        $attributes = $request->validate([
+            'title' => ['sometimes', 'required'],
+            'description' => ['sometimes', 'required'],
+            'priority' => ['sometimes', 'required', 'in:low,medium,high'],
+            'status' => ['sometimes', 'required', 'in:open,in_progress,waiting,closed'],
         ]);
 
-        // Update ticket status
-        $ticket->status = $request->status;
-        $ticket->save();
+        $ticket->update($attributes);
+
+        if ($request->has('status') && !$request->has('title')) {
+            return back();
+        }
 
         return redirect('/tickets/' . $ticket->id);
     }
@@ -99,8 +108,9 @@ class TicketsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    #[NoReturn]
     public function destroy(string $id)
     {
-        //
+        dd($id);
     }
 }

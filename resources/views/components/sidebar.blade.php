@@ -20,8 +20,10 @@
 
     <!-- Navigation -->
     <nav class="flex-1 px-4 space-y-2">
-        <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg text-white bg-blue-600/10 text-blue-400 group transition-all">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard w-5 h-5 text-blue-400">
+        <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg group transition-all {{ request()->routeIs('dashboard') ? 'text-white bg-blue-600/10 text-blue-400' : 'text-slate-400 hover:text-white hover:bg-slate-800/50' }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="lucide lucide-layout-dashboard w-5 h-5 {{ request()->routeIs('dashboard') ? 'text-blue-400' : 'text-slate-500 group-hover:text-slate-300' }}">
                 <rect width="7" height="9" x="3" y="3" rx="1"></rect>
                 <rect width="7" height="5" x="14" y="3" rx="1"></rect>
                 <rect width="7" height="9" x="14" y="12" rx="1"></rect>
@@ -30,8 +32,11 @@
             Dashboard
         </a>
 
-        <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all group">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-kanban w-5 h-5 text-slate-500 group-hover:text-slate-300 transition-colors">
+        <a href="/tickets"
+           class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg group transition-all {{ request()->is('tickets') ? 'text-white bg-blue-600/10 text-blue-400' : 'text-slate-400 hover:text-white hover:bg-slate-800/50' }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="lucide lucide-kanban w-5 h-5 {{ request()->is('tickets') ? 'text-blue-400' : 'text-slate-500 group-hover:text-slate-300' }} transition-colors">
                 <path d="M6 5v11"></path>
                 <path d="M12 5v6"></path>
                 <path d="M18 5v14"></path>
@@ -39,32 +44,40 @@
             Ticket Board
         </a>
 
-        <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all group">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus w-5 h-5 text-slate-500 group-hover:text-slate-300 transition-colors">
+        <a href="/tickets/create"
+           class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg group transition-all {{ request()->is('tickets/create') ? 'text-white bg-blue-600/10 text-blue-400' : 'text-slate-400 hover:text-white hover:bg-slate-800/50' }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="lucide lucide-plus w-5 h-5 {{ request()->is('tickets/create') ? 'text-blue-400' : 'text-slate-500 group-hover:text-slate-300' }} transition-colors">
                 <path d="M5 12h14"></path>
                 <path d="M12 5v14"></path>
             </svg>
             Create Ticket
         </a>
 
-        <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all group">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings w-5 h-5 text-slate-500 group-hover:text-slate-300 transition-colors">
-                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+        <a href="#"
+           class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all group">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="lucide lucide-settings w-5 h-5 text-slate-500 group-hover:text-slate-300 transition-colors">
+                <path
+                    d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
                 <circle cx="12" cy="12" r="3"></circle>
             </svg>
             Settings
         </a>
     </nav>
 
-    <!-- Bottom Section -->
+        <!-- Bottom Section -->
     <div class="p-4 border-t border-slate-800">
         <div class="flex items-center gap-3 px-2 py-2 mb-2">
-            <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center shrink-0 border border-slate-600">
-                <span class="text-sm font-medium text-white">JD</span>
+            <div
+                class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center shrink-0 border border-slate-600">
+                <span class="text-sm font-medium text-white">{{ Auth::user()->name }}</span>
             </div>
             <div class="overflow-hidden">
-                <p class="text-sm font-semibold text-white truncate">John Doe</p>
-                <p class="text-xs text-slate-500 truncate">john@tickethub.com</p>
+                <p class="text-sm font-semibold text-white truncate">{{ Auth::user()->name }}<p>
+                <p class="text-xs text-slate-500 truncate">{{ Auth::user()->email }}</p>
             </div>
         </div>
 

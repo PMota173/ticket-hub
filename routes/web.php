@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TicketsController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,17 +25,24 @@ Route::delete('/logout', [SessionController::class, 'destroy'])->middleware('aut
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/tickets/create', [TicketsController::class, 'create']);
+    // tickets routes
+    Route::get('/tickets/create', [TicketsController::class, 'create'])->name('tickets.create');
 
-    Route::post('/tickets', [TicketsController::class, 'store']);
-    Route::get('/tickets', [TicketsController::class, 'index']);
+    Route::post('/tickets', [TicketsController::class, 'store'])->name('tickets.store');
+    Route::get('/tickets', [TicketsController::class, 'index'])->name('tickets.index');
 
-    Route::get('/tickets/{ticket}', [TicketsController::class, 'show']);
+    Route::get('/tickets/{ticket}', [TicketsController::class, 'show'])->name('tickets.show');
 
-    Route::patch('/tickets/{ticket}', [TicketsController::class, 'update']);
+    Route::patch('/tickets/{ticket}', [TicketsController::class, 'update'])->name('tickets.update');
     Route::put('/tickets/{ticket}', [TicketsController::class, 'update']);
 
-    Route::get('/tickets/{ticket}/edit', [TicketsController::class, 'edit']);
+    Route::get('/tickets/{ticket}/edit', [TicketsController::class, 'edit'])->name('tickets.edit');
 
-    Route::delete('/tickets/{ticket}', [TicketsController::class, 'destroy']);
+    Route::delete('/tickets/{ticket}', [TicketsController::class, 'destroy'])->name('tickets.destroy');
+
+
+    // teams routes
+    Route::get('/teams/create', [TeamController::class, 'create'])->name('teams.create');
+    Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
+    Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
 });

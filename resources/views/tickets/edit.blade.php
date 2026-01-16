@@ -105,13 +105,26 @@
                     </div>
                 </div>
 
-                <!-- Actions -->
                 <div class="flex items-center justify-end gap-4 pt-4 border-t border-slate-800">
                     <x-blue-button type="submit" class="px-6 py-2.5">
                         Update Ticket
                     </x-blue-button>
                 </div>
             </form>
+
+            <div class="mt-8 pt-8 border-t border-slate-800 flex items-center justify-between">
+                <div class="text-sm">
+                    <h4 class="text-white font-semibold">Danger Zone</h4>
+                    <p class="text-slate-400">Once you delete a ticket, there is no going back. Please be certain.</p>
+                </div>
+                <form action="/tickets/{{ $ticket->id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this ticket?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="px-4 py-2 text-sm font-semibold text-red-500 border border-red-500/30 rounded-lg hover:bg-red-500/10 transition-all duration-200">
+                        Delete Ticket
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </x-layouts.app>

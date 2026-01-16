@@ -108,9 +108,16 @@ class TicketsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    #[NoReturn]
     public function destroy(string $id)
     {
-        dd($id);
+        $ticket = Ticket::findOrFail($id);
+
+        if(Auth::user()->id != $ticket->user_id) {
+            abort(403);
+        }
+
+        $ticket->delete();
+
+        return redirect('/tickets');
     }
 }

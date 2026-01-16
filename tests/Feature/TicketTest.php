@@ -186,3 +186,25 @@ test('editing the status on a ticket', function () {
         'status' => 'in_progress',
     ]);
 });
+
+test('deleting a ticket', function () {
+    // 1. Create a user
+    $user = User::factory()->create();
+
+    // 2. Create a ticket for the user
+    $ticket = Ticket::factory()->create(['user_id' => $user->id]);
+
+    // 3. Act as created user
+    $this->actingAs($user);
+
+    // Disable CSRF middleware for testing (DELETE requests)
+    $this->withoutMiddleware(VerifyCsrfToken::class);
+
+    // 4. Send a DELETE request to delete the ticket
+    $response = $this->delete("/tickets/{$ticket->id}");
+
+    // 5. Assert that the ticket was deleted from the database
+    $this->assertDatabaseMissing('tickets', [
+        'id' => $ticket->id,
+    ]);
+});

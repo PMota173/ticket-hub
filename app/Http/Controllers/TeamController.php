@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 
 class TeamController extends Controller
@@ -39,16 +40,22 @@ class TeamController extends Controller
     {
 
         $attributes = request()->validate([
-            'name' => ['required', 'unique:teams,name'],
+            'name' => ['required'],
             'description' => ['nullable'],
             'logo' => ['nullable', 'url'],
-            'is_private' => ['boolean'],
+            'is_private' => ['nullable', 'boolean'],
         ]);
 
         $user = $request->user();
         $attributes['user_id'] = $user->id;
 
-        $attributes['slug'] = \Str::slug($attributes['name']);
+        $slug = \Str::slug($attributes['name']);
+
+        if (!Team::where('slug', $slug)->exists()) {
+            $attributes['slug'] = $slug;
+        } else {
+            $attributes['slug'] = $slug . '-' . uniqid();
+        }
 
         $team = Team::create($attributes);
 

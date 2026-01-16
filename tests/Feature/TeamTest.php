@@ -63,3 +63,25 @@ test('a user can create a private team', function () {
         'is_private' => true,
     ]);
 });
+
+test('duplicate team names get unique slugs', function () {
+    $user = User::factory()->create();
+
+    // Create first team
+    $this->actingAs($user)->post(route('teams.store'), [
+        'name' => 'Acme Corp',
+    ]);
+
+    $this->assertDatabaseHas('teams', ['slug' => 'acme-corp']);
+
+    // Create second team with same name
+    $this->actingAs($user)->post(route('teams.store'), [
+        'name' => 'Acme Corp',
+    ]);
+
+    // Verify a second team exists with a different slug
+    $teams = \App\Models\Team::where('name', 'Acme Corp')->get();
+    expect($teams)->toHaveCount(2)
+        ->and($teams[0]->slug)->toBe('acme-corp')
+        ->and($teams[1]->slug)->toStartWith('acme-corp-');
+});

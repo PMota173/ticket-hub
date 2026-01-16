@@ -71,4 +71,11 @@
             </div>
         </div>
     </div>
+
+    <x-confirm-modal 
+        id="delete-ticket-modal" 
+        title="Delete Ticket" 
+        message="Are you sure you want to delete this ticket? This action cannot be undone." 
+        confirmText="Delete Ticket" 
+    />
 </x-layouts.app>

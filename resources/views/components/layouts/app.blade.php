@@ -61,11 +61,34 @@
             }, 300);
         }
 
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            const isHidden = dropdown.classList.contains('hidden');
+            
+            // Close all other dropdowns
+            document.querySelectorAll('[id^="dropdown-"]').forEach(el => {
+                if (el.id !== dropdownId) el.classList.add('hidden');
+            });
+
+            if (isHidden) {
+                dropdown.classList.remove('hidden');
+            } else {
+                dropdown.classList.add('hidden');
+            }
+        }
+
         // Close modal when clicking outside
         window.onclick = function(event) {
             if (event.target.id && event.target.id.endsWith('-backdrop')) {
                 const modalId = event.target.id.replace('-backdrop', '');
                 closeModal(modalId);
+            }
+            
+            // Close dropdowns when clicking outside
+            if (!event.target.closest('button[onclick^="toggleDropdown"]')) {
+                document.querySelectorAll('[id^="dropdown-"]').forEach(el => {
+                    el.classList.add('hidden');
+                });
             }
         }
     </script>

@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TeamMemberController;
 use App\Http\Controllers\TicketsController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +43,8 @@ Route::middleware('auth')->group(function () {
         Route::patch('/tickets/{ticket}', [TicketsController::class, 'update'])->name('tickets.update');
         Route::delete('/tickets/{ticket}', [TicketsController::class, 'destroy'])->name('tickets.destroy');
 
-        Route::get('/members', [TeamController::class, 'members'])->name('teams.members');
+        Route::get('/members', [TeamMemberController::class, 'index'])->name('members.index');
+        Route::post('/members', [TeamMemberController::class, 'store'])->name('members.store');
+        Route::delete('/members/{member}', [TeamMemberController::class, 'destroy'])->name('members.destroy');
     });
 });

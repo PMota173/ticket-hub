@@ -111,16 +111,4 @@ class TeamController extends Controller
     {
         //
     }
-
-    public function members(Team $team)
-    {
-        // Check if user belongs to team
-        if (! $team->users->contains(auth()->user())) {
-            abort(403);
-        }
-
-        $members = $team->users()->get();
-
-        return view('teams.members', compact('team', 'members'));
-    }
 }

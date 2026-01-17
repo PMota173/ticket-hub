@@ -14,7 +14,7 @@ class TeamMemberController extends Controller
     public function index(Team $team)
     {
         // Check if user belongs to team
-        if (! $team->users->contains(auth()->user())) {
+        if (! $team->users()->where('user_id', auth()->id())->exists()) {
             abort(403);
         }
 
@@ -44,15 +44,24 @@ class TeamMemberController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $slug, string $id)
+    public function show(Team $team, User $member)
     {
-        $member = User::findOrFail($id);
+        // 1. Authorize: Check if auth user belongs to team
+        if (! $team->users()->where('user_id', auth()->id())->exists()) {
+            abort(403);
+        }
 
-        $team = Team::where('slug', $slug)->firstOrFail();
+        // 2. Validate: Check if the target member belongs to the team
+        // fetch the pivot data here so it's available in the view
+        $memberWithPivot = $team->users()->where('user_id', $member->id)->first();
 
-        $is_admin = $member->teams()->where('team_id', $team->id)->first()->pivot->is_admin;
+        if (! $memberWithPivot) {
+            abort(404, 'Member not found in this team.');
+        }
 
-        $member_since = $member->teams()->where('team_id', $team->id)->first()->pivot->created_at;
+        // 3. Extract attributes from the pivot
+        $is_admin = $memberWithPivot->pivot->is_admin;
+        $member_since = $memberWithPivot->pivot->created_at;
 
         return view('teams.members.show', compact('team', 'member', 'is_admin', 'member_since'));
     }

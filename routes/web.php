@@ -43,9 +43,16 @@ Route::middleware('auth')->group(function () {
         Route::patch('/tickets/{ticket}', [TicketsController::class, 'update'])->name('tickets.update');
         Route::delete('/tickets/{ticket}', [TicketsController::class, 'destroy'])->name('tickets.destroy');
 
+        // team members routes
         Route::get('/members', [TeamMemberController::class, 'index'])->name('members.index');
-        Route::post('/members', [TeamMemberController::class, 'store'])->name('members.store');
         Route::get('/members/{member}', [TeamMemberController::class, 'show'])->name('members.show');
+        Route::post('/members', [TeamMemberController::class, 'store'])->name('members.store');
+
+        Route::get('/members/{member}/edit', [TeamMemberController::class, 'edit'])->name('members.edit');
+
+        Route::put('/members/{member}', [TeamMemberController::class, 'update'])->name('members.update');
+        Route::patch('/members/{member}', [TeamMemberController::class, 'update'])->name('members.update');
+
         Route::delete('/members/{member}', [TeamMemberController::class, 'destroy'])->name('members.destroy');
     });
 });

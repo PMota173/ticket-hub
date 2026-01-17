@@ -14,7 +14,7 @@ class TeamMemberController extends Controller
     public function index(Team $team)
     {
         // Check if user belongs to team
-        if (! $team->users()->where('user_id', auth()->id())->exists()) {
+        if (!$team->users()->where('user_id', auth()->id())->exists()) {
             abort(403);
         }
 
@@ -47,7 +47,7 @@ class TeamMemberController extends Controller
     public function show(Team $team, User $member)
     {
         // 1. Authorize: Check if auth user belongs to team
-        if (! $team->users()->where('user_id', auth()->id())->exists()) {
+        if (!$team->users()->where('user_id', auth()->id())->exists()) {
             abort(403);
         }
 
@@ -55,7 +55,7 @@ class TeamMemberController extends Controller
         // fetch the pivot data here so it's available in the view
         $memberWithPivot = $team->users()->where('user_id', $member->id)->first();
 
-        if (! $memberWithPivot) {
+        if (!$memberWithPivot) {
             abort(404, 'Member not found in this team.');
         }
 
@@ -69,17 +69,70 @@ class TeamMemberController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Team $team, User $member)
     {
-        //
+        // 1. Authorize: Check if auth user belongs to team
+        if (!$team->users()->where('user_id', auth()->id())->exists()) {
+            abort(403);
+        }
+
+        // 2. Validate: Check if the target member belongs to the team
+        // fetch the pivot data here so it's available in the view
+        $memberWithPivot = $team->users()->where('user_id', $member->id)->first();
+
+        if (!$memberWithPivot) {
+            abort(404, 'Member not found in this team.');
+        }
+
+        if ($member->id === auth()->id()) {
+            return back()->with('error', 'You cannot edit your own membership.');
+        }
+
+        // 3. Authorization: Only team admins can edit members
+        if (!$team->users()->where('user_id', auth()->id())->first()->pivot->is_admin) {
+            abort(403, 'You do not have permission to edit members.');
+        }
+
+        $is_admin = $memberWithPivot->pivot->is_admin;
+        $member_since = $memberWithPivot->pivot->created_at;
+
+        return view('teams.members.edit', compact('team', 'member', 'is_admin', 'member_since'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Team $team, User $member)
     {
-        //
+        // 1. Validate request
+        $request->validate([
+            'is_admin' => ['required', 'boolean'],
+        ]);
+
+        // 2. Authorization:
+        // member and user must belong to team
+        if (!$team->users()->where('user_id', $member->id)->exists() || !$team->users()->where('user_id',
+                auth()->id())->exists()) {
+            abort(404);
+        }
+
+        // user must be admin
+        if (!$team->users()->where('user_id', auth()->id())->first()->pivot->is_admin) {
+            abort(403, 'You do not have permission to update members.');
+        }
+
+        // cannot update self
+        if ($member->id === auth()->id()) {
+            return back()->with('error', 'You cannot update your own membership.');
+        }
+
+        // 3. Update member role
+        $team->users()->updateExistingPivot($member->id, [
+            'is_admin' => $request->input('is_admin'),
+        ]);
+
+        return redirect()->route('members.index', ['team' => $team->id])
+            ->with('status', 'Member role updated successfully.');
     }
 
     /**
@@ -90,7 +143,7 @@ class TeamMemberController extends Controller
         // 1. Authorization: Only team admins can remove members
         $currentUser = $team->users()->where('user_id', auth()->id())->first();
 
-        if (! $currentUser || ! $currentUser->pivot->is_admin) {
+        if (!$currentUser || !$currentUser->pivot->is_admin) {
             abort(403, 'You do not have permission to remove members.');
         }
 

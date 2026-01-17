@@ -131,7 +131,7 @@ class TeamMemberController extends Controller
             'is_admin' => $request->input('is_admin'),
         ]);
 
-        return redirect()->route('members.index', ['team' => $team->id])
+        return redirect()->route('members.show', ['team' => $team->slug, 'member' => $member->id])
             ->with('status', 'Member role updated successfully.');
     }
 

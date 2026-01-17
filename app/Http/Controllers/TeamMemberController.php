@@ -19,8 +19,10 @@ class TeamMemberController extends Controller
         }
 
         $members = $team->users()->get();
+        $currentUser = $team->users()->where('user_id', auth()->id())->first();
+        $isTeamAdmin = $currentUser ? $currentUser->pivot->is_admin : false;
 
-        return view('teams.members', compact('team', 'members'));
+        return view('teams.members.index', compact('team', 'members', 'isTeamAdmin'));
     }
 
     /**
@@ -42,9 +44,17 @@ class TeamMemberController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug, string $id)
     {
-        //
+        $member = User::findOrFail($id);
+
+        $team = Team::where('slug', $slug)->firstOrFail();
+
+        $is_admin = $member->teams()->where('team_id', $team->id)->first()->pivot->is_admin;
+
+        $member_since = $member->teams()->where('team_id', $team->id)->first()->pivot->created_at;
+
+        return view('teams.members.show', compact('team', 'member', 'is_admin', 'member_since'));
     }
 
     /**

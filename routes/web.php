@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/members', [TeamMemberController::class, 'index'])->name('members.index');
         Route::post('/members', [TeamMemberController::class, 'store'])->name('members.store');
+        Route::get('/members/{member}', [TeamMemberController::class, 'show'])->name('members.show');
         Route::delete('/members/{member}', [TeamMemberController::class, 'destroy'])->name('members.destroy');
     });
 });

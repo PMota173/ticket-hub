@@ -35,11 +35,11 @@
                 <div>
                     <label class="text-base font-semibold text-white">Team Role</label>
                     <p class="text-sm text-slate-400 mb-4">Admins can manage team settings and members.</p>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Regular Member -->
                         <label class="relative flex cursor-pointer rounded-xl border border-slate-700 bg-slate-950 p-4 shadow-sm focus:outline-none hover:border-slate-600 transition-all has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500">
-                            <input type="radio" name="is_admin" value="0" class="sr-only" {{ !$is_admin ? 'checked' : '' }}>
+                            <input type="radio" name="is_admin" value="0" class="sr-only" {{ !$team->hasAdmin($member) ? 'checked' : '' }}>
                             <span class="flex flex-1">
                                 <span class="flex flex-col">
                                     <span class="block text-sm font-bold text-white uppercase tracking-wider">Member</span>
@@ -55,7 +55,7 @@
 
                         <!-- Admin -->
                         <label class="relative flex cursor-pointer rounded-xl border border-slate-700 bg-slate-950 p-4 shadow-sm focus:outline-none hover:border-slate-600 transition-all has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500">
-                            <input type="radio" name="is_admin" value="1" class="sr-only" {{ $is_admin ? 'checked' : '' }}>
+                            <input type="radio" name="is_admin" value="1" class="sr-only" {{ $team->hasAdmin($member) ? 'checked' : '' }}>
                             <span class="flex flex-1">
                                 <span class="flex flex-col">
                                     <span class="block text-sm font-bold text-blue-400 uppercase tracking-wider">Admin</span>
@@ -88,9 +88,9 @@
                     <h4 class="text-white font-semibold">Danger Zone</h4>
                     <p class="text-slate-400">Remove this member from the team. They will lose all access.</p>
                 </div>
-                <button 
-                    type="button" 
-                    onclick="openModal('remove-member-modal', '{{ route('members.destroy', [$team, $member]) }}')" 
+                <button
+                    type="button"
+                    onclick="openModal('remove-member-modal', '{{ route('members.destroy', [$team, $member]) }}')"
                     class="px-4 py-2 text-sm font-semibold text-red-500 border border-red-500/30 rounded-lg hover:bg-red-500/10 transition-all duration-200"
                 >
                     Remove Member
@@ -99,10 +99,10 @@
         </div>
     </div>
 
-    <x-confirm-modal 
-        id="remove-member-modal" 
-        title="Remove Member" 
-        message="Are you sure you want to remove {{ $member->name }} from the team? This action cannot be undone." 
-        confirmText="Remove Member" 
+    <x-confirm-modal
+        id="remove-member-modal"
+        title="Remove Member"
+        message="Are you sure you want to remove {{ $member->name }} from the team? This action cannot be undone."
+        confirmText="Remove Member"
     />
 </x-layouts.app>

@@ -116,6 +116,8 @@ class TeamMemberController extends Controller
         // 2. Detach
         $team->users()->detach($member->id);
 
-        return back()->with('status', 'Member removed successfully.');
+        $members = $team->users()->get();
+
+        return view('teams.members.index', compact('team', 'members'));
     }
 }

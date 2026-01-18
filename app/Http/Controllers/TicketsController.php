@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTicketRequest;
+use App\Http\Requests\UpdateTicketRequest;
 use App\Models\Team;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
@@ -13,7 +15,7 @@ class TicketsController extends Controller
      */
     public function index(Team $team)
     {
-        $this->authorizeTeamAccess($team);
+        $this->authorize('viewAny', [Ticket::class, $team]);
 
         $tickets = $team->tickets()->get();
 
@@ -25,7 +27,7 @@ class TicketsController extends Controller
      */
     public function create(Team $team)
     {
-        $this->authorizeTeamAccess($team);
+        $this->authorize('create', [Ticket::class, $team]);
 
         return view('tickets.create', compact('team'));
     }
@@ -33,22 +35,14 @@ class TicketsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Team $team)
+    public function store(StoreTicketRequest $request, Team $team)
     {
-        $this->authorizeTeamAccess($team);
+        $this->authorize('create', [Ticket::class, $team]);
 
-        $request->validate([
-            'title' => ['required'],
-            'description' => ['required'],
-            'priority' => ['required', 'in:low,medium,high'],
-        ]);
+        $attributes = $request->validated();
+        $attributes['user_id'] = auth()->id();
 
-        $team->tickets()->create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'priority' => $request->priority,
-            'user_id' => $request->user()->id,
-        ]);
+        $team->tickets()->create($attributes);
 
         return redirect()->route('tickets.index', $team);
     }
@@ -58,8 +52,7 @@ class TicketsController extends Controller
      */
     public function show(Team $team, Ticket $ticket)
     {
-        $this->authorizeTeamAccess($team);
-        $this->authorizeTicketAccess($team, $ticket);
+        $this->authorize('view', $ticket);
 
         return view('tickets.show', compact('team', 'ticket'));
     }
@@ -69,8 +62,7 @@ class TicketsController extends Controller
      */
     public function edit(Team $team, Ticket $ticket)
     {
-        $this->authorizeTeamAccess($team);
-        $this->authorizeTicketAccess($team, $ticket);
+        $this->authorize('update', $ticket);
 
         return view('tickets.edit', compact('team', 'ticket'));
     }
@@ -78,17 +70,11 @@ class TicketsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Team $team, Ticket $ticket)
+    public function update(UpdateTicketRequest $request, Team $team, Ticket $ticket)
     {
-        $this->authorizeTeamAccess($team);
-        $this->authorizeTicketAccess($team, $ticket);
+        $this->authorize('update', $ticket);
 
-        $attributes = $request->validate([
-            'title' => ['sometimes', 'required'],
-            'description' => ['sometimes', 'required'],
-            'priority' => ['sometimes', 'required', 'in:low,medium,high'],
-            'status' => ['sometimes', 'required', 'in:open,in_progress,waiting,closed'],
-        ]);
+        $attributes = $request->validated();
 
         $ticket->update($attributes);
 
@@ -104,25 +90,11 @@ class TicketsController extends Controller
      */
     public function destroy(Team $team, Ticket $ticket)
     {
-        $this->authorizeTeamAccess($team);
-        $this->authorizeTicketAccess($team, $ticket);
+        $this->authorize('delete', $ticket);
 
         $ticket->delete();
 
         return redirect()->route('tickets.index', $team);
     }
 
-    protected function authorizeTeamAccess(Team $team): void
-    {
-        if (! $team->users->contains(auth()->user())) {
-            abort(403);
-        }
-    }
-
-    protected function authorizeTicketAccess(Team $team, Ticket $ticket): void
-    {
-        if ($ticket->team_id !== $team->id) {
-            abort(404);
-        }
-    }
 }

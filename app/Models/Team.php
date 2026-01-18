@@ -20,6 +20,19 @@ class Team extends Model
         'user_id',
     ];
 
+    protected static function booted() {
+        static::creating(function ($team) {
+            $slug = \Str::slug($team->name);
+
+            if(static::where('slug', $slug)->exists()) {
+                $slug = $slug . '-' . uniqid();
+            }
+
+            $team->slug = $slug;
+        });
+    }
+
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -33,5 +46,10 @@ class Team extends Model
     public function tickets()
     {
         return $this->hasMany(Ticket::class);
+    }
+
+    function hasAdmin(User $user)
+    {
+        return $this->users()->where('user_id', $user->id)->wherePivot('is_admin', true)->exists();
     }
 }

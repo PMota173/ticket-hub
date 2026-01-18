@@ -109,7 +109,7 @@ test('users cannot access their own edit form', function () {
 
     $this->actingAs($admin)
         ->get(route('members.edit', ['team' => $team, 'member' => $admin]))
-        ->assertSessionHas('error');
+        ->assertForbidden();
 });
 
 test('admin user can edit member role', function () {
@@ -194,7 +194,7 @@ test('remove admin role from last admin fails', function () {
         ->put(route('members.update', ['team' => $team, 'member' => $admin]), [
             'is_admin' => false,
         ])
-        ->assertSessionHas('error');
+        ->assertForbidden();
 
     expect($team->users()->where('user_id', $admin->id)->first()->pivot->is_admin)->toEqual(1);
 });
@@ -257,7 +257,7 @@ test('users cannot remove themselves', function () {
     $this->actingAs($admin)
         ->withoutMiddleware(ValidateCsrfToken::class)
         ->delete(route('members.destroy', ['team' => $team, 'member' => $admin]))
-        ->assertSessionHas('error');
+        ->assertForbidden();
 
     expect($team->users()->where('user_id', $admin->id)->exists())->toBeTrue();
 });

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTeamRequest;
+use App\Http\Requests\UpdateTeamMemberRequest;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,13 +16,11 @@ class TeamMemberController extends Controller
     public function index(Team $team)
     {
         // Check if user belongs to team
-        if (!$team->users()->where('user_id', auth()->id())->exists()) {
-            abort(403);
-        }
+        // this is now handled by the TeamPolicy
+        $this->authorize('viewAnyMembers', $team);
 
         $members = $team->users()->get();
-        $currentUser = $team->users()->where('user_id', auth()->id())->first();
-        $isTeamAdmin = $currentUser ? $currentUser->pivot->is_admin : false;
+        $isTeamAdmin = $team->hasAdmin(auth()->user());
 
         return view('teams.members.index', compact('team', 'members', 'isTeamAdmin'));
     }
@@ -47,9 +47,7 @@ class TeamMemberController extends Controller
     public function show(Team $team, User $member)
     {
         // 1. Authorize: Check if auth user belongs to team
-        if (!$team->users()->where('user_id', auth()->id())->exists()) {
-            abort(403);
-        }
+        $this->authorize('view', $team);
 
         // 2. Validate: Check if the target member belongs to the team
         // fetch the pivot data here so it's available in the view
@@ -72,28 +70,15 @@ class TeamMemberController extends Controller
     public function edit(Team $team, User $member)
     {
         // 1. Authorize: Check if auth user belongs to team
-        if (!$team->users()->where('user_id', auth()->id())->exists()) {
-            abort(403);
-        }
+        $this->authorize('updateMember', [$team, $member]);
 
-        // 2. Validate: Check if the target member belongs to the team
-        // fetch the pivot data here so it's available in the view
         $memberWithPivot = $team->users()->where('user_id', $member->id)->first();
 
         if (!$memberWithPivot) {
             abort(404, 'Member not found in this team.');
         }
 
-        if ($member->id === auth()->id()) {
-            return back()->with('error', 'You cannot edit your own membership.');
-        }
-
-        // 3. Authorization: Only team admins can edit members
-        if (!$team->users()->where('user_id', auth()->id())->first()->pivot->is_admin) {
-            abort(403, 'You do not have permission to edit members.');
-        }
-
-        $is_admin = $memberWithPivot->pivot->is_admin;
+        $is_admin = $team->hasAdmin(auth()->user());
         $member_since = $memberWithPivot->pivot->created_at;
 
         return view('teams.members.edit', compact('team', 'member', 'is_admin', 'member_since'));
@@ -102,29 +87,13 @@ class TeamMemberController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Team $team, User $member)
+    public function update(UpdateTeamMemberRequest $request, Team $team, User $member)
     {
-        // 1. Validate request
-        $request->validate([
-            'is_admin' => ['required', 'boolean'],
-        ]);
+        // 1. Validate request is now on store request
+        $request->validated();
 
         // 2. Authorization:
-        // member and user must belong to team
-        if (!$team->users()->where('user_id', $member->id)->exists() || !$team->users()->where('user_id',
-                auth()->id())->exists()) {
-            abort(404);
-        }
-
-        // user must be admin
-        if (!$team->users()->where('user_id', auth()->id())->first()->pivot->is_admin) {
-            abort(403, 'You do not have permission to update members.');
-        }
-
-        // cannot update self
-        if ($member->id === auth()->id()) {
-            return back()->with('error', 'You cannot update your own membership.');
-        }
+        $this->authorize('updateMember', [$team, $member]);
 
         // 3. Update member role
         $team->users()->updateExistingPivot($member->id, [
@@ -140,19 +109,11 @@ class TeamMemberController extends Controller
      */
     public function destroy(Team $team, User $member)
     {
-        // 1. Authorization: Only team admins can remove members
-        $currentUser = $team->users()->where('user_id', auth()->id())->first();
 
-        if (!$currentUser || !$currentUser->pivot->is_admin) {
-            abort(403, 'You do not have permission to remove members.');
-        }
+        // 1. Use policy to authorize
+        $this->authorize('removeMember', [$team, $member]);
 
-        // 2. Prevent removing yourself
-        if ($member->id === auth()->id()) {
-            return back()->with('error', 'You cannot remove yourself from the team.');
-        }
-
-        // 3. Detach
+        // 2. Detach
         $team->users()->detach($member->id);
 
         return back()->with('status', 'Member removed successfully.');

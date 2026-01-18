@@ -36,16 +36,7 @@ class TeamController extends Controller
         $user = $request->user();
         $attributes['user_id'] = $user->id;
 
-        $slug = \Str::slug($attributes['name']);
-
-        if (! Team::where('slug', $slug)->exists()) {
-            $attributes['slug'] = $slug;
-        } else {
-            $attributes['slug'] = $slug.'-'.uniqid();
-        }
-
         $team = Team::create($attributes);
-
         $team->users()->attach($user->id, ['is_admin' => true]);
 
         return redirect(route('teams.index'));

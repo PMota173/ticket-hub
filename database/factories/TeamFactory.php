@@ -21,7 +21,6 @@ class TeamFactory extends Factory
             'description' => fake()->paragraph(),
             'is_private' => fake()->boolean(),
             'is_active' => true,
-            'slug' => fake()->unique()->slug(),
             'logo' => null,
             'user_id' => \App\Models\User::factory()->create()
         ];

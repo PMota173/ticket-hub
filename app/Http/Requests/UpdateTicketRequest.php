@@ -25,10 +25,11 @@ class UpdateTicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'priority' => Rule::enum(TicketPriority::class),
-            'status' => Rule::enum(TicketStatus::class),
+            'title' => ['sometimes', 'required', 'string', 'max:255'],
+            'description' => ['sometimes', 'nullable', 'string'],
+            'priority' => ['sometimes', Rule::enum(TicketPriority::class)],
+            'status' => ['sometimes', Rule::enum(TicketStatus::class)],
+            'assigned_id' => ['sometimes', 'nullable', 'exists:users,id'],
         ];
     }
 }

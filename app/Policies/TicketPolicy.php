@@ -57,7 +57,8 @@ class TicketPolicy
             return true;
         }
 
-        if ($ticket->team->hasAdmin($user)) {
+        if ($ticket->team->users()->where('user_id', $user->id)->exists())
+        {
             return true;
         }
 

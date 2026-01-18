@@ -1,70 +1,110 @@
-<x-layouts.app title="Ticket #{{ $ticket->id }} - {{ config('app.name', 'Ticket Hub') }}">
-    <div class="mb-8">
-        <x-back-button href="{{ route('tickets.index', $team) }}">Back to Board</x-back-button>
-    </div>
-
-    <div class="max-w-4xl">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-            <div>
-                <div class="flex items-center gap-3 mb-2">
-                    <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border
-                        @if($ticket->status === \App\Enums\TicketStatus::OPEN) text-blue-500 bg-blue-500/10 border-blue-500/20
-                        @elseif($ticket->status === \App\Enums\TicketStatus::IN_PROGRESS) text-purple-400 bg-purple-500/10 border-purple-500/20
-                        @elseif($ticket->status === \App\Enums\TicketStatus::WAITING) text-orange-400 bg-orange-500/10 border-orange-500/20
-                        @elseif($ticket->status === \App\Enums\TicketStatus::CLOSED) text-green-400 bg-green-500/10 border-green-500/20
-                        @endif">
-                        {{ str_replace('_', ' ', ucfirst($ticket->status->value)) }}
-                    </span>
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold border
-                        @if($ticket->priority === \App\Enums\TicketPriority::HIGH) bg-red-500/10 text-red-400 border-red-500/20
-                        @elseif($ticket->priority === \App\Enums\TicketPriority::MEDIUM) bg-yellow-500/10 text-yellow-400 border-yellow-500/20
-                        @else bg-green-500/10 text-green-400 border-green-500/20
-                        @endif">
-                        {{ ucfirst($ticket->priority->value) }} Priority
-                    </span>
-                </div>
-                <h2 class="text-3xl font-bold tracking-tight text-white">{{ $ticket->title }}</h2>
-                <div class="flex items-center gap-4 mt-2 text-sm text-slate-400">
-                    <div class="flex items-center gap-1.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user w-4 h-4"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                        <a href="{{ route('members.show', [$team, $ticket->user]) }}" class="hover:text-blue-400 transition-colors">
-                            <span>{{ $ticket->user->name }}</span>
-                        </a>
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar w-4 h-4"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-                        <span>Opened on {{ $ticket->created_at->format('M d, Y') }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-4">
-                <x-gray-button href="{{ route('tickets.edit', [$team, $ticket]) }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil w-4 h-4"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-                    Edit
-                </x-gray-button>
-                
-                <div class="h-8 w-px bg-slate-800 hidden md:block"></div>
-
-                <form action="{{ route('tickets.update', [$team, $ticket]) }}" method="POST" class="flex items-center gap-3">
-                    @csrf
-                    @method('PATCH')
-                    <label for="status" class="text-sm font-medium text-slate-400">Status:</label>
-                    <select name="status" id="status" onchange="this.form.submit()" 
-                        class="bg-slate-950/50 border border-slate-700 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-200 cursor-pointer appearance-none pr-8 relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[length:1.25rem] bg-[right_0.5rem_center] bg-no-repeat">
-                        <option value="open" {{ $ticket->status === \App\Enums\TicketStatus::OPEN ? 'selected' : '' }}>Open</option>
-                        <option value="in_progress" {{ $ticket->status === \App\Enums\TicketStatus::IN_PROGRESS ? 'selected' : '' }}>In Progress</option>
-                        <option value="waiting" {{ $ticket->status === \App\Enums\TicketStatus::WAITING ? 'selected' : '' }}>Waiting</option>
-                        <option value="closed" {{ $ticket->status === \App\Enums\TicketStatus::CLOSED ? 'selected' : '' }}>Closed</option>
-                    </select>
-                </form>
-            </div>
+<x-layouts.app title="Ticket #{{ $ticket->id }} - {{ $ticket->title }}">
+    <div class="max-w-7xl mx-auto">
+        <!-- Breadcrumb / Back -->
+        <div class="mb-6">
+            <x-back-button href="{{ route('tickets.index', $team) }}">Back to Board</x-back-button>
         </div>
 
-        <div class="bg-slate-900/30 rounded-xl border border-slate-800 p-8">
-            <h3 class="text-lg font-semibold text-slate-200 mb-4">Description</h3>
-            <div class="prose prose-invert max-w-none text-slate-300 leading-relaxed">
-                {!! nl2br(e($ticket->description)) !!}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Content (Left) -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Ticket Header -->
+                <div>
+                    <h1 class="text-3xl font-bold text-white mb-2">{{ $ticket->title }}</h1>
+                    <div class="flex items-center gap-2 text-sm text-slate-400">
+                        <span class="font-mono text-slate-500">#{{ $ticket->id }}</span>
+                        <span>&bull;</span>
+                        <span>Opened by <span class="text-white">{{ $ticket->user->name }}</span></span>
+                        <span>&bull;</span>
+                        <span>{{ $ticket->created_at->diffForHumans() }}</span>
+                    </div>
+                </div>
+
+                <!-- Description Card -->
+                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6 shadow-sm">
+                    <h3 class="text-sm font-medium text-slate-500 uppercase tracking-wider mb-4">Description</h3>
+                    <div class="prose prose-invert max-w-none text-slate-300 leading-relaxed whitespace-pre-wrap">{{ $ticket->description }}</div>
+                </div>
+
+                <!-- Future: Comments Section will go here -->
+            </div>
+
+            <!-- Sidebar (Right) -->
+            <div class="space-y-6">
+                <!-- Status & Priority Card -->
+                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-5 shadow-sm">
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Details</h3>
+                    
+                    <div class="space-y-4">
+                        <!-- Status -->
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1.5">Status</label>
+                            <form action="{{ route('tickets.update', [$team, $ticket]) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <select name="status" onchange="this.form.submit()" 
+                                    class="w-full bg-slate-950 border border-slate-700 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5">
+                                    <option value="open" {{ $ticket->status === \App\Enums\TicketStatus::OPEN ? 'selected' : '' }}>Open</option>
+                                    <option value="in_progress" {{ $ticket->status === \App\Enums\TicketStatus::IN_PROGRESS ? 'selected' : '' }}>In Progress</option>
+                                    <option value="waiting" {{ $ticket->status === \App\Enums\TicketStatus::WAITING ? 'selected' : '' }}>Waiting</option>
+                                    <option value="closed" {{ $ticket->status === \App\Enums\TicketStatus::CLOSED ? 'selected' : '' }}>Closed</option>
+                                </select>
+                            </form>
+                        </div>
+
+                        <!-- Priority -->
+                        <div>
+                            <span class="block text-xs font-medium text-slate-400 mb-1.5">Priority</span>
+                            <div class="flex items-center gap-2">
+                                <x-ticket-priority-badge :priority="$ticket->priority" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assignee Card -->
+                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-5 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Assignee</h3>
+                        @if($team->users->contains(auth()->user()) && $ticket->assigned_id !== auth()->id())
+                            <form action="{{ route('tickets.update', [$team, $ticket]) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <input type="hidden" name="assigned_id" value="{{ auth()->id() }}">
+                                <button type="submit" class="text-xs text-blue-400 hover:text-blue-300 font-medium transition-colors">
+                                    Assign to me
+                                </button>
+                            </form>
+                        @endif
+                    </div>
+
+                    @if($ticket->assignee)
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
+                                {{ substr($ticket->assignee->name, 0, 1) }}
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-white">{{ $ticket->assignee->name }}</p>
+                                <p class="text-xs text-slate-500">{{ $ticket->assignee->email }}</p>
+                            </div>
+                        </div>
+                    @else
+                        <div class="flex items-center gap-3 text-slate-500">
+                            <div class="w-10 h-10 rounded-full bg-slate-800/50 flex items-center justify-center border border-slate-700/50 border-dashed">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </div>
+                            <span class="text-sm italic">No one assigned</span>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-col gap-3">
+                    <a href="{{ route('tickets.edit', [$team, $ticket]) }}" class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-300 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                        Edit Ticket
+                    </a>
+                </div>
             </div>
         </div>
     </div>

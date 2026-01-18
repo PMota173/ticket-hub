@@ -58,4 +58,9 @@ class Ticket extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+    public function assignee(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_id');
+    }
 }

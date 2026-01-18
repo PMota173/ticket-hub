@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('priority')->default('low');
             $table->string('status')->default('open');
             $table->foreignId('team_id')->constrained()->onDelete('cascade');
+            $table->foreignId('assigned_id')->nullable()->constrained('users')->onDelete('set null');
         });
     }
 

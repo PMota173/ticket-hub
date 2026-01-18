@@ -17,7 +17,7 @@ class TicketsController extends Controller
     {
         $this->authorize('viewAny', [Ticket::class, $team]);
 
-        $tickets = $team->tickets()->get();
+        $tickets = $team->tickets()->with('assignee')->get();
 
         return view('tickets.index', compact('team', 'tickets'));
     }
@@ -29,7 +29,9 @@ class TicketsController extends Controller
     {
         $this->authorize('create', [Ticket::class, $team]);
 
-        return view('tickets.create', compact('team'));
+        $members = $team->users()->get();
+
+        return view('tickets.create', compact('team', 'members'));
     }
 
     /**
@@ -41,6 +43,11 @@ class TicketsController extends Controller
 
         $attributes = $request->validated();
         $attributes['user_id'] = auth()->id();
+
+        // Security: Non-members cannot assign tickets
+        if (! $team->users->contains(auth()->user())) {
+            unset($attributes['assigned_id']);
+        }
 
         $team->tickets()->create($attributes);
 
@@ -64,7 +71,9 @@ class TicketsController extends Controller
     {
         $this->authorize('update', $ticket);
 
-        return view('tickets.edit', compact('team', 'ticket'));
+        $members = $team->users()->get();
+
+        return view('tickets.edit', compact('team', 'ticket', 'members'));
     }
 
     /**

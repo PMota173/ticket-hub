@@ -54,10 +54,14 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
-                <p class="text-sm font-medium text-slate-400 mb-1">Total Tickets Created</p>
+                <p class="text-sm font-medium text-slate-400 mb-1">Total Created</p>
                 <p class="text-3xl font-bold text-white">{{ $member->tickets()->where('team_id', $team->id)->count() }}</p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
+                <p class="text-sm font-medium text-slate-400 mb-1">Total Assigned</p>
+                <p class="text-3xl font-bold text-white">{{ \App\Models\Ticket::where('team_id', $team->id)->where('assigned_id', $member->id)->count() }}</p>
             </div>
             <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
                 <p class="text-sm font-medium text-slate-400 mb-1">Open Tickets</p>
@@ -71,39 +75,39 @@
 
         <div class="bg-slate-900/30 rounded-xl border border-slate-800 overflow-hidden">
             <div class="p-6 border-b border-slate-800">
-                <h3 class="text-lg font-semibold text-white">Recent Activity</h3>
+                <h3 class="text-lg font-semibold text-white">Assigned Tickets</h3>
             </div>
             <div class="p-0">
                 @php
-                    $recentTickets = $member->tickets()->where('team_id', $team->id)->latest()->limit(5)->get();
+                    $assignedTickets = \App\Models\Ticket::where('team_id', $team->id)
+                        ->where('assigned_id', $member->id)
+                        ->latest()
+                        ->limit(5)
+                        ->get();
                 @endphp
 
-                @forelse($recentTickets as $ticket)
+                @forelse($assignedTickets as $ticket)
                     <div class="p-6 border-b border-slate-800/50 last:border-0 hover:bg-slate-800/20 transition-colors">
                         <div class="flex items-center justify-between mb-2">
                             <a href="{{ route('tickets.show', [$team, $ticket]) }}" class="font-semibold text-white hover:text-blue-400 transition-colors">
                                 {{ $ticket->title }}
                             </a>
-                            <span class="text-xs font-medium px-2 py-0.5 rounded-full
-                                @if($ticket->status === \App\Enums\TicketStatus::OPEN) bg-blue-500/10 text-blue-400
-                                @elseif($ticket->status === \App\Enums\TicketStatus::IN_PROGRESS) bg-purple-500/10 text-purple-400
-                                @elseif($ticket->status === \App\Enums\TicketStatus::WAITING) bg-orange-500/10 text-orange-400
-                                @elseif($ticket->status === \App\Enums\TicketStatus::CLOSED) bg-green-500/10 text-green-400
-                                @endif
-                            ">
-                                {{ ucfirst(str_replace('_', ' ', $ticket->status->value)) }}
-                            </span>
+                            <x-ticket-status-badge :status="$ticket->status" />
                         </div>
                         <p class="text-sm text-slate-400 line-clamp-1 mb-2">
                             {{ $ticket->description }}
                         </p>
-                        <p class="text-xs text-slate-500">
-                            Created {{ $ticket->created_at->diffForHumans() }}
-                        </p>
+                        <div class="flex items-center justify-between text-xs text-slate-500">
+                            <span>Created {{ $ticket->created_at->diffForHumans() }}</span>
+                            <span class="flex items-center gap-1">
+                                Priority: 
+                                <x-ticket-priority-badge :priority="$ticket->priority" />
+                            </span>
+                        </div>
                     </div>
                 @empty
                     <div class="p-12 text-center text-slate-500">
-                        No recent ticket activity found for this member.
+                        No tickets assigned to this member.
                     </div>
                 @endforelse
             </div>

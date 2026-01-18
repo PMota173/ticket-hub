@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,7 +24,7 @@ class TicketFactory extends Factory
             'status' => fake()->randomElement(['open', 'in_progress', 'waiting', 'closed']),
             'priority' => fake()->randomElement(['low', 'medium', 'high']),
             'user_id' => User::factory(),
-            'team_id' => \App\Models\Team::factory(),
+            'team_id' => Team::factory(),
         ];
     }
 }

@@ -59,6 +59,7 @@ class TeamController extends Controller
         ];
 
         $recentTickets = $team->tickets()
+            ->with('assignee')
             ->latest()
             ->limit(10)
             ->get();

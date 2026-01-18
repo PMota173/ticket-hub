@@ -93,6 +93,7 @@
                             <th class="px-6 py-4 font-medium">Title</th>
                             <th class="px-6 py-4 font-medium">Status</th>
                             <th class="px-6 py-4 font-medium">Priority</th>
+                            <th class="px-6 py-4 font-medium">Assigned To</th>
                             <th class="px-6 py-4 font-medium">Created</th>
                             <th class="px-6 py-4 font-medium text-right">Action</th>
                         </tr>
@@ -105,32 +106,22 @@
                                     <div class="text-xs text-slate-500 truncate max-w-xs">{{ Str::limit($ticket->description, 50) }}</div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                        @if($ticket->status === \App\Enums\TicketStatus::OPEN) bg-blue-500/10 text-blue-400
-                                        @elseif($ticket->status === \App\Enums\TicketStatus::IN_PROGRESS) bg-purple-500/10 text-purple-400
-                                        @elseif($ticket->status === \App\Enums\TicketStatus::WAITING) bg-orange-500/10 text-orange-400
-                                        @elseif($ticket->status === \App\Enums\TicketStatus::CLOSED) bg-green-500/10 text-green-400
-                                        @endif
-                                    ">
-                                        {{ ucfirst(str_replace('_', ' ', $ticket->status->value)) }}
-                                    </span>
+                                    <x-ticket-status-badge :status="$ticket->status" />
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="inline-flex items-center gap-1.5 text-xs font-medium
-                                        @if($ticket->priority === \App\Enums\TicketPriority::HIGH) text-red-400
-                                        @elseif($ticket->priority === \App\Enums\TicketPriority::MEDIUM) text-yellow-400
-                                        @else text-green-400
-                                        @endif
-                                    ">
-                                        @if($ticket->priority === \App\Enums\TicketPriority::HIGH)
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
-                                        @elseif($ticket->priority === \App\Enums\TicketPriority::MEDIUM)
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus"><path d="M5 12h14"/></svg>
-                                        @else
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
-                                        @endif
-                                        {{ ucfirst($ticket->priority->value) }}
-                                    </span>
+                                    <x-ticket-priority-badge :priority="$ticket->priority" />
+                                </td>
+                                <td class="px-6 py-4 text-slate-400">
+                                    @if($ticket->assignee)
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-300 border border-slate-600">
+                                                {{ substr($ticket->assignee->name, 0, 1) }}
+                                            </div>
+                                            <span class="text-xs text-slate-300">{{ $ticket->assignee->name }}</span>
+                                        </div>
+                                    @else
+                                        <span class="text-xs text-slate-500 italic">Unassigned</span>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 text-slate-400">
                                     {{ $ticket->created_at->diffForHumans() }}

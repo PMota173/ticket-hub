@@ -66,14 +66,22 @@
                 <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-5 shadow-sm">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Assignee</h3>
-                        @if($team->users->contains(auth()->user()) && $ticket->assigned_id !== auth()->id())
+                        @if($team->users->contains(auth()->user()))
                             <form action="{{ route('tickets.update', [$team, $ticket]) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
-                                <input type="hidden" name="assigned_id" value="{{ auth()->id() }}">
-                                <button type="submit" class="text-xs text-blue-400 hover:text-blue-300 font-medium transition-colors">
-                                    Assign to me
-                                </button>
+                                
+                                @if($ticket->assigned_id !== auth()->id())
+                                    <input type="hidden" name="assigned_id" value="{{ auth()->id() }}">
+                                    <button type="submit" class="text-xs text-blue-400 hover:text-blue-300 font-medium transition-colors">
+                                        Assign to me
+                                    </button>
+                                @else
+                                    <input type="hidden" name="assigned_id" value="">
+                                    <button type="submit" class="text-xs text-red-400 hover:text-red-300 font-medium transition-colors">
+                                        Unassign me
+                                    </button>
+                                @endif
                             </form>
                         @endif
                     </div>

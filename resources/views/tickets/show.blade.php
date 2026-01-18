@@ -26,7 +26,76 @@
                     <div class="prose prose-invert max-w-none text-slate-300 leading-relaxed whitespace-pre-wrap">{{ $ticket->description }}</div>
                 </div>
 
-                <!-- Future: Comments Section will go here -->
+                <!-- Comments Section -->
+                <div class="mt-8 pt-8 border-t border-slate-800">
+                    <h3 class="text-lg font-bold text-white mb-6">Activity & Comments</h3>
+
+                    <!-- Comment List -->
+                    <div class="space-y-6 mb-8">
+                        @forelse($ticket->comments as $comment)
+                            <div class="flex gap-4 group">
+                                <div class="flex-shrink-0">
+                                    <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
+                                        {{ substr($comment->user->name, 0, 1) }}
+                                    </div>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-medium text-white">{{ $comment->user->name }}</span>
+                                            <span class="text-xs text-slate-500">{{ $comment->created_at->diffForHumans() }}</span>
+                                        </div>
+                                        @can('delete', $comment)
+                                            <form action="{{ route('tickets.comments.destroy', [$team, $ticket, $comment]) }}" method="POST" class="opacity-0 group-hover:opacity-100 transition-opacity">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-slate-600 hover:text-red-400 transition-colors" title="Delete comment">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                                                </button>
+                                            </form>
+                                        @endcan
+                                    </div>
+                                    <div class="text-slate-300 text-sm leading-relaxed bg-slate-900/30 rounded-lg p-3 border border-slate-800/50">
+                                        {!! nl2br(e($comment->body)) !!}
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <p class="text-slate-500 text-sm italic">No comments yet.</p>
+                        @endforelse
+                    </div>
+
+                    <!-- Add Comment Form -->
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 hidden sm:block">
+                            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
+                                {{ substr(auth()->user()->name, 0, 1) }}
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <form action="{{ route('tickets.comments.store', [$team, $ticket]) }}" method="POST">
+                                @csrf
+                                <div class="relative">
+                                    <textarea 
+                                        name="body" 
+                                        rows="3" 
+                                        placeholder="Add a comment..." 
+                                        class="w-full bg-slate-950 border border-slate-700 text-white text-sm rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 placeholder:text-slate-600 resize-y min-h-[100px]"
+                                        required
+                                    ></textarea>
+                                    @error('body')
+                                        <p class="text-red-400 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div class="mt-2 flex justify-end">
+                                    <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                                        Post Comment
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Sidebar (Right) -->

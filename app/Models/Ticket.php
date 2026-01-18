@@ -69,4 +69,9 @@ class Ticket extends Model
     {
         return $this->belongsToMany(Tag::class, 'ticket_tag', 'ticket_id', 'tag_id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

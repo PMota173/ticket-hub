@@ -118,6 +118,8 @@ class TeamMemberController extends Controller
 
         $members = $team->users()->get();
 
-        return view('teams.members.index', compact('team', 'members'));
+//        return view('teams.members.index', compact('team', 'members'));
+        return redirect()->route('members.index', ['team' => $team->slug])
+            ->with('status', 'Member removed successfully.');
     }
 }

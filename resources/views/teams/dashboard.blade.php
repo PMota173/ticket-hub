@@ -68,6 +68,50 @@
         </div>
     </div>
 
+    @if($myTickets->isNotEmpty())
+        <div class="mb-8">
+            <h3 class="text-lg font-semibold text-white mb-4">My Assigned Tickets</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+                @foreach($myTickets as $ticket)
+                    <a href="{{ route('tickets.show', [$team, $ticket]) }}" class="flex items-center gap-3 p-3 rounded-lg bg-slate-900/40 border border-slate-700/50 hover:border-blue-500/30 hover:bg-slate-900 transition-all group">
+                        <!-- Status Indicator -->
+                        <div class="flex-shrink-0">
+                            @php
+                                $statusColor = match($ticket->status) {
+                                    \App\Enums\TicketStatus::OPEN => 'bg-blue-500',
+                                    \App\Enums\TicketStatus::IN_PROGRESS => 'bg-purple-500',
+                                    \App\Enums\TicketStatus::WAITING => 'bg-orange-500',
+                                    \App\Enums\TicketStatus::CLOSED => 'bg-green-500',
+                                };
+                            @endphp
+                           <div class="w-2.5 h-2.5 rounded-full {{ $statusColor }} shadow-[0_0_8px_rgba(var(--{{ str_replace('bg-', '', $statusColor) }}-500),0.5)]"></div>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="flex-grow min-w-0">
+                            <div class="flex items-center justify-between gap-2 mb-0.5">
+                                <h4 class="text-sm font-medium text-white truncate group-hover:text-blue-400 transition-colors">{{ $ticket->title }}</h4>
+                                <span class="text-[10px] text-slate-500 flex-shrink-0">{{ $ticket->created_at->diffForHumans(null, true) }}</span>
+                            </div>
+                            <div class="flex items-center text-xs text-slate-500 gap-2">
+                                <div class="flex items-center gap-1.5 truncate">
+                                    <div class="w-4 h-4 rounded-full bg-slate-800 flex items-center justify-center text-[8px] font-bold text-slate-400 border border-slate-700">
+                                        {{ substr($ticket->user->name, 0, 1) }}
+                                    </div>
+                                    <span class="truncate">{{ $ticket->user->name }}</span>
+                                </div>
+                                <span class="text-slate-700">•</span>
+                                <span class="{{ $ticket->priority === \App\Enums\TicketPriority::HIGH ? 'text-red-400' : ($ticket->priority === \App\Enums\TicketPriority::MEDIUM ? 'text-yellow-400' : 'text-green-400') }}">
+                                    {{ ucfirst($ticket->priority->value) }}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
     <!-- Recent Tickets List -->
     <div class="bg-slate-900/50 border border-slate-700 rounded-xl shadow-sm overflow-hidden">
         <div class="p-6 border-b border-slate-700">

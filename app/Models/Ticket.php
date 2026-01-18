@@ -20,6 +20,7 @@ class Ticket extends Model
         'status',
         'priority',
         'user_id',
+        'assigned_id',
     ];
 
     protected function casts(): array

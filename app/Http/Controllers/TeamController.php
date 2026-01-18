@@ -64,7 +64,14 @@ class TeamController extends Controller
             ->limit(10)
             ->get();
 
-        return view('teams.dashboard', compact('team', 'stats', 'recentTickets'));
+        $myTickets = $team->tickets()
+            ->where('assigned_id', auth()->id())
+            ->with('user')
+            ->latest()
+            ->limit(6)
+            ->get();
+
+        return view('teams.dashboard', compact('team', 'stats', 'recentTickets', 'myTickets'));
     }
 
     /**

@@ -194,6 +194,31 @@
                         @endforeach
                     </div>
 
+                    @php
+                        // Get tags that are in the team but not in the ticket
+                        // We use the 'tags' relationship on team (N+1 is acceptable for single view or rely on eager loading if added)
+                        // Using a simple filter here
+                        $existingTagIds = $ticket->tags->pluck('id')->toArray();
+                        $availableTags = $team->tags->filter(fn($tag) => !in_array($tag->id, $existingTagIds));
+                    @endphp
+
+                    @if($availableTags->isNotEmpty())
+                        <div class="mb-3">
+                            <p class="text-[10px] uppercase font-bold text-slate-500 mb-2">Suggested</p>
+                            <div class="flex flex-wrap gap-2">
+                                @foreach($availableTags as $tag)
+                                    <form action="{{ route('tickets.tags.store', [$team, $ticket]) }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="name" value="{{ $tag->name }}">
+                                        <button type="submit" class="px-2 py-1 text-xs rounded-md bg-slate-800 text-slate-400 border border-slate-700 hover:bg-slate-700 hover:text-slate-200 transition-colors">
+                                            + {{ $tag->name }}
+                                        </button>
+                                    </form>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
                     <form action="{{ route('tickets.tags.store', [$team, $ticket]) }}" method="POST" class="flex gap-2">
                         @csrf
                         <input 

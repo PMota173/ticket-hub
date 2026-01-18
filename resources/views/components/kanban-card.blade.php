@@ -36,7 +36,9 @@
             </div>
         </div>
     </div>
-    <h4 class="text-white font-medium text-sm mb-1 leading-tight truncate">{{ $ticket->title }}</h4>
+    <a href="{{ route('tickets.show', [$team, $ticket]) }}" class="block group/title">
+        <h4 class="text-white font-medium text-sm mb-1 leading-tight truncate group-hover/title:text-blue-400 transition-colors">{{ $ticket->title }}</h4>
+    </a>
         <p class="text-slate-400 text-xs line-clamp-2 mb-3">{{ $ticket->description }}</p>
         <div class="flex items-center justify-between text-xs text-slate-500">
             <div class="flex items-center gap-1">

@@ -106,6 +106,40 @@
                     @endif
                 </div>
 
+                <!-- Tags Card -->
+                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-5 shadow-sm">
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Tags</h3>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        @foreach($ticket->tags as $tag)
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                                {{ $tag->name }}
+                                <form action="{{ route('tickets.tags.destroy', [$team, $ticket, $tag]) }}" method="POST" class="inline-flex ml-1.5">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-blue-400 hover:text-white transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 18 12"/></svg>
+                                    </button>
+                                </form>
+                            </span>
+                        @endforeach
+                    </div>
+
+                    <form action="{{ route('tickets.tags.store', [$team, $ticket]) }}" method="POST" class="flex gap-2">
+                        @csrf
+                        <input 
+                            type="text" 
+                            name="name" 
+                            placeholder="Add tag..." 
+                            class="flex-1 bg-slate-950 border border-slate-700 text-white text-xs rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 placeholder:text-slate-600 transition-all"
+                            required
+                        >
+                        <button type="submit" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-lg px-3 py-2 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                        </button>
+                    </form>
+                </div>
+
                 <!-- Actions -->
                 <div class="flex flex-col gap-3">
                     <a href="{{ route('tickets.edit', [$team, $ticket]) }}" class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-300 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-colors">

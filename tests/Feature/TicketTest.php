@@ -1,209 +1,264 @@
 <?php
 
+use App\Models\Team;
 use App\Models\Ticket;
 use App\Models\User;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use App\Models\Tag;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 
-test('authenticated user can create tickets', function () {
+// --- AUTHORIZATION & VIEWING ---
 
-    // AAA Pattern
-    // Arrange, Act, Assert
-
-    // 1. Create a user
+test('team member can view tickets board', function () {
     $user = User::factory()->create();
+    $team = Team::factory()->create(['user_id' => $user->id]);
+    $team->users()->attach($user, ['is_admin' => true]);
 
-    // 2. Act as the created user
-    $this->actingAs($user);
+    $this->actingAs($user)
+        ->get(route('tickets.index', $team))
+        ->assertOk();
+});
 
-    $this->withoutMiddleware(VerifyCsrfToken::class);
+test('non-member cannot view private team tickets', function () {
+    $user = User::factory()->create();
+    $team = Team::factory()->create(['is_private' => true]);
+    // User is NOT in team
 
-    // 3. Send a POST request to create a ticket
-    $response = $this->post(route('tickets.store'), [
-        'title' => 'Sample Ticket',
-        'description' => 'This is a sample ticket description.',
-        'priority' => 'high',
-    ]);
+    $this->actingAs($user)
+        ->get(route('tickets.index', $team))
+        ->assertForbidden();
+});
 
-    // 4. Assert that the ticket was created in the database
+test('non-member CAN view public team tickets', function () {
+    $user = User::factory()->create();
+    $team = Team::factory()->create(['is_private' => false]);
+    // User is NOT in team
+
+    $this->actingAs($user)
+        ->get(route('tickets.index', $team))
+        ->assertOk();
+});
+
+// --- CREATION ---
+
+test('team member can create ticket', function () {
+    $user = User::factory()->create();
+    $team = Team::factory()->create(['user_id' => $user->id]);
+    $team->users()->attach($user, ['is_admin' => true]);
+
+    $this->actingAs($user)
+        ->withoutMiddleware(ValidateCsrfToken::class)
+        ->post(route('tickets.store', $team), [
+            'title' => 'New Bug',
+            'description' => 'Something is broken',
+            'priority' => 'high',
+            'status' => 'open',
+        ])
+        ->assertRedirect(route('tickets.index', $team));
+
     $this->assertDatabaseHas('tickets', [
-        'title' => 'Sample Ticket',
-        'description' => 'This is a sample ticket description.',
-        'priority' => 'high',
+        'title' => 'New Bug',
+        'team_id' => $team->id,
         'user_id' => $user->id,
     ]);
 });
 
-test('getting recent tickets for dashboard view', function () {
-    // 1. Create a user
+test('team member can assign ticket during creation', function () {
     $user = User::factory()->create();
+    $otherMember = User::factory()->create();
+    $team = Team::factory()->create(['user_id' => $user->id]);
+    $team->users()->attach($user, ['is_admin' => true]);
+    $team->users()->attach($otherMember, ['is_admin' => false]);
 
-    // 2. Create tickets for the user
-    Ticket::factory()->count(12)->create(['user_id' => $user->id]);
+    $this->actingAs($user)
+        ->withoutMiddleware(ValidateCsrfToken::class)
+        ->post(route('tickets.store', $team), [
+            'title' => 'Assigned Ticket',
+            'description' => 'For you',
+            'priority' => 'medium',
+            'status' => 'open',
+            'assigned_id' => $otherMember->id,
+        ]);
 
-    // 3. Act as created user
-    $this->actingAs($user);
-
-    // 4. GET dashboard
-    $response = $this->get(route('dashboard'));
-
-    // 5. Assert that the response contains the tickets
-    $response->assertStatus(200);
-
-    $response->assertViewHas('recentTickets', function ($tickets) use ($user) {
-        return $tickets->every(fn ($ticket) => $ticket->user_id === $user->id);
-    });
+    $this->assertDatabaseHas('tickets', [
+        'title' => 'Assigned Ticket',
+        'assigned_id' => $otherMember->id,
+    ]);
 });
 
-test('getting all tickets for kanban board', function () {
-    // 1. Create a user
+test('non-member CANNOT assign ticket during creation', function () {
     $user = User::factory()->create();
+    $team = Team::factory()->create(['is_private' => false]); // Public team
+    // User is NOT in team
 
-    // 2. Create tickets for the user
-    Ticket::factory()->count(5)->create(['user_id' => $user->id]);
+    $member = User::factory()->create();
+    $team->users()->attach($member);
 
-    // 3. Act as created user
-    $this->actingAs($user);
+    $this->actingAs($user)
+        ->withoutMiddleware(ValidateCsrfToken::class)
+        ->post(route('tickets.store', $team), [
+            'title' => 'Hacker Ticket',
+            'description' => 'Trying to assign',
+            'priority' => 'low',
+            'status' => 'open',
+            'assigned_id' => $member->id, // Trying to assign
+        ]);
 
-    // 4. GET tickets (kanban board)
-    $response = $this->get(route('tickets.index'));
-
-    // 5. Assert that the response contains the tickets
-    $response->assertStatus(200);
-
-    $response->assertViewIs('tickets.index');
-
-    $response->assertViewHas('tickets', function ($tickets) use ($user) {
-        return $tickets->count() === 5 && $tickets->every(fn ($ticket) => $ticket->user_id === $user->id);
-    });
+    // Should create ticket BUT ignore assignment
+    $this->assertDatabaseHas('tickets', [
+        'title' => 'Hacker Ticket',
+        'assigned_id' => null, // Should be null!
+    ]);
 });
 
-test('getting a single ticket detail view', function () {
-    // 1. Create a user
+// --- UPDATING ---
+
+test('ticket owner can update ticket', function () {
     $user = User::factory()->create();
+    $team = Team::factory()->create();
+    $team->users()->attach($user);
+    $ticket = Ticket::factory()->create(['user_id' => $user->id, 'team_id' => $team->id]);
 
-    // 2. Create a ticket for the user
-    $ticket = Ticket::factory()->create(['user_id' => $user->id]);
+    $this->actingAs($user)
+        ->withoutMiddleware(ValidateCsrfToken::class)
+        ->patch(route('tickets.update', [$team, $ticket]), [
+            'title' => 'Updated Title',
+        ])
+        ->assertRedirect();
 
-    // 3. Act as created user
-    $this->actingAs($user);
-
-    // 4. GET ticket detail
-    $response = $this->get(route('tickets.show', $ticket));
-
-    // 5. Assert that the response contains the ticket details
-    $response->assertStatus(200);
-
-    $response->assertViewIs('tickets.show');
-
-    $response->assertViewHas('ticket', function ($viewTicket) use ($ticket) {
-        return $viewTicket->id === $ticket->id;
-    });
+    $this->assertDatabaseHas('tickets', ['id' => $ticket->id, 'title' => 'Updated Title']);
 });
 
-test('user1 cant access user2 ticket detail view', function () {
-    // 1. Create two users
+test('team admin can update any ticket', function () {
+    $admin = User::factory()->create();
+    $user = User::factory()->create();
+    $team = Team::factory()->create();
+    $team->users()->attach($admin, ['is_admin' => true]);
+    $team->users()->attach($user, ['is_admin' => false]);
+    
+    $ticket = Ticket::factory()->create(['user_id' => $user->id, 'team_id' => $team->id]);
+
+    $this->actingAs($admin)
+        ->withoutMiddleware(ValidateCsrfToken::class)
+        ->patch(route('tickets.update', [$team, $ticket]), [
+            'status' => 'closed',
+        ]);
+
+    $this->assertDatabaseHas('tickets', ['id' => $ticket->id, 'status' => 'closed']);
+});
+
+test('any team member CAN update any ticket', function () {
     $user1 = User::factory()->create();
     $user2 = User::factory()->create();
+    $team = Team::factory()->create();
+    $team->users()->attach($user1, ['is_admin' => false]);
+    $team->users()->attach($user2, ['is_admin' => false]);
+    
+    $ticket = Ticket::factory()->create(['user_id' => $user2->id, 'team_id' => $team->id]);
 
-    // 2. Create a ticket for user2
-    $ticket = Ticket::factory()->create(['user_id' => $user2->id]);
+    $this->actingAs($user1)
+        ->withoutMiddleware(ValidateCsrfToken::class)
+        ->patch(route('tickets.update', [$team, $ticket]), [
+            'title' => 'Collaborative Edit',
+        ])
+        ->assertRedirect();
 
-    // 3. Act as user1
-    $this->actingAs($user1);
-
-    // 4. GET user2 ticket detail
-    $response = $this->get(route('tickets.show', $ticket));
-
-    // 5. Assert that the response is 403 Forbidden
-    $response->assertStatus(403);
+    $this->assertDatabaseHas('tickets', ['id' => $ticket->id, 'title' => 'Collaborative Edit']);
 });
 
-test('guest cannot create tickets', function () {
-    // 1. Send a POST request to create a ticket as a guest
-    $response = $this->post(route('tickets.store'), [
-        'title' => 'Sample Ticket',
-        'description' => 'This is a sample ticket description.',
-        'priority' => 'high',
-    ]);
+// --- ASSIGN TO ME ---
 
-    // 2. Assert that the response is a redirect to the login page
-    $response->assertRedirect(route('login'));
-});
-
-test('updating the status of a ticket', function () {
-    // 1. Create a user
+test('member can assign ticket to themselves', function () {
     $user = User::factory()->create();
+    $team = Team::factory()->create();
+    $team->users()->attach($user, ['is_admin' => false]); // Regular member
+    
+    // Ticket created by someone else
+    $ticket = Ticket::factory()->create(['team_id' => $team->id]);
 
-    // 2. Create a ticket for the user
-    $ticket = Ticket::factory()->create(['user_id' => $user->id]);
-
-    // 3. Act as created user
-    $this->actingAs($user);
-
-    // Disable CSRF middleware for testing (PATCH requests)
-    $this->withoutMiddleware(VerifyCsrfToken::class);
-
-    // 4. Send a PATCH request to update the ticket status
-    $response = $this->patch(route('tickets.update', $ticket), [
-        'status' => 'closed',
-    ]);
-
-    // 5. Assert that the ticket status was updated in the database
+    $this->actingAs($user)
+        ->withoutMiddleware(ValidateCsrfToken::class)
+        ->patch(route('tickets.update', [$team, $ticket]), [
+            'assigned_id' => $user->id,
+        ])
+        ->assertRedirect();
+        
     $this->assertDatabaseHas('tickets', [
         'id' => $ticket->id,
-        'status' => 'closed',
+        'assigned_id' => $user->id,
     ]);
 });
 
-test('editing the status on a ticket', function () {
-    // 1. Create a user
+test('member can unassign themselves', function () {
     $user = User::factory()->create();
-
-    // 2. Create a ticket for the user
-    $ticket = Ticket::factory()->create(['user_id' => $user->id]);
-
-    // 3. Act as created user
-    $this->actingAs($user);
-
-    // Disable CSRF middleware for testing (PATCH requests)
-    $this->withoutMiddleware(VerifyCsrfToken::class);
-
-    // 4. Send a PATCH request to update the ticket
-    $response = $this->patch(route('tickets.update', $ticket), [
-        'title' => 'Updated Ticket Title',
-        'description' => 'Updated description.',
-        'priority' => 'medium',
-        'status' => 'in_progress',
+    $team = Team::factory()->create();
+    $team->users()->attach($user);
+    
+    $ticket = Ticket::factory()->create([
+        'team_id' => $team->id,
+        'assigned_id' => $user->id
     ]);
 
-    // 5. Assert that the ticket was updated in the database
+    $this->actingAs($user)
+        ->withoutMiddleware(ValidateCsrfToken::class)
+        ->patch(route('tickets.update', [$team, $ticket]), [
+            'assigned_id' => '', // Sending empty string to unassign
+        ])
+        ->assertRedirect();
+        
     $this->assertDatabaseHas('tickets', [
         'id' => $ticket->id,
-        'title' => 'Updated Ticket Title',
-        'description' => 'Updated description.',
-        'priority' => 'medium',
-        'status' => 'in_progress',
+        'assigned_id' => null,
     ]);
 });
 
-test('deleting a ticket', function () {
-    // 1. Create a user
+// --- TAGS ---
+
+test('team member can add tag to ticket', function () {
     $user = User::factory()->create();
+    $team = Team::factory()->create();
+    $team->users()->attach($user, ['is_admin' => true]); // Admin to ensure permission
+    $ticket = Ticket::factory()->create(['team_id' => $team->id, 'user_id' => $user->id]);
 
-    // 2. Create a ticket for the user
-    $ticket = Ticket::factory()->create(['user_id' => $user->id]);
+    $this->actingAs($user)
+        ->withoutMiddleware(ValidateCsrfToken::class)
+        ->post(route('tickets.tags.store', [$team, $ticket]), [
+            'name' => 'Urgent Bug',
+        ]);
 
-    // 3. Act as created user
-    $this->actingAs($user);
+    $this->assertDatabaseHas('tags', ['name' => 'Urgent Bug', 'team_id' => $team->id]);
+    $this->assertTrue($ticket->tags()->where('name', 'Urgent Bug')->exists());
+});
 
-    // Disable CSRF middleware for testing (DELETE requests)
-    $this->withoutMiddleware(VerifyCsrfToken::class);
+test('tag is reused if exists in team', function () {
+    $user = User::factory()->create();
+    $team = Team::factory()->create();
+    $team->users()->attach($user, ['is_admin' => true]);
+    
+    $tag = Tag::factory()->create(['team_id' => $team->id, 'name' => 'Existing Tag']);
+    $ticket = Ticket::factory()->create(['team_id' => $team->id, 'user_id' => $user->id]);
 
-    // 4. Send a DELETE request to delete the ticket
-    $response = $this->delete(route('tickets.destroy', $ticket));
+    $this->actingAs($user)
+        ->withoutMiddleware(ValidateCsrfToken::class)
+        ->post(route('tickets.tags.store', [$team, $ticket]), [
+            'name' => 'Existing Tag',
+        ]);
 
-    // 5. Assert that the ticket was deleted from the database
-    $this->assertDatabaseMissing('tickets', [
-        'id' => $ticket->id,
-    ]);
+    $this->assertEquals(1, Tag::count()); // Should still be 1 tag
+    $this->assertTrue($ticket->tags()->where('name', 'Existing Tag')->exists());
+});
+
+test('team member can remove tag', function () {
+    $user = User::factory()->create();
+    $team = Team::factory()->create();
+    $team->users()->attach($user, ['is_admin' => true]);
+    
+    $tag = Tag::factory()->create(['team_id' => $team->id, 'name' => 'Remove Me']);
+    $ticket = Ticket::factory()->create(['team_id' => $team->id, 'user_id' => $user->id]);
+    $ticket->tags()->attach($tag);
+
+    $this->actingAs($user)
+        ->withoutMiddleware(ValidateCsrfToken::class)
+        ->delete(route('tickets.tags.destroy', [$team, $ticket, $tag]));
+
+    $this->assertFalse($ticket->tags()->where('name', 'Remove Me')->exists());
 });

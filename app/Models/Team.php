@@ -48,6 +48,11 @@ class Team extends Model
         return $this->hasMany(Ticket::class);
     }
 
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
+    }
+
     function hasAdmin(User $user)
     {
         return $this->users()->where('user_id', $user->id)->wherePivot('is_admin', true)->exists();

@@ -37,7 +37,7 @@
                                     {{ substr($team->name, 0, 1) }}
                                 </div>
                                 <div class="flex flex-col items-end gap-1">
-                                    @if($team->is_admin)
+                                    @if($team->pivot->is_admin)
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase tracking-wider">
                                             Admin
                                         </span>
@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="flex items-center gap-1.5">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users w-4 h-4"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                                    <span>{{ $team->members_count ?? 0 }} Members</span>
+                                    <span>{{ $team->users_count ?? 0 }} Members</span>
                                 </div>
                             </div>
                         </div>

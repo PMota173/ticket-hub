@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTeamRequest;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -12,14 +13,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $teams = request()->user()->teams()->get();
-
-        foreach ($teams as $team) {
-            $team->is_admin = $team->users()->where('user_id', request()->user()->id)->first()->pivot->is_admin;
-            $team->is_privete = $team->is_private;
-            $team->members_count = $team->users()->count();
-            $team->tickets_count = $team->tickets()->count();
-        }
+        $teams = request()->user()->teams()->withCount(['users', 'tickets'])->get();
 
         return view('teams.index', compact('teams'));
     }
@@ -35,15 +29,9 @@ class TeamController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTeamRequest $request)
     {
-
-        $attributes = request()->validate([
-            'name' => ['required'],
-            'description' => ['nullable'],
-            'logo' => ['nullable', 'url'],
-            'is_private' => ['nullable', 'boolean'],
-        ]);
+        $attributes = $request->validated();
 
         $user = $request->user();
         $attributes['user_id'] = $user->id;
@@ -69,9 +57,8 @@ class TeamController extends Controller
     public function show(Team $team)
     {
         // Check if user belongs to team
-        if (! $team->users->contains(auth()->user())) {
-            abort(403);
-        }
+        // this is now handled by the TeamPolicy
+        $this->authorize('view', $team);
 
         $stats = [
             'open' => $team->tickets()->where('status', 'open')->count(),

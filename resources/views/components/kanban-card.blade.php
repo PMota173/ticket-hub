@@ -14,11 +14,11 @@
     <div class="flex-1 min-w-0">
         <div class="flex justify-between items-start mb-2">
             <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium
-                @if($ticket->priority === 'high') bg-red-500/10 text-red-400
-                @elseif($ticket->priority === 'medium') bg-yellow-500/10 text-yellow-400
+                @if($ticket->priority === \App\Enums\TicketPriority::HIGH) bg-red-500/10 text-red-400
+                @elseif($ticket->priority === \App\Enums\TicketPriority::MEDIUM) bg-yellow-500/10 text-yellow-400
                 @else bg-green-500/10 text-green-400
                 @endif">
-                {{ ucfirst($ticket->priority) }}
+                {{ ucfirst($ticket->priority->value) }}
             </span>
         <div class="relative">
             <button onclick="toggleDropdown('dropdown-{{ $ticket->id }}')" class="text-slate-500 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-slate-800">

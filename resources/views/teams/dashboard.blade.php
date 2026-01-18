@@ -106,30 +106,30 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                        @if($ticket->status === 'open') bg-blue-500/10 text-blue-400
-                                        @elseif($ticket->status === 'in_progress') bg-purple-500/10 text-purple-400
-                                        @elseif($ticket->status === 'waiting') bg-orange-500/10 text-orange-400
-                                        @elseif($ticket->status === 'closed') bg-green-500/10 text-green-400
+                                        @if($ticket->status === \App\Enums\TicketStatus::OPEN) bg-blue-500/10 text-blue-400
+                                        @elseif($ticket->status === \App\Enums\TicketStatus::IN_PROGRESS) bg-purple-500/10 text-purple-400
+                                        @elseif($ticket->status === \App\Enums\TicketStatus::WAITING) bg-orange-500/10 text-orange-400
+                                        @elseif($ticket->status === \App\Enums\TicketStatus::CLOSED) bg-green-500/10 text-green-400
                                         @endif
                                     ">
-                                        {{ ucfirst(str_replace('_', ' ', $ticket->status)) }}
+                                        {{ ucfirst(str_replace('_', ' ', $ticket->status->value)) }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="inline-flex items-center gap-1.5 text-xs font-medium
-                                        @if($ticket->priority === 'high') text-red-400
-                                        @elseif($ticket->priority === 'medium') text-yellow-400
+                                        @if($ticket->priority === \App\Enums\TicketPriority::HIGH) text-red-400
+                                        @elseif($ticket->priority === \App\Enums\TicketPriority::MEDIUM) text-yellow-400
                                         @else text-green-400
                                         @endif
                                     ">
-                                        @if($ticket->priority === 'high')
+                                        @if($ticket->priority === \App\Enums\TicketPriority::HIGH)
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
-                                        @elseif($ticket->priority === 'medium')
+                                        @elseif($ticket->priority === \App\Enums\TicketPriority::MEDIUM)
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus"><path d="M5 12h14"/></svg>
                                         @else
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
                                         @endif
-                                        {{ ucfirst($ticket->priority) }}
+                                        {{ ucfirst($ticket->priority->value) }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-slate-400">

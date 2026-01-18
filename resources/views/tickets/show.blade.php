@@ -8,19 +8,19 @@
             <div>
                 <div class="flex items-center gap-3 mb-2">
                     <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border
-                        @if($ticket->status === 'open') text-blue-500 bg-blue-500/10 border-blue-500/20
-                        @elseif($ticket->status === 'in_progress') text-purple-400 bg-purple-500/10 border-purple-500/20
-                        @elseif($ticket->status === 'waiting') text-orange-400 bg-orange-500/10 border-orange-500/20
-                        @elseif($ticket->status === 'closed') text-green-400 bg-green-500/10 border-green-500/20
+                        @if($ticket->status === \App\Enums\TicketStatus::OPEN) text-blue-500 bg-blue-500/10 border-blue-500/20
+                        @elseif($ticket->status === \App\Enums\TicketStatus::IN_PROGRESS) text-purple-400 bg-purple-500/10 border-purple-500/20
+                        @elseif($ticket->status === \App\Enums\TicketStatus::WAITING) text-orange-400 bg-orange-500/10 border-orange-500/20
+                        @elseif($ticket->status === \App\Enums\TicketStatus::CLOSED) text-green-400 bg-green-500/10 border-green-500/20
                         @endif">
-                        {{ str_replace('_', ' ', ucfirst($ticket->status)) }}
+                        {{ str_replace('_', ' ', ucfirst($ticket->status->value)) }}
                     </span>
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold border
-                        @if($ticket->priority === 'high') bg-red-500/10 text-red-400 border-red-500/20
-                        @elseif($ticket->priority === 'medium') bg-yellow-500/10 text-yellow-400 border-yellow-500/20
+                        @if($ticket->priority === \App\Enums\TicketPriority::HIGH) bg-red-500/10 text-red-400 border-red-500/20
+                        @elseif($ticket->priority === \App\Enums\TicketPriority::MEDIUM) bg-yellow-500/10 text-yellow-400 border-yellow-500/20
                         @else bg-green-500/10 text-green-400 border-green-500/20
                         @endif">
-                        {{ ucfirst($ticket->priority) }} Priority
+                        {{ ucfirst($ticket->priority->value) }} Priority
                     </span>
                 </div>
                 <h2 class="text-3xl font-bold tracking-tight text-white">{{ $ticket->title }}</h2>
@@ -52,10 +52,10 @@
                     <label for="status" class="text-sm font-medium text-slate-400">Status:</label>
                     <select name="status" id="status" onchange="this.form.submit()" 
                         class="bg-slate-950/50 border border-slate-700 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-200 cursor-pointer appearance-none pr-8 relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[length:1.25rem] bg-[right_0.5rem_center] bg-no-repeat">
-                        <option value="open" {{ $ticket->status === 'open' ? 'selected' : '' }}>Open</option>
-                        <option value="in_progress" {{ $ticket->status === 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                        <option value="waiting" {{ $ticket->status === 'waiting' ? 'selected' : '' }}>Waiting</option>
-                        <option value="closed" {{ $ticket->status === 'closed' ? 'selected' : '' }}>Closed</option>
+                        <option value="open" {{ $ticket->status === \App\Enums\TicketStatus::OPEN ? 'selected' : '' }}>Open</option>
+                        <option value="in_progress" {{ $ticket->status === \App\Enums\TicketStatus::IN_PROGRESS ? 'selected' : '' }}>In Progress</option>
+                        <option value="waiting" {{ $ticket->status === \App\Enums\TicketStatus::WAITING ? 'selected' : '' }}>Waiting</option>
+                        <option value="closed" {{ $ticket->status === \App\Enums\TicketStatus::CLOSED ? 'selected' : '' }}>Closed</option>
                     </select>
                 </form>
             </div>

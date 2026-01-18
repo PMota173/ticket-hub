@@ -16,11 +16,11 @@
             <div class="flex items-center justify-between mb-4 px-1">
                 <h3 class="font-semibold text-slate-300">Open</h3>
                 <span id="count-open" class="text-sm font-bold text-blue-500 bg-blue-500/10 px-2.5 py-0.5 rounded-full border border-blue-500/20">
-                    {{ $tickets->where('status', 'open')->count() }}
+                    {{ $tickets->where('status', \App\Enums\TicketStatus::OPEN)->count() }}
                 </span>
             </div>
             <div class="space-y-3 min-h-[500px]" id="open">
-                @foreach($tickets->where('status', 'open') as $ticket)
+                @foreach($tickets->where('status', \App\Enums\TicketStatus::OPEN) as $ticket)
                     <x-kanban-card :ticket="$ticket" />
                 @endforeach
             </div>
@@ -31,11 +31,11 @@
             <div class="flex items-center justify-between mb-4 px-1">
                 <h3 class="font-semibold text-slate-300">In Progress</h3>
                 <span id="count-in_progress" class="text-sm font-bold text-purple-400 bg-purple-500/10 px-2.5 py-0.5 rounded-full border border-purple-500/20">
-                    {{ $tickets->where('status', 'in_progress')->count() }}
+                    {{ $tickets->where('status', \App\Enums\TicketStatus::IN_PROGRESS)->count() }}
                 </span>
             </div>
             <div class="space-y-3 min-h-[500px]" id="in_progress">
-                @foreach($tickets->where('status', 'in_progress') as $ticket)
+                @foreach($tickets->where('status', \App\Enums\TicketStatus::IN_PROGRESS) as $ticket)
                     <x-kanban-card :ticket="$ticket" />
                 @endforeach
             </div>
@@ -46,11 +46,11 @@
             <div class="flex items-center justify-between mb-4 px-1">
                 <h3 class="font-semibold text-slate-300">Waiting</h3>
                 <span id="count-waiting" class="text-sm font-bold text-orange-400 bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-500/20">
-                    {{ $tickets->where('status', 'waiting')->count() }}
+                    {{ $tickets->where('status', \App\Enums\TicketStatus::WAITING)->count() }}
                 </span>
             </div>
             <div class="space-y-3 min-h-[500px]" id="waiting">
-                @foreach($tickets->where('status', 'waiting') as $ticket)
+                @foreach($tickets->where('status', \App\Enums\TicketStatus::WAITING) as $ticket)
                     <x-kanban-card :ticket="$ticket" />
                 @endforeach
             </div>
@@ -61,11 +61,11 @@
             <div class="flex items-center justify-between mb-4 px-1">
                 <h3 class="font-semibold text-slate-300">Solved</h3>
                 <span id="count-closed" class="text-sm font-bold text-green-400 bg-green-500/10 px-2.5 py-0.5 rounded-full border border-green-500/20">
-                    {{ $tickets->where('status', 'closed')->count() }}
+                    {{ $tickets->where('status', \App\Enums\TicketStatus::CLOSED)->count() }}
                 </span>
             </div>
             <div class="space-y-3 min-h-[500px]" id="closed">
-                @foreach($tickets->where('status', 'closed') as $ticket)
+                @foreach($tickets->where('status', \App\Enums\TicketStatus::CLOSED) as $ticket)
                     <x-kanban-card :ticket="$ticket" />
                 @endforeach
             </div>

@@ -85,12 +85,13 @@
                                 {{ $ticket->title }}
                             </a>
                             <span class="text-xs font-medium px-2 py-0.5 rounded-full
-                                @if($ticket->status === 'open') bg-blue-500/10 text-blue-400
-                                @elseif($ticket->status === 'closed') bg-green-500/10 text-green-400
-                                @else bg-slate-500/10 text-slate-400
+                                @if($ticket->status === \App\Enums\TicketStatus::OPEN) bg-blue-500/10 text-blue-400
+                                @elseif($ticket->status === \App\Enums\TicketStatus::IN_PROGRESS) bg-purple-500/10 text-purple-400
+                                @elseif($ticket->status === \App\Enums\TicketStatus::WAITING) bg-orange-500/10 text-orange-400
+                                @elseif($ticket->status === \App\Enums\TicketStatus::CLOSED) bg-green-500/10 text-green-400
                                 @endif
                             ">
-                                {{ ucfirst($ticket->status) }}
+                                {{ ucfirst(str_replace('_', ' ', $ticket->status->value)) }}
                             </span>
                         </div>
                         <p class="text-sm text-slate-400 line-clamp-1 mb-2">

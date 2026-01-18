@@ -52,10 +52,10 @@ class TeamController extends Controller
         $this->authorize('view', $team);
 
         $stats = [
-            'open' => $team->tickets()->where('status', 'open')->count(),
-            'in_progress' => $team->tickets()->where('status', 'in_progress')->count(),
-            'waiting' => $team->tickets()->where('status', 'waiting')->count(),
-            'closed' => $team->tickets()->where('status', 'closed')->count(),
+            'open' => $team->tickets()->open()->count(),
+            'in_progress' => $team->tickets()->inProgress()->count(),
+            'waiting' => $team->tickets()->waiting()->count(),
+            'closed' => $team->tickets()->closed()->count(),
         ];
 
         $recentTickets = $team->tickets()

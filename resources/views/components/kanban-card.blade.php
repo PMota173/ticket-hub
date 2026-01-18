@@ -1,4 +1,4 @@
-@props(['ticket'])
+@props(['ticket', 'team'])
 
 <div 
     id="ticket-{{ $ticket->id }}"
@@ -27,14 +27,14 @@
             
             <!-- Dropdown Menu -->
             <div id="dropdown-{{ $ticket->id }}" class="hidden absolute right-0 mt-2 w-32 bg-slate-900 border border-slate-700 rounded-lg shadow-xl z-50 overflow-hidden">
-                <a href="/tickets/{{ $ticket->id }}" class="block px-4 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                <a href="{{ route('tickets.show', [$team, $ticket]) }}" class="block px-4 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
                     View
                 </a>
-                <a href="/tickets/{{ $ticket->id }}/edit" class="block px-4 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                <a href="{{ route('tickets.edit', [$team, $ticket]) }}" class="block px-4 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
                     Edit
                 </a>
                 <button 
-                    onclick="openModal('delete-ticket-modal', '/tickets/{{ $ticket->id }}')" 
+                    onclick="openModal('delete-ticket-modal', '{{ route('tickets.destroy', [$team, $ticket]) }}')" 
                     class="block w-full text-left px-4 py-2 text-xs text-red-400 hover:bg-slate-800 hover:text-red-300 transition-colors"
                 >
                     Delete

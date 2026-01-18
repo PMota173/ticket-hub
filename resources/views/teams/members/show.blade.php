@@ -61,7 +61,7 @@
             </div>
             <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
                 <p class="text-sm font-medium text-slate-400 mb-1">Open Tickets</p>
-                <p class="text-3xl font-bold text-white">{{ $member->tickets()->where('team_id', $team->id)->where('status', 'open')->count() }}</p>
+                <p class="text-3xl font-bold text-white">{{ $member->tickets()->where('team_id', $team->id)->open()->count() }}</p>
             </div>
             <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
                 <p class="text-sm font-medium text-slate-400 mb-1">Member Since</p>

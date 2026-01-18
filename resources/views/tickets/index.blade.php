@@ -21,7 +21,7 @@
             </div>
             <div class="space-y-3 min-h-[500px]" id="open">
                 @foreach($tickets->where('status', \App\Enums\TicketStatus::OPEN) as $ticket)
-                    <x-kanban-card :ticket="$ticket" />
+                    <x-kanban-card :ticket="$ticket" :team="$team" />
                 @endforeach
             </div>
         </div>
@@ -36,7 +36,7 @@
             </div>
             <div class="space-y-3 min-h-[500px]" id="in_progress">
                 @foreach($tickets->where('status', \App\Enums\TicketStatus::IN_PROGRESS) as $ticket)
-                    <x-kanban-card :ticket="$ticket" />
+                    <x-kanban-card :ticket="$ticket" :team="$team" />
                 @endforeach
             </div>
         </div>
@@ -45,13 +45,13 @@
         <div class="flex-shrink-0 w-80 md:w-auto bg-slate-900/30 rounded-xl border border-slate-800 p-4">
             <div class="flex items-center justify-between mb-4 px-1">
                 <h3 class="font-semibold text-slate-300">Waiting</h3>
-                <span id="count-waiting" class="text-sm font-bold text-orange-400 bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-500/20">
+                <span id="count-waiting" class="text-sm font-bold text-orange-400 bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-purple-500/20">
                     {{ $tickets->where('status', \App\Enums\TicketStatus::WAITING)->count() }}
                 </span>
             </div>
             <div class="space-y-3 min-h-[500px]" id="waiting">
                 @foreach($tickets->where('status', \App\Enums\TicketStatus::WAITING) as $ticket)
-                    <x-kanban-card :ticket="$ticket" />
+                    <x-kanban-card :ticket="$ticket" :team="$team" />
                 @endforeach
             </div>
         </div>
@@ -66,7 +66,7 @@
             </div>
             <div class="space-y-3 min-h-[500px]" id="closed">
                 @foreach($tickets->where('status', \App\Enums\TicketStatus::CLOSED) as $ticket)
-                    <x-kanban-card :ticket="$ticket" />
+                    <x-kanban-card :ticket="$ticket" :team="$team" />
                 @endforeach
             </div>
         </div>

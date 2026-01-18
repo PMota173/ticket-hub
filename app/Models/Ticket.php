@@ -29,6 +29,26 @@ class Ticket extends Model
         ];
     }
 
+    public function scopeOpen($query)
+    {
+        return $query->where('status', TicketStatus::OPEN);
+    }
+
+    public function scopeInProgress($query)
+    {
+        return $query->where('status', TicketStatus::IN_PROGRESS);
+    }
+
+    public function scopeWaiting($query)
+    {
+        return $query->where('status', TicketStatus::WAITING);
+    }
+
+    public function scopeClosed($query)
+    {
+        return $query->where('status', TicketStatus::CLOSED);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

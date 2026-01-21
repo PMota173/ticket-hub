@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Team extends Model
 {
@@ -38,7 +40,7 @@ class Team extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function users()
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'team_user')->withPivot('is_admin')->withTimestamps();
     }
@@ -53,8 +55,13 @@ class Team extends Model
         return $this->hasMany(Tag::class);
     }
 
-    function hasAdmin(User $user)
+    public function hasAdmin(User $user)
     {
         return $this->users()->where('user_id', $user->id)->wherePivot('is_admin', true)->exists();
+    }
+
+    public function invites(): HasMany
+    {
+        return $this->hasMany(TeamInvitation::class);
     }
 }

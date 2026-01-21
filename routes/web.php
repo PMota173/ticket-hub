@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TeamInvitationController;
 use App\Http\Controllers\TeamMemberController;
 use App\Http\Controllers\TicketCommentController;
 use App\Http\Controllers\TicketsController;
@@ -22,10 +23,11 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [SessionController::class, 'store']);
 });
 
-Route::delete('/logout', [SessionController::class, 'destroy'])->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
+    Route::delete('/logout', [SessionController::class, 'destroy']);
 
     // teams routes
     Route::get('/teams/create', [TeamController::class, 'create'])->name('teams.create');
@@ -53,7 +55,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/tickets/{ticket}/comments', [TicketCommentController::class, 'store'])->name('tickets.comments.store');
         Route::delete('/tickets/{ticket}/comments/{comment}', [TicketCommentController::class, 'destroy'])->name('tickets.comments.destroy');
 
-
         // team members routes
         Route::get('/members', [TeamMemberController::class, 'index'])->name('members.index');
         Route::get('/members/{member}', [TeamMemberController::class, 'show'])->name('members.show');
@@ -65,5 +66,16 @@ Route::middleware('auth')->group(function () {
         Route::patch('/members/{member}', [TeamMemberController::class, 'update'])->name('members.update');
 
         Route::delete('/members/{member}', [TeamMemberController::class, 'destroy'])->name('members.destroy');
+
+        // team invitation routes
+        Route::get('/invitations', [TeamInvitationController::class, 'index'])->name('invitations.index');
+        Route::get('/invitations/{invitation}', [TeamInvitationController::class, 'show'])->name('invitations.show');
+        Route::get('invitations/create', [TeamInvitationController::class, 'create'])->name('invitations.create');
+
+        Route::post('invitations', [TeamInvitationController::class, 'store'])->name('invitations.store');
+        Route::delete('invitations/{invitation}', [TeamInvitationController::class, 'destroy'])->name('invitations.destroy');
     });
 });
+
+// public invitation link
+Route::get('/invitations/{token}', [TeamInvitationController::class, 'accept'])->name('invitations.accept');

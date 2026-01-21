@@ -25,6 +25,11 @@ class TeamInvitationController extends Controller
         return view('teams.invitations.create', compact('team'));
     }
 
+    public function show(Request $request, Team $team, TeamInvitation $invitation)
+    {
+        //
+    }
+
     public function store(StoreTeamInvitationRequest $request, Team $team)
     {
         $this->authorize('addMember', $team);

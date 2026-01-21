@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "laravel-boost": {
+      "command": "/usr/bin/php",
+      "args": [
+        "/home/pedro/git-projects/ticket-hub/artisan",
+        "boost:mcp"
+      ]
+    }
+  }
+}

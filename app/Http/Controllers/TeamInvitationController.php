@@ -6,7 +6,9 @@ use App\Http\Requests\StoreTeamInvitationRequest;
 use App\Models\Team;
 use App\Models\TeamInvitation;
 use App\Models\User;
+use App\Notifications\TeamInvitationNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 class TeamInvitationController extends Controller
@@ -50,7 +52,9 @@ class TeamInvitationController extends Controller
 
         $invitation = TeamInvitation::create($attributes);
 
-        // notification (email with link) to be done
+        // notification (email with link)
+        Notification::route('mail', $invitation->email)
+            ->notify(new TeamInvitationNotification($invitation));
 
         // route teams.invitations.index is to be created too
         return redirect()->route('invitations.index', compact('team'));

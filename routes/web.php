@@ -34,6 +34,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
     Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
 
+    // my invitations routes
+    Route::get('/my-invitations', [TeamInvitationController::class, 'myInvitations'])->name('my-invitations.index');
+    Route::delete('/my-invitations/{invitation}', [TeamInvitationController::class, 'decline'])->name('my-invitations.destroy');
+
     // Team Scoped Routes
     Route::prefix('/teams/{team:slug}')->group(function () {
         Route::get('/', [TeamController::class, 'show'])->name('teams.show');
@@ -69,8 +73,8 @@ Route::middleware('auth')->group(function () {
 
         // team invitation routes
         Route::get('/invitations', [TeamInvitationController::class, 'index'])->name('invitations.index');
-        Route::get('/invitations/{invitation}', [TeamInvitationController::class, 'show'])->name('invitations.show');
         Route::get('invitations/create', [TeamInvitationController::class, 'create'])->name('invitations.create');
+        Route::get('/invitations/{invitation}', [TeamInvitationController::class, 'show'])->name('invitations.show');
 
         Route::post('invitations', [TeamInvitationController::class, 'store'])->name('invitations.store');
         Route::delete('invitations/{invitation}', [TeamInvitationController::class, 'destroy'])->name('invitations.destroy');

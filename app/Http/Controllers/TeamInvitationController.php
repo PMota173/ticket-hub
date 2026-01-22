@@ -13,9 +13,15 @@ class TeamInvitationController extends Controller
 {
     public function index(Request $request, Team $team)
     {
-       $this->authorize('view', $team);
+        $this->authorize('view', $team);
 
-       return view('teams.invitations.index', compact('team'));
+        $invitations = $team->invites()
+            ->with('invitedBy')        // Eager load
+            ->whereNull('accepted_at')
+            ->latest()
+            ->get();
+
+        return view('teams.invitations.index', compact('team', 'invitations'));
     }
 
     public function create(Request $request, Team $team)
@@ -47,7 +53,7 @@ class TeamInvitationController extends Controller
         // notification (email with link) to be done
 
         // route teams.invitations.index is to be created too
-        return redirect()->route('teams.invitations.index', compact('team'));
+        return redirect()->route('invitations.index', compact('team'));
     }
 
     public function destroy(Request $request, Team $team, TeamInvitation $invitation)
@@ -60,7 +66,7 @@ class TeamInvitationController extends Controller
         return redirect()->back();
     }
 
-    public function accept(String $token)
+    public function accept(string $token)
     {
         // get invitation
         $invitation = TeamInvitation::where('token', $token)->firstOrFail();
@@ -68,8 +74,8 @@ class TeamInvitationController extends Controller
         $team = $invitation->team;
 
         // verify if invite is still valid
-        if ($invitation->expires_at && $invitation->expires_at->isPast() ) {
-           abort(403, 'This invitation has expired.');
+        if ($invitation->expires_at && $invitation->expires_at->isPast()) {
+            abort(403, 'This invitation has expired.');
         }
 
         // if the invite has already been accepted, redirect to the dashboard
@@ -78,13 +84,12 @@ class TeamInvitationController extends Controller
         }
 
         // if the user is logged in
-        if (auth()->check())
-        {
+        if (auth()->check()) {
             $user = auth()->user();
 
             // check if it is the correct email
             if ($user->email !== $invitation->email) {
-                abort(403, 'This invitation is for ' . $invitation->email . ' but you are logged as ' . $user->email);
+                abort(403, 'This invitation is for '.$invitation->email.' but you are logged as '.$user->email);
             }
 
             // if not, accept the invite
@@ -107,6 +112,29 @@ class TeamInvitationController extends Controller
             return redirect()->route('register', ['email' => $invitation->email]);
         }
 
+    }
+
+    public function myInvitations(Request $request)
+    {
+        $invitations = TeamInvitation::where('email', auth()->user()->email)
+            ->whereNull('accepted_at')
+            ->with(['team', 'invitedBy'])
+            ->latest()
+            ->get();
+
+        return view('my-invitations.index', compact('invitations'));
+    }
+
+    public function decline(TeamInvitation $invitation)
+    {
+        // Ensure the invitation belongs to the current user
+        if ($invitation->email !== auth()->user()->email) {
+            abort(403);
+        }
+
+        $invitation->delete();
+
+        return redirect()->route('my-invitations.index')->with('status', 'Invitation declined.');
     }
 
 }

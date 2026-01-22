@@ -4,7 +4,7 @@
             <h2 class="text-3xl font-bold tracking-tight text-white">Team Members</h2>
             <p class="text-slate-400 mt-2">Manage your team members and their roles.</p>
         </div>
-        <x-blue-button href="#">
+        <x-blue-button href="{{ route('invitations.create', $team) }}">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-plus"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
             Invite Member
         </x-blue-button>
@@ -78,9 +78,9 @@
                                         <a href="{{ route('members.edit', ['team' => $team, 'member' => $member]) }}" class="text-slate-400 hover:text-blue-400 transition-colors" title="Change Role">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
                                         </a>
-                                        <button 
+                                        <button
                                             onclick="openModal('remove-member-modal', '{{ route('members.destroy', ['team' => $team, 'member' => $member]) }}')"
-                                            class="text-slate-400 hover:text-red-500 transition-colors" 
+                                            class="text-slate-400 hover:text-red-500 transition-colors"
                                             title="Remove Member"
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-minus"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="22" x2="16" y1="11" y2="11"/></svg>

@@ -2,7 +2,6 @@
 
 use App\Models\Team;
 use App\Models\User;
-use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 
 // --- INDEX ---
 
@@ -121,7 +120,6 @@ test('admin user can edit member role', function () {
     $team->users()->attach($memberToEdit, ['is_admin' => false]);
 
     $this->actingAs($admin)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->put(route('members.update', ['team' => $team, 'member' => $memberToEdit]), [
             'is_admin' => true,
         ])
@@ -139,7 +137,6 @@ test('non-admin users cannot edit member role', function () {
     $team->users()->attach($otherMember, ['is_admin' => false]);
 
     $this->actingAs($member)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->put(route('members.update', ['team' => $team, 'member' => $otherMember]), [
             'is_admin' => true,
         ])
@@ -157,7 +154,6 @@ test('update fails with invalid data', function () {
     $team->users()->attach($memberToEdit, ['is_admin' => false]);
 
     $this->actingAs($admin)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->put(route('members.update', ['team' => $team, 'member' => $memberToEdit]), [
             'is_admin' => 'not-a-boolean',
         ])
@@ -175,7 +171,6 @@ test('update to the same role succeeds without changes', function () {
     $team->users()->attach($memberToEdit, ['is_admin' => false]);
 
     $this->actingAs($admin)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->put(route('members.update', ['team' => $team, 'member' => $memberToEdit]), [
             'is_admin' => false,
         ])
@@ -190,7 +185,6 @@ test('remove admin role from last admin fails', function () {
     $team->users()->attach($admin, ['is_admin' => true]);
 
     $this->actingAs($admin)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->put(route('members.update', ['team' => $team, 'member' => $admin]), [
             'is_admin' => false,
         ])
@@ -208,7 +202,6 @@ test('editing a user outside of the team fails', function () {
     // Outsider is NOT in the team
 
     $this->actingAs($admin)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->put(route('members.update', ['team' => $team, 'member' => $outsider]), [
             'is_admin' => true,
         ])
@@ -226,7 +219,6 @@ test('admins can remove members', function () {
     $team->users()->attach($memberToRemove, ['is_admin' => false]);
 
     $this->actingAs($admin)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->delete(route('members.destroy', ['team' => $team, 'member' => $memberToRemove]))
         ->assertRedirect();
 
@@ -242,7 +234,6 @@ test('non-admins cannot remove members', function () {
     $team->users()->attach($otherMember, ['is_admin' => false]);
 
     $this->actingAs($member)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->delete(route('members.destroy', ['team' => $team, 'member' => $otherMember]))
         ->assertForbidden();
 
@@ -255,7 +246,6 @@ test('users cannot remove themselves', function () {
     $team->users()->attach($admin, ['is_admin' => true]);
 
     $this->actingAs($admin)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->delete(route('members.destroy', ['team' => $team, 'member' => $admin]))
         ->assertForbidden();
 

@@ -6,7 +6,6 @@ use App\Models\Ticket;
 use App\Models\User;
 
 test('users can comment on tickets', function () {
-    $this->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
     $user = User::factory()->create();
     $team = Team::factory()->create();
     $team->users()->attach($user);

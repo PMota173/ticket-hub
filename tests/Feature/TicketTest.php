@@ -4,7 +4,6 @@ use App\Models\Team;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Models\Tag;
-use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 
 // --- AUTHORIZATION & VIEWING ---
 
@@ -46,7 +45,6 @@ test('team member can create ticket', function () {
     $team->users()->attach($user, ['is_admin' => true]);
 
     $this->actingAs($user)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->post(route('tickets.store', $team), [
             'title' => 'New Bug',
             'description' => 'Something is broken',
@@ -70,7 +68,6 @@ test('team member can assign ticket during creation', function () {
     $team->users()->attach($otherMember, ['is_admin' => false]);
 
     $this->actingAs($user)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->post(route('tickets.store', $team), [
             'title' => 'Assigned Ticket',
             'description' => 'For you',
@@ -94,7 +91,6 @@ test('non-member CANNOT assign ticket during creation', function () {
     $team->users()->attach($member);
 
     $this->actingAs($user)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->post(route('tickets.store', $team), [
             'title' => 'Hacker Ticket',
             'description' => 'Trying to assign',
@@ -110,6 +106,48 @@ test('non-member CANNOT assign ticket during creation', function () {
     ]);
 });
 
+test('cannot create ticket with empty title', function () {
+    $user = User::factory()->create();
+    $team = Team::factory()->create();
+    $team->users()->attach($user);
+
+    $this->actingAs($user)
+        ->post(route('tickets.store', $team), [
+            'title' => '',
+            'priority' => 'low',
+            'status' => 'open',
+        ])
+        ->assertSessionHasErrors('title');
+});
+
+test('cannot create ticket with invalid priority', function () {
+    $user = User::factory()->create();
+    $team = Team::factory()->create();
+    $team->users()->attach($user);
+
+    $this->actingAs($user)
+        ->post(route('tickets.store', $team), [
+            'title' => 'Invalid Priority',
+            'priority' => 'critical-meltdown', // Invalid
+            'status' => 'open',
+        ])
+        ->assertSessionHasErrors('priority');
+});
+
+test('cannot create ticket with invalid status', function () {
+    $user = User::factory()->create();
+    $team = Team::factory()->create();
+    $team->users()->attach($user);
+
+    $this->actingAs($user)
+        ->post(route('tickets.store', $team), [
+            'title' => 'Invalid Status',
+            'priority' => 'low',
+            'status' => 'archived-forever', // Invalid
+        ])
+        ->assertSessionHasErrors('status');
+});
+
 // --- UPDATING ---
 
 test('ticket owner can update ticket', function () {
@@ -119,7 +157,6 @@ test('ticket owner can update ticket', function () {
     $ticket = Ticket::factory()->create(['user_id' => $user->id, 'team_id' => $team->id]);
 
     $this->actingAs($user)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->patch(route('tickets.update', [$team, $ticket]), [
             'title' => 'Updated Title',
         ])
@@ -138,7 +175,6 @@ test('team admin can update any ticket', function () {
     $ticket = Ticket::factory()->create(['user_id' => $user->id, 'team_id' => $team->id]);
 
     $this->actingAs($admin)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->patch(route('tickets.update', [$team, $ticket]), [
             'status' => 'closed',
         ]);
@@ -156,7 +192,6 @@ test('any team member CAN update any ticket', function () {
     $ticket = Ticket::factory()->create(['user_id' => $user2->id, 'team_id' => $team->id]);
 
     $this->actingAs($user1)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->patch(route('tickets.update', [$team, $ticket]), [
             'title' => 'Collaborative Edit',
         ])
@@ -176,7 +211,6 @@ test('member can assign ticket to themselves', function () {
     $ticket = Ticket::factory()->create(['team_id' => $team->id]);
 
     $this->actingAs($user)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->patch(route('tickets.update', [$team, $ticket]), [
             'assigned_id' => $user->id,
         ])
@@ -199,7 +233,6 @@ test('member can unassign themselves', function () {
     ]);
 
     $this->actingAs($user)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->patch(route('tickets.update', [$team, $ticket]), [
             'assigned_id' => '', // Sending empty string to unassign
         ])
@@ -220,7 +253,6 @@ test('team member can add tag to ticket', function () {
     $ticket = Ticket::factory()->create(['team_id' => $team->id, 'user_id' => $user->id]);
 
     $this->actingAs($user)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->post(route('tickets.tags.store', [$team, $ticket]), [
             'name' => 'Urgent Bug',
         ]);
@@ -238,7 +270,6 @@ test('tag is reused if exists in team', function () {
     $ticket = Ticket::factory()->create(['team_id' => $team->id, 'user_id' => $user->id]);
 
     $this->actingAs($user)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->post(route('tickets.tags.store', [$team, $ticket]), [
             'name' => 'Existing Tag',
         ]);
@@ -257,7 +288,6 @@ test('team member can remove tag', function () {
     $ticket->tags()->attach($tag);
 
     $this->actingAs($user)
-        ->withoutMiddleware(ValidateCsrfToken::class)
         ->delete(route('tickets.tags.destroy', [$team, $ticket, $tag]));
 
     $this->assertFalse($ticket->tags()->where('name', 'Remove Me')->exists());

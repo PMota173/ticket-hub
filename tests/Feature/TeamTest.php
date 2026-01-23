@@ -85,3 +85,22 @@ test('duplicate team names get unique slugs', function () {
         ->and($teams[0]->slug)->toBe('acme-corp')
         ->and($teams[1]->slug)->toStartWith('acme-corp-');
 });
+
+test('non-member cannot view private team dashboard', function () {
+    $user = User::factory()->create();
+    $team = Team::factory()->create(['is_private' => true]);
+
+    $this->actingAs($user)
+        ->get(route('teams.show', $team))
+        ->assertForbidden();
+});
+
+// the business logic to this test needs to be validated
+//test('non-member can view public team dashboard', function () {
+//    $user = User::factory()->create();
+//    $team = Team::factory()->create(['is_private' => false]);
+//
+//    $this->actingAs($user)
+//        ->get(route('teams.show', $team))
+//        ->assertOk();
+//});

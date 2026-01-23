@@ -97,7 +97,7 @@ class TeamInvitationController extends Controller
             }
 
             // if not, accept the invite
-            $invitation->team->users()->attach($user);
+            $invitation->team->users()->syncWithoutDetaching([$user->id]);
             $invitation->update(['accepted_at' => now()]);
 
             return redirect()->route('dashboard')->with('status', 'You have accepted this invitation.');

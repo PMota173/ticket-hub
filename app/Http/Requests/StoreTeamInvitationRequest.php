@@ -34,7 +34,7 @@ class StoreTeamInvitationRequest extends FormRequest
                 // Check if already invited
                 function ($attribute, $value, $fail) {
                     if ($this->route('team')->invites()->where('email', $value)->exists()) {
-                        $fail('An invitation has already bee sent to this email.');
+                        $fail('An invitation has already been sent to this email.');
                     }
                 },
             ],

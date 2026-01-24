@@ -15,7 +15,7 @@
             @csrf
             
             <x-form-input name="name" label="Full Name" placeholder="John Doe" required />
-            <x-form-input name="email" label="Email" type="email" placeholder="name@company.com" required />
+            <x-form-input name="email" label="Email" type="email" placeholder="name@company.com" required :value="request('email')" />
             <x-form-input name="password" label="Password" type="password" placeholder="••••••••" required />
             <x-form-input name="password_confirmation" label="Confirm Password" type="password" placeholder="••••••••" required />
 

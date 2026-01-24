@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTeamRequest;
+use App\Http\Requests\UpdateTeamRequest;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -77,17 +78,28 @@ class TeamController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Team $team)
     {
-        //
+        $user = auth()->user();
+
+        $this->authorize('update', $team);
+
+        return view('teams.edit', compact('team'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTeamRequest $request, Team $team)
     {
-        //
+        $this->authorize('update', $team);
+
+        $attributes = $request->validated();
+        $attributes['is_private'] = $request->has('is_private');
+
+        $team->update($attributes);
+
+        return redirect(route('teams.show', $team))->with('status', 'Team updated successfully.');
     }
 
     /**

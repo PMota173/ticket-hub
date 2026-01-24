@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
     Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
 
+
     // my invitations routes
     Route::get('/my-invitations', [TeamInvitationController::class, 'myInvitations'])->name('my-invitations.index');
     Route::delete('/my-invitations/{invitation}', [TeamInvitationController::class, 'decline'])->name('my-invitations.destroy');
@@ -41,6 +42,8 @@ Route::middleware('auth')->group(function () {
     // Team Scoped Routes
     Route::prefix('/teams/{team:slug}')->group(function () {
         Route::get('/', [TeamController::class, 'show'])->name('teams.show');
+        Route::get('/edit', [TeamController::class, 'edit'])->name('teams.edit');
+        Route::patch('/edit', [TeamController::class, 'update'])->name('teams.update');
 
         // tickets routes
         Route::get('/tickets/create', [TicketsController::class, 'create'])->name('tickets.create');

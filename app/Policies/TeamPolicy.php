@@ -38,7 +38,7 @@ class TeamPolicy
      */
     public function update(User $user, Team $team): bool
     {
-        return false;
+        return $team->hasAdmin($user);
     }
 
     /**

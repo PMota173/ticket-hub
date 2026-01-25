@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTeamRequest;
 use App\Http\Requests\UpdateTeamRequest;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TeamController extends Controller
 {
@@ -92,9 +93,23 @@ class TeamController extends Controller
      */
     public function update(UpdateTeamRequest $request, Team $team)
     {
-        $this->authorize('update', $team);
+       $this->authorize('update', $team);
 
         $attributes = $request->validated();
+
+        if ($request->hasFile('logo')) {
+
+            if ($team->logo) {
+                Storage::disk('public')->delete($team->logo);
+            }
+
+            // stores the image
+            $path = $request->file('logo')->store('team-logos', 'public');
+
+            // updates the attributes
+            $attributes['logo'] = $path;
+        }
+
         $attributes['is_private'] = $request->has('is_private');
 
         $team->update($attributes);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TeamController;
@@ -29,6 +30,11 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/logout', [SessionController::class, 'destroy']);
 
+    // profile routes
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile/edit', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile/view/{user}', [ProfileController::class, 'show'])->name('profile.show');
+
     // teams routes
     Route::get('/teams/create', [TeamController::class, 'create'])->name('teams.create');
     Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
@@ -38,6 +44,11 @@ Route::middleware('auth')->group(function () {
     // my invitations routes
     Route::get('/my-invitations', [TeamInvitationController::class, 'myInvitations'])->name('my-invitations.index');
     Route::delete('/my-invitations/{invitation}', [TeamInvitationController::class, 'decline'])->name('my-invitations.destroy');
+
+    // Profile & Settings
+    Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/settings/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/users/{user}', [ProfileController::class, 'show'])->name('users.show');
 
     // Team Scoped Routes
     Route::prefix('/teams/{team:slug}')->group(function () {

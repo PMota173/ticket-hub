@@ -51,9 +51,15 @@
                             <div class="p-4 border-b border-slate-800 last:border-0 hover:bg-slate-800/30 transition-colors">
                                 <div class="flex gap-4">
                                     <div class="flex-shrink-0 mt-1">
-                                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
-                                            {{ substr($ticket->user->name, 0, 1) }}
-                                        </div>
+                                        @if($ticket->user->avatar_path)
+                                            <img src="{{ asset('storage/' . $ticket->user->avatar_path) }}" 
+                                                 alt="{{ $ticket->user->name }}" 
+                                                 class="w-10 h-10 rounded-full object-cover border border-slate-700">
+                                        @else
+                                            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
+                                                {{ substr($ticket->user->name, 0, 1) }}
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="flex-grow min-w-0">
                                         <div class="flex items-center justify-between gap-2 mb-1">

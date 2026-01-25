@@ -78,8 +78,8 @@
                 My Invitations
             </a>
 
-            <a href="#"
-               class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 text-slate-400 hover:bg-slate-800 hover:text-white opacity-50 cursor-not-allowed">
+            <a href="{{ route('profile.edit') }}"
+               class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 {{ request()->routeIs('profile.edit') ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                      class="lucide lucide-settings">
@@ -94,28 +94,39 @@
 
     <!-- User Profile -->
     <div class="mt-auto p-4 border-t border-slate-800">
-        <div class="bg-slate-950/50 rounded-xl p-4 flex items-center gap-3 border border-slate-800/50">
-            <div
-                class="w-10 h-10 rounded-lg bg-blue-600/10 flex items-center justify-center text-blue-500 font-bold border border-blue-500/20">
-                {{ substr(Auth::user()->name, 0, 1) }}
+        <a href="{{ route('users.show', auth()->user()) }}" class="block group">
+            <div class="bg-slate-950/50 rounded-xl p-4 flex items-center gap-3 border border-slate-800/50 group-hover:border-blue-500/30 transition-colors">
+                <div class="w-10 h-10 flex-shrink-0">
+                    @if(auth()->user()->avatar_path)
+                        <img src="{{ asset('storage/' . auth()->user()->avatar_path) }}" 
+                             alt="{{ auth()->user()->name }}" 
+                             class="w-full h-full rounded-lg object-cover border border-slate-700">
+                    @else
+                        <div class="w-full h-full rounded-lg bg-blue-600/10 flex items-center justify-center text-blue-500 font-bold border border-blue-500/20">
+                            {{ substr(auth()->user()->name, 0, 1) }}
+                        </div>
+                    @endif
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-white truncate group-hover:text-blue-400 transition-colors">{{ auth()->user()->name }}</p>
+                    <p class="text-xs text-slate-500 truncate">{{ auth()->user()->email }}</p>
+                </div>
+                <div class="flex-shrink-0">
+                    <form action="/logout" method="POST" onclick="event.stopPropagation()">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-slate-500 hover:text-red-400 transition-colors p-1" title="Log Out">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="lucide lucide-log-out">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                <polyline points="16 17 21 12 16 7"/>
+                                <line x1="21" x2="9" y1="12" y2="12"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
             </div>
-            <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold text-white truncate">{{ Auth::user()->name }}</p>
-                <p class="text-xs text-slate-500 truncate">{{ Auth::user()->email }}</p>
-            </div>
-            <form action="/logout" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="text-slate-500 hover:text-red-400 transition-colors p-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                         class="lucide lucide-log-out">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                        <polyline points="16 17 21 12 16 7"/>
-                        <line x1="21" x2="9" y1="12" y2="12"/>
-                    </svg>
-                </button>
-            </form>
-        </div>
+        </a>
     </div>
 </aside>

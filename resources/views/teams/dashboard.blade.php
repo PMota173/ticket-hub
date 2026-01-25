@@ -95,8 +95,12 @@
                             </div>
                             <div class="flex items-center text-xs text-slate-500 gap-2">
                                 <div class="flex items-center gap-1.5 truncate">
-                                    <div class="w-4 h-4 rounded-full bg-slate-800 flex items-center justify-center text-[8px] font-bold text-slate-400 border border-slate-700">
-                                        {{ substr($ticket->user->name, 0, 1) }}
+                                    <div class="w-4 h-4 rounded-full bg-slate-800 flex items-center justify-center text-[8px] font-bold text-slate-400 border border-slate-700 overflow-hidden">
+                                        @if($ticket->user->avatar_path)
+                                            <img src="{{ asset('storage/' . $ticket->user->avatar_path) }}" alt="{{ $ticket->user->name }}" class="w-full h-full object-cover">
+                                        @else
+                                            {{ substr($ticket->user->name, 0, 1) }}
+                                        @endif
                                     </div>
                                     <span class="truncate">{{ $ticket->user->name }}</span>
                                 </div>
@@ -158,8 +162,12 @@
                                 <td class="px-6 py-4 text-slate-400">
                                     @if($ticket->assignee)
                                         <div class="flex items-center gap-2">
-                                            <div class="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-300 border border-slate-600">
-                                                {{ substr($ticket->assignee->name, 0, 1) }}
+                                            <div class="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-300 border border-slate-600 overflow-hidden">
+                                                @if($ticket->assignee->avatar_path)
+                                                    <img src="{{ asset('storage/' . $ticket->assignee->avatar_path) }}" alt="{{ $ticket->assignee->name }}" class="w-full h-full object-cover">
+                                                @else
+                                                    {{ substr($ticket->assignee->name, 0, 1) }}
+                                                @endif
                                             </div>
                                             <span class="text-xs text-slate-300">{{ $ticket->assignee->name }}</span>
                                         </div>

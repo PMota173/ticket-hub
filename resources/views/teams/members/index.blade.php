@@ -40,9 +40,15 @@
                         <tr class="hover:bg-slate-800/30 transition-colors">
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
-                                        {{ substr($member->name, 0, 1) }}
-                                    </div>
+                                    @if($member->avatar_path)
+                                        <img src="{{ asset('storage/' . $member->avatar_path) }}" 
+                                             alt="{{ $member->name }}" 
+                                             class="w-10 h-10 rounded-full object-cover border border-slate-700">
+                                    @else
+                                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
+                                            {{ substr($member->name, 0, 1) }}
+                                        </div>
+                                    @endif
                                     <div>
                                         <a href="{{ route('members.show', ['team' => $team, 'member' => $member]) }}" class="font-medium text-white hover:text-blue-400 transition-colors">
                                             {{ $member->name }}

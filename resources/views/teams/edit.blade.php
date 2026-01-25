@@ -1,4 +1,4 @@
-<x-layouts.app title="Edit Team - {{ config('app.name', 'Ticket Hub') }}" sidebar="global">
+<x-layouts.app title="Edit Team - {{ config('app.name', 'Ticket Hub') }}">
     <div class="max-w-2xl mx-auto">
         <!-- Header -->
         <div class="mb-8">
@@ -8,7 +8,7 @@
 
         <!-- Form Card -->
         <div class="bg-slate-900/50 border border-slate-700 rounded-xl shadow-sm p-8">
-            <form action="{{ route('teams.update', $team) }}" method="POST" class="space-y-8">
+            <form action="{{ route('teams.update', $team) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
                 @csrf
                 @method('PATCH')
 
@@ -27,7 +27,44 @@
                         >{{ old('description', $team->description) }}</textarea>
                     </div>
 
-                    <x-form-input name="logo" label="Logo URL" :value="$team->logo" placeholder="https://example.com/logo.png" />
+                    <!-- Logo Input -->
+                    <div class="space-y-4">
+                        <label class="text-sm font-medium text-slate-300">Team Logo</label>
+                        
+                        <div class="flex items-center gap-6 p-4 rounded-xl bg-slate-950/30 border border-slate-700/50">
+                            <!-- Current Preview -->
+                            <div class="flex-shrink-0">
+                                @if($team->logo)
+                                    <img src="{{ asset('storage/' . $team->logo) }}" 
+                                         alt="{{ $team->name }} Logo" 
+                                         class="w-20 h-20 rounded-2xl object-cover border-2 border-slate-700 shadow-xl">
+                                @else
+                                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center border-2 border-slate-700 shadow-xl">
+                                        <span class="text-2xl font-black text-slate-600 uppercase">{{ substr($team->name, 0, 1) }}</span>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- File Input -->
+                            <div class="flex-grow">
+                                <input type="file" 
+                                       name="logo" 
+                                       id="logo" 
+                                       accept="image/*"
+                                       class="block w-full text-sm text-slate-400
+                                              file:mr-4 file:py-2 file:px-4
+                                              file:rounded-lg file:border-0
+                                              file:text-xs file:font-bold file:uppercase file:tracking-wider
+                                              file:bg-blue-600 file:text-white
+                                              hover:file:bg-blue-500
+                                              cursor-pointer transition-all">
+                                <p class="mt-2 text-[10px] font-bold text-slate-500 uppercase tracking-tight">JPG, PNG or GIF • Max 1MB</p>
+                            </div>
+                        </div>
+                        @error('logo')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
 
                     <!-- Private Toggle -->
                     <div class="flex items-center justify-between p-4 bg-slate-950/30 rounded-lg border border-slate-700/50">

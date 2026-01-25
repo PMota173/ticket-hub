@@ -35,9 +35,15 @@
                         @forelse($ticket->comments as $comment)
                             <div class="flex gap-4 group">
                                 <div class="flex-shrink-0">
-                                    <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
-                                        {{ substr($comment->user->name, 0, 1) }}
-                                    </div>
+                                    @if($comment->user->avatar_path)
+                                        <img src="{{ asset('storage/' . $comment->user->avatar_path) }}" 
+                                             alt="{{ $comment->user->name }}" 
+                                             class="w-10 h-10 rounded-full object-cover border border-slate-700">
+                                    @else
+                                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
+                                            {{ substr($comment->user->name, 0, 1) }}
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="flex-grow">
                                     <div class="flex items-center justify-between mb-1">
@@ -68,9 +74,15 @@
                     <!-- Add Comment Form -->
                     <div class="flex gap-4">
                         <div class="flex-shrink-0 hidden sm:block">
-                            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
-                                {{ substr(auth()->user()->name, 0, 1) }}
-                            </div>
+                            @if(auth()->user()->avatar_path)
+                                <img src="{{ asset('storage/' . auth()->user()->avatar_path) }}" 
+                                     alt="{{ auth()->user()->name }}" 
+                                     class="w-10 h-10 rounded-full object-cover border border-slate-700">
+                            @else
+                                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
+                                    {{ substr(auth()->user()->name, 0, 1) }}
+                                </div>
+                            @endif
                         </div>
                         <div class="flex-grow">
                             <form action="{{ route('tickets.comments.store', [$team, $ticket]) }}" method="POST">
@@ -157,9 +169,15 @@
 
                     @if($ticket->assignee)
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
-                                {{ substr($ticket->assignee->name, 0, 1) }}
-                            </div>
+                            @if($ticket->assignee->avatar_path)
+                                <img src="{{ asset('storage/' . $ticket->assignee->avatar_path) }}" 
+                                     alt="{{ $ticket->assignee->name }}" 
+                                     class="w-10 h-10 rounded-full object-cover border border-slate-700">
+                            @else
+                                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
+                                    {{ substr($ticket->assignee->name, 0, 1) }}
+                                </div>
+                            @endif
                             <div>
                                 <p class="text-sm font-medium text-white">{{ $ticket->assignee->name }}</p>
                                 <p class="text-xs text-slate-500">{{ $ticket->assignee->email }}</p>

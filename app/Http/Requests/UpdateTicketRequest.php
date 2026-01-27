@@ -26,7 +26,7 @@ class UpdateTicketRequest extends FormRequest
     {
         return [
             'title' => ['sometimes', 'required', 'string', 'max:255'],
-            'description' => ['sometimes', 'nullable', 'string'],
+            'description' => ['sometimes', 'required', 'string'],
             'priority' => ['sometimes', Rule::enum(TicketPriority::class)],
             'status' => ['sometimes', Rule::enum(TicketStatus::class)],
             'assigned_id' => ['sometimes', 'nullable', 'exists:users,id'],

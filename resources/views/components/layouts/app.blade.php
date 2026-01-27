@@ -6,96 +6,69 @@
     <title>{{ $title ?? config('app.name', 'Ticket Hub') }}</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800" rel="stylesheet" />
 
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @else
     @endif
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
 </head>
-@props(['title', 'sidebar' => 'team'])
-
-<body class="text-white bg-slate-950 font-sans antialiased">
+<body class="bg-slate-950 text-white font-sans antialiased selection:bg-blue-500 selection:text-white">
+    
     <div class="flex min-h-screen">
         <!-- Sidebar -->
-        @if($sidebar === 'global')
-            <x-global-sidebar />
+        @if(isset($sidebar))
+            @if($sidebar === 'global')
+                <x-global-sidebar />
+            @else
+                <x-sidebar />
+            @endif
         @else
-            <x-sidebar />
+            <x-global-sidebar />
         @endif
 
         <!-- Main Content -->
-        <main class="flex-1 overflow-y-auto">
-            <div class="py-6 px-8">
+        <div class="flex-1 flex flex-col min-w-0">
+            <main class="flex-1 p-6 lg:p-8 overflow-y-auto">
                 {{ $slot }}
-            </div>
-        </main>
+            </main>
+        </div>
     </div>
-    <script>
-        function openModal(modalId, actionUrl) {
-            const modal = document.getElementById(modalId);
-            const backdrop = document.getElementById(modalId + '-backdrop');
-            const panel = document.getElementById(modalId + '-panel');
-            const form = document.getElementById(modalId + '-form');
 
-            if (form && actionUrl) {
+    <script>
+        function openModal(id, actionUrl = null) {
+            const modal = document.getElementById(id);
+            const backdrop = document.getElementById(id + '-backdrop');
+            const panel = document.getElementById(id + '-panel');
+            const form = document.getElementById(id + '-form');
+
+            if (actionUrl && form) {
                 form.action = actionUrl;
             }
 
             modal.classList.remove('hidden');
             
-            // Trigger reflow
-            void modal.offsetWidth;
-
-            // Add transition classes for opening
-            backdrop.classList.remove('opacity-0');
-            panel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+            // Small timeout to ensure DOM update before transition
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-0');
+                panel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+            }, 10);
         }
 
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            const backdrop = document.getElementById(modalId + '-backdrop');
-            const panel = document.getElementById(modalId + '-panel');
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            const backdrop = document.getElementById(id + '-backdrop');
+            const panel = document.getElementById(id + '-panel');
 
-            // Add transition classes for closing
             backdrop.classList.add('opacity-0');
             panel.classList.add('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
 
-            // Wait for transition to finish before hiding
             setTimeout(() => {
                 modal.classList.add('hidden');
-            }, 300);
-        }
-
-        function toggleDropdown(dropdownId) {
-            const dropdown = document.getElementById(dropdownId);
-            const isHidden = dropdown.classList.contains('hidden');
-            
-            // Close all other dropdowns
-            document.querySelectorAll('[id^="dropdown-"]').forEach(el => {
-                if (el.id !== dropdownId) el.classList.add('hidden');
-            });
-
-            if (isHidden) {
-                dropdown.classList.remove('hidden');
-            } else {
-                dropdown.classList.add('hidden');
-            }
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            if (event.target.id && event.target.id.endsWith('-backdrop')) {
-                const modalId = event.target.id.replace('-backdrop', '');
-                closeModal(modalId);
-            }
-            
-            // Close dropdowns when clicking outside
-            if (!event.target.closest('button[onclick^="toggleDropdown"]')) {
-                document.querySelectorAll('[id^="dropdown-"]').forEach(el => {
-                    el.classList.add('hidden');
-                });
-            }
+            }, 300); // Match transition duration
         }
     </script>
 </body>

@@ -6,7 +6,6 @@ use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 use App\Models\Team;
 use App\Models\Ticket;
-use Illuminate\Http\Request;
 
 class TicketsController extends Controller
 {
@@ -17,7 +16,7 @@ class TicketsController extends Controller
     {
         $this->authorize('viewAny', [Ticket::class, $team]);
 
-        $tickets = $team->tickets()->with('assignee')->get();
+        $tickets = $team->tickets()->with(['assignee', 'author', 'tags'])->get();
 
         return view('tickets.index', compact('team', 'tickets'));
     }
@@ -108,5 +107,4 @@ class TicketsController extends Controller
 
         return redirect()->route('tickets.index', $team);
     }
-
 }

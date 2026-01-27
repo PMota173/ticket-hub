@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->text('body');
             $table->foreignId('ticket_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->morphs('author');
         });
     }
 

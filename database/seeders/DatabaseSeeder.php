@@ -70,7 +70,8 @@ class DatabaseSeeder extends Seeder
                 // Add comments
                 Comment::factory(rand(0, 5))->create([
                     'ticket_id' => $ticket->id,
-                    'user_id' => $team->users->random()->id,
+                    'author_id' => $users->random()->id,
+                    'author_type' => User::class,
                 ]);
             });
         }

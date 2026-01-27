@@ -17,5 +17,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/v1/tickets', [TicketController::class, 'store'])->name('api.tickets.store');
     Route::patch('/v1/tickets/{ticket}', [TicketController::class, 'update'])->name('api.tickets.update');
 
+    Route::post('v1/tickets/{ticket}/comments', [TicketController::class, 'addComment'])->name('api.tickets.comments.store');
+
     Route::get('/v1/team/members', [TeamController::class, 'members'])->name('api.team.members');
 });

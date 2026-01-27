@@ -21,7 +21,8 @@ test('users can comment on tickets', function () {
     $this->assertDatabaseHas('comments', [
         'body' => 'This is a test comment.',
         'ticket_id' => $ticket->id,
-        'user_id' => $user->id,
+        'author_id' => $user->id,
+        'author_type' => User::class,
     ]);
 });
 
@@ -47,7 +48,8 @@ test('users can delete their own comments', function () {
     $comment = Comment::create([
         'body' => 'My comment',
         'ticket_id' => $ticket->id,
-        'user_id' => $user->id,
+        'author_id' => $user->id,
+        'author_type' => User::class,
     ]);
 
     $response = $this->actingAs($user)
@@ -66,7 +68,8 @@ test('users cannot delete others comments', function () {
     $comment = Comment::create([
         'body' => 'Other comment',
         'ticket_id' => $ticket->id,
-        'user_id' => $otherUser->id,
+        'author_id' => $otherUser->id,
+        'author_type' => User::class,
     ]);
 
     $response = $this->actingAs($user)

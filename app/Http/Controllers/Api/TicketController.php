@@ -110,4 +110,25 @@ class TicketController extends Controller
     {
         //
     }
+
+    public function addComment(Ticket $ticket)
+    {
+        $robot = request()->user();
+
+        if ($ticket->team_id !== $robot->team_id) {
+            abort(404, 'You are not authorized to add a comment to this ticket.');
+        }
+
+        $attributes = request()->validate([
+            'body' => ['required', 'string'],
+        ]);
+
+        $comment = $ticket->comments()->create([
+            'author_id' => $robot->id,
+            'author_type' => get_class($robot),
+            'body' => $attributes['body'],
+        ]);
+
+        return response()->json($comment, 200);
+    }
 }

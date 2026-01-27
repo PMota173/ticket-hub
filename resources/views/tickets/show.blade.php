@@ -35,20 +35,20 @@
                         @forelse($ticket->comments as $comment)
                             <div class="flex gap-4 group">
                                 <div class="flex-shrink-0">
-                                    @if($comment->user->avatar_path)
-                                        <img src="{{ asset('storage/' . $comment->user->avatar_path) }}" 
-                                             alt="{{ $comment->user->name }}" 
+                                    @if($comment->author->avatar_path ?? false)
+                                        <img src="{{ asset('storage/' . $comment->author->avatar_path) }}" 
+                                             alt="{{ $comment->author->name }}" 
                                              class="w-10 h-10 rounded-full object-cover border border-slate-700">
                                     @else
                                         <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
-                                            {{ substr($comment->user->name, 0, 1) }}
+                                            {{ substr($comment->author->name, 0, 1) }}
                                         </div>
                                     @endif
                                 </div>
                                 <div class="flex-grow">
                                     <div class="flex items-center justify-between mb-1">
                                         <div class="flex items-center gap-2">
-                                            <span class="font-medium text-white">{{ $comment->user->name }}</span>
+                                            <span class="font-medium text-white">{{ $comment->author->name }}</span>
                                             <span class="text-xs text-slate-500">{{ $comment->created_at->diffForHumans() }}</span>
                                         </div>
                                         @can('delete', $comment)

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -29,7 +30,8 @@ class CommentFactory extends Factory
                 'Customer is asking for an update.',
                 'Deployment failed again.',
             ]) . ' ' . fake()->sentence(),
-            'user_id' => \App\Models\User::factory(),
+            'author_id' => User::factory(),
+            'author_type' => User::class,
             'ticket_id' => \App\Models\Ticket::factory(),
         ];
     }

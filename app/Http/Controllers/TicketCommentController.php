@@ -14,8 +14,8 @@ class TicketCommentController extends Controller
     {
         $attributes = $request->validated();
 
-        $user_id = auth()->id();
-        $attributes['user_id'] = $user_id;
+        $attributes['author_id'] = auth()->id();
+        $attributes['author_type'] = \App\Models\User::class;
 
         $attributes['ticket_id'] = $ticket->id;
 

@@ -113,6 +113,7 @@ Route::get('/portal/{team:slug}', [PortalController::class, 'show'])->name('port
 
 Route::get('/portal/{team:slug}/tickets/{ticket}', [PortalController::class, 'showTicket'])->name('portal.tickets.show');
 
-Route::post('/portal/{team:slug}/tickets', [PortalController::class, 'store'])
-    ->middleware('auth')
-    ->name('portal.tickets.store');
+// Error Page Testing Routes
+Route::get('/test-403', fn () => abort(403));
+Route::get('/test-500', fn () => abort(500));
+Route::get('/test-404', fn () => abort(404));

@@ -69,6 +69,12 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail {{ request()->routeIs('invitations.*') ? 'text-blue-400' : 'text-slate-500 group-hover:text-slate-300' }} transition-colors"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
             Pending Invitations
         </a>
+
+        <a href="{{ route('robots.index', $team) }}"
+           class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg group transition-all {{ request()->routeIs('robots.*') ? 'text-white bg-blue-600/10 text-blue-400' : 'text-slate-400 hover:text-white hover:bg-slate-800/50' }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot {{ request()->routeIs('robots.*') ? 'text-blue-400' : 'text-slate-500 group-hover:text-slate-300' }} transition-colors"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+            Team Robots
+        </a>
         @endif
     </nav>
 

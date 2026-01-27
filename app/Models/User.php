@@ -4,7 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -49,17 +51,17 @@ class User extends Authenticatable
         ];
     }
 
-    public function tickets(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    public function tickets(): MorphMany
     {
         return $this->morphMany(Ticket::class, 'author');
     }
 
-    public function teams()
+    public function teams(): BelongsToMany
     {
         return $this->belongsToMany(Team::class, 'team_user')->withPivot('is_admin')->withTimestamps();
     }
 
-    public function ownedTeams()
+    public function ownedTeams(): HasMany
     {
         return $this->hasMany(Team::class, 'user_id');
     }

@@ -7,6 +7,7 @@ use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamInvitationController;
 use App\Http\Controllers\TeamMemberController;
+use App\Http\Controllers\TeamRobotController;
 use App\Http\Controllers\TicketCommentController;
 use App\Http\Controllers\TicketsController;
 use App\Http\Controllers\TicketTagController;
@@ -56,6 +57,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit', [TeamController::class, 'edit'])->name('teams.edit');
         Route::patch('/edit', [TeamController::class, 'update'])->name('teams.update');
 
+
         // tickets routes
         Route::get('/tickets/create', [TicketsController::class, 'create'])->name('tickets.create');
         Route::post('/tickets', [TicketsController::class, 'store'])->name('tickets.store');
@@ -65,13 +67,16 @@ Route::middleware('auth')->group(function () {
         Route::patch('/tickets/{ticket}', [TicketsController::class, 'update'])->name('tickets.update');
         Route::delete('/tickets/{ticket}', [TicketsController::class, 'destroy'])->name('tickets.destroy');
 
+
         // tickets-tag routes
         Route::post('/tickets/{ticket}/tags', [TicketTagController::class, 'store'])->name('tickets.tags.store');
         Route::delete('/tickets/{ticket}/tags/{tag}', [TicketTagController::class, 'destroy'])->name('tickets.tags.destroy');
 
+
         // tickets-comment routes
         Route::post('/tickets/{ticket}/comments', [TicketCommentController::class, 'store'])->name('tickets.comments.store');
         Route::delete('/tickets/{ticket}/comments/{comment}', [TicketCommentController::class, 'destroy'])->name('tickets.comments.destroy');
+
 
         // team members routes
         Route::get('/members', [TeamMemberController::class, 'index'])->name('members.index');
@@ -85,6 +90,7 @@ Route::middleware('auth')->group(function () {
 
         Route::delete('/members/{member}', [TeamMemberController::class, 'destroy'])->name('members.destroy');
 
+
         // team invitation routes
         Route::get('/invitations', [TeamInvitationController::class, 'index'])->name('invitations.index');
         Route::get('invitations/create', [TeamInvitationController::class, 'create'])->name('invitations.create');
@@ -92,6 +98,12 @@ Route::middleware('auth')->group(function () {
 
         Route::post('invitations', [TeamInvitationController::class, 'store'])->name('invitations.store');
         Route::delete('invitations/{invitation}', [TeamInvitationController::class, 'destroy'])->name('invitations.destroy');
+
+
+        // robots routes
+        Route::get('/robots', [TeamRobotController::class, 'index'])->name('robots.index');
+        Route::post('/robots', [TeamRobotController::class, 'store'])->name('robots.store');
+        Route::delete('/robots/{robot}', [TeamRobotController::class, 'destroy'])->name('robots.destroy');
     });
 });
 

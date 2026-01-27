@@ -43,7 +43,8 @@ class TicketFactory extends Factory
             'description' => $issues[$title] . "\n\n" . fake()->paragraph(),
             'status' => fake()->randomElement(['open', 'open', 'in_progress', 'waiting', 'closed']), // Weighted towards open
             'priority' => fake()->randomElement(['low', 'medium', 'medium', 'high']),
-            'user_id' => User::factory(),
+            'author_id' => User::factory(),
+            'author_type' => User::class,
             'team_id' => Team::factory(),
         ];
     }

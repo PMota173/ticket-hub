@@ -14,13 +14,13 @@ class DashboardController extends Controller
         $teamIds = $teams->pluck('id');
 
         $recentTickets = Ticket::whereIn('team_id', $teamIds)
-            ->with(['user', 'team', 'assignee'])
+            ->with(['author', 'team', 'assignee'])
             ->latest()
             ->limit(10)
             ->get();
 
         $myAssignedTickets = Ticket::where('assigned_id', $user->id)
-            ->with(['user', 'team'])
+            ->with(['author', 'team'])
             ->latest()
             ->limit(5)
             ->get();

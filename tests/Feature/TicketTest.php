@@ -56,7 +56,8 @@ test('team member can create ticket', function () {
     $this->assertDatabaseHas('tickets', [
         'title' => 'New Bug',
         'team_id' => $team->id,
-        'user_id' => $user->id,
+        'author_id' => $user->id,
+        'author_type' => User::class,
     ]);
 });
 
@@ -154,7 +155,7 @@ test('ticket owner can update ticket', function () {
     $user = User::factory()->create();
     $team = Team::factory()->create();
     $team->users()->attach($user);
-    $ticket = Ticket::factory()->create(['user_id' => $user->id, 'team_id' => $team->id]);
+    $ticket = Ticket::factory()->create(['author_id' => $user->id, 'author_type' => User::class, 'team_id' => $team->id]);
 
     $this->actingAs($user)
         ->patch(route('tickets.update', [$team, $ticket]), [
@@ -172,7 +173,7 @@ test('team admin can update any ticket', function () {
     $team->users()->attach($admin, ['is_admin' => true]);
     $team->users()->attach($user, ['is_admin' => false]);
     
-    $ticket = Ticket::factory()->create(['user_id' => $user->id, 'team_id' => $team->id]);
+    $ticket = Ticket::factory()->create(['author_id' => $user->id, 'author_type' => User::class, 'team_id' => $team->id]);
 
     $this->actingAs($admin)
         ->patch(route('tickets.update', [$team, $ticket]), [
@@ -189,7 +190,7 @@ test('any team member CAN update any ticket', function () {
     $team->users()->attach($user1, ['is_admin' => false]);
     $team->users()->attach($user2, ['is_admin' => false]);
     
-    $ticket = Ticket::factory()->create(['user_id' => $user2->id, 'team_id' => $team->id]);
+    $ticket = Ticket::factory()->create(['author_id' => $user2->id, 'author_type' => User::class, 'team_id' => $team->id]);
 
     $this->actingAs($user1)
         ->patch(route('tickets.update', [$team, $ticket]), [
@@ -250,7 +251,7 @@ test('team member can add tag to ticket', function () {
     $user = User::factory()->create();
     $team = Team::factory()->create();
     $team->users()->attach($user, ['is_admin' => true]); // Admin to ensure permission
-    $ticket = Ticket::factory()->create(['team_id' => $team->id, 'user_id' => $user->id]);
+    $ticket = Ticket::factory()->create(['team_id' => $team->id, 'author_id' => $user->id, 'author_type' => User::class]);
 
     $this->actingAs($user)
         ->post(route('tickets.tags.store', [$team, $ticket]), [
@@ -267,7 +268,7 @@ test('tag is reused if exists in team', function () {
     $team->users()->attach($user, ['is_admin' => true]);
     
     $tag = Tag::factory()->create(['team_id' => $team->id, 'name' => 'Existing Tag']);
-    $ticket = Ticket::factory()->create(['team_id' => $team->id, 'user_id' => $user->id]);
+    $ticket = Ticket::factory()->create(['team_id' => $team->id, 'author_id' => $user->id, 'author_type' => User::class]);
 
     $this->actingAs($user)
         ->post(route('tickets.tags.store', [$team, $ticket]), [
@@ -284,7 +285,7 @@ test('team member can remove tag', function () {
     $team->users()->attach($user, ['is_admin' => true]);
     
     $tag = Tag::factory()->create(['team_id' => $team->id, 'name' => 'Remove Me']);
-    $ticket = Ticket::factory()->create(['team_id' => $team->id, 'user_id' => $user->id]);
+    $ticket = Ticket::factory()->create(['team_id' => $team->id, 'author_id' => $user->id, 'author_type' => User::class]);
     $ticket->tags()->attach($tag);
 
     $this->actingAs($user)

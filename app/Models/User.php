@@ -49,9 +49,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function tickets(): HasMany
+    public function tickets(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
-        return $this->hasMany(Ticket::class);
+        return $this->morphMany(Ticket::class, 'author');
     }
 
     public function teams()

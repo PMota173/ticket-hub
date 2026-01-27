@@ -68,7 +68,7 @@ class TeamController extends Controller
 
         $myTickets = $team->tickets()
             ->where('assigned_id', auth()->id())
-            ->with('user')
+            ->with('author')
             ->latest()
             ->limit(6)
             ->get();

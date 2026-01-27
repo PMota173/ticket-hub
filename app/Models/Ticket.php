@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Ticket extends Model
 {
@@ -19,7 +20,8 @@ class Ticket extends Model
         'description',
         'status',
         'priority',
-        'user_id',
+        'author_id',
+        'author_type',
         'assigned_id',
     ];
 
@@ -51,9 +53,9 @@ class Ticket extends Model
         return $query->where('status', TicketStatus::CLOSED);
     }
 
-    public function user(): BelongsTo
+    public function author(): MorphTo
     {
-        return $this->belongsTo(User::class);
+        return $this->morphTo();
     }
 
     public function team(): BelongsTo

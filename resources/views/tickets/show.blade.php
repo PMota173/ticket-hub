@@ -14,7 +14,7 @@
                     <div class="flex items-center gap-2 text-sm text-slate-400">
                         <span class="font-mono text-slate-500">#{{ $ticket->id }}</span>
                         <span>&bull;</span>
-                        <span>Opened by <span class="text-white">{{ $ticket->user->name }}</span></span>
+                        <span>Opened by <span class="text-white">{{ $ticket->author->name }}</span></span>
                         <span>&bull;</span>
                         <span>{{ $ticket->created_at->diffForHumans() }}</span>
                     </div>

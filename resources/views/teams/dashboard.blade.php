@@ -96,13 +96,13 @@
                             <div class="flex items-center text-xs text-slate-500 gap-2">
                                 <div class="flex items-center gap-1.5 truncate">
                                     <div class="w-4 h-4 rounded-full bg-slate-800 flex items-center justify-center text-[8px] font-bold text-slate-400 border border-slate-700 overflow-hidden">
-                                        @if($ticket->user->avatar_path)
-                                            <img src="{{ asset('storage/' . $ticket->user->avatar_path) }}" alt="{{ $ticket->user->name }}" class="w-full h-full object-cover">
+                                        @if($ticket->author?->avatar_path)
+                                            <img src="{{ asset('storage/' . $ticket->author->avatar_path) }}" alt="{{ $ticket->author->name }}" class="w-full h-full object-cover">
                                         @else
-                                            {{ substr($ticket->user->name, 0, 1) }}
+                                            {{ substr($ticket->author?->name ?? '?', 0, 1) }}
                                         @endif
                                     </div>
-                                    <span class="truncate">{{ $ticket->user->name }}</span>
+                                    <span class="truncate">{{ $ticket->author?->name ?? 'Unknown' }}</span>
                                 </div>
                                 <span class="text-slate-700">•</span>
                                 <span class="{{ $ticket->priority === \App\Enums\TicketPriority::HIGH ? 'text-red-400' : ($ticket->priority === \App\Enums\TicketPriority::MEDIUM ? 'text-yellow-400' : 'text-green-400') }}">

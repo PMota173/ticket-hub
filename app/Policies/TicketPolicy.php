@@ -53,7 +53,7 @@ class TicketPolicy
      */
     public function update(User $user, Ticket $ticket): bool
     {
-        if ($ticket->user_id === $user->id) {
+        if ($ticket->author_id === $user->id && $ticket->author_type === User::class) {
             return true;
         }
 
@@ -69,7 +69,7 @@ class TicketPolicy
      */
     public function delete(User $user, Ticket $ticket): bool
     {
-        if ($ticket->user_id === $user->id) {
+        if ($ticket->author_id === $user->id && $ticket->author_type === User::class) {
             return true;
         }
 

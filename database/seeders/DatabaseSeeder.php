@@ -60,7 +60,8 @@ class DatabaseSeeder extends Seeder
             // Create Tickets
             Ticket::factory(rand(10, 20))->create([
                 'team_id' => $team->id,
-                'user_id' => $team->users->random()->id, // Created by a team member
+                'author_id' => $team->users->random()->id,
+                'author_type' => User::class,
                 'assigned_id' => fake()->boolean(70) ? $team->users->random()->id : null, // 70% chance of assignment
             ])->each(function ($ticket) use ($team, $users, $tags, $mainUser) {
                 // Attach random tags

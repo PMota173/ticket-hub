@@ -42,7 +42,8 @@ class TicketsController extends Controller
         $this->authorize('create', [Ticket::class, $team]);
 
         $attributes = $request->validated();
-        $attributes['user_id'] = auth()->id();
+        $attributes['author_id'] = auth()->id();
+        $attributes['author_type'] = \App\Models\User::class;
 
         // Security: Non-members cannot assign tickets
         if (! $team->users->contains(auth()->user())) {
@@ -61,7 +62,7 @@ class TicketsController extends Controller
     {
         $this->authorize('view', $ticket);
 
-        $ticket->load(['comments.user', 'user', 'tags', 'assignee']);
+        $ticket->load(['comments.user', 'author', 'tags', 'assignee']);
 
         return view('tickets.show', compact('team', 'ticket'));
     }

@@ -26,7 +26,7 @@ class StoreTicketRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
+            'description' => ['required', 'string'],
             'priority' => Rule::enum(TicketPriority::class),
             'status' => Rule::enum(TicketStatus::class),
             'assigned_id' => ['nullable', 'exists:users,id'],

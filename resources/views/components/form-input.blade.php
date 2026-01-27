@@ -1,7 +1,9 @@
-@props(['name', 'label', 'type' => 'text', 'placeholder' => '', 'required' => false])
+@props(['name', 'label' => null, 'type' => 'text', 'placeholder' => '', 'required' => false])
 
 <div class="space-y-2">
-    <label for="{{ $name }}" class="text-sm font-medium text-slate-300">{{ $label }}</label>
+    @if($label)
+        <label for="{{ $name }}" class="text-sm font-medium text-slate-300">{{ $label }}</label>
+    @endif
     <input 
         type="{{ $type }}" 
         name="{{ $name }}" 

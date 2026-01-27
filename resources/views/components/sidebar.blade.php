@@ -5,9 +5,14 @@
 <aside class="w-72 bg-slate-900/50 border-r border-slate-800 flex flex-col min-h-screen sticky top-0 h-screen">
     <!-- Header -->
     <div class="p-6">
-        <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-white transition-colors uppercase tracking-wider mb-4 group">
+        <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-white transition-colors uppercase tracking-wider mb-2 group">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:-translate-x-1"><path d="m15 18-6-6 6-6"/></svg>
-            All Teams
+            Dashboard
+        </a>
+        
+        <a href="{{ route('portal.index') }}" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-white transition-colors uppercase tracking-wider mb-4 group">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-compass"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+            Explore
         </a>
 
         <div class="flex items-center gap-3">

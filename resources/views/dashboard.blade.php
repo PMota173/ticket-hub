@@ -94,6 +94,23 @@
 
             <!-- Sidebar (Right) -->
             <div class="space-y-8">
+                <!-- Quick Actions -->
+                <div>
+                    <h2 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">Discover</h2>
+                    <a href="{{ route('portal.index') }}" class="block p-4 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 border border-blue-500/20 shadow-lg shadow-blue-500/10 group hover:shadow-blue-500/20 transition-all">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="p-2 bg-white/10 rounded-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                            </div>
+                            <h3 class="font-bold text-white text-lg">Explore Teams</h3>
+                        </div>
+                        <p class="text-blue-100 text-sm mb-3">Browse public teams, find help, or see what others are building.</p>
+                        <div class="flex items-center text-xs font-bold text-white uppercase tracking-wider group-hover:gap-2 transition-all">
+                            Browse Directory <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        </div>
+                    </a>
+                </div>
+
                 <!-- My Assigned Tickets -->
                 <div>
                     <div class="flex items-center justify-between mb-4">

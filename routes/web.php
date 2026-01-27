@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PortalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
@@ -16,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
@@ -41,7 +41,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
     Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
 
-
     // my invitations routes
     Route::get('/my-invitations', [TeamInvitationController::class, 'myInvitations'])->name('my-invitations.index');
     Route::delete('/my-invitations/{invitation}', [TeamInvitationController::class, 'decline'])->name('my-invitations.destroy');
@@ -56,7 +55,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [TeamController::class, 'show'])->name('teams.show');
         Route::get('/edit', [TeamController::class, 'edit'])->name('teams.edit');
         Route::patch('/edit', [TeamController::class, 'update'])->name('teams.update');
-
 
         // tickets routes
         Route::scopeBindings()->group(function () {
@@ -77,7 +75,6 @@ Route::middleware('auth')->group(function () {
             Route::delete('/tickets/{ticket}/comments/{comment}', [TicketCommentController::class, 'destroy'])->name('tickets.comments.destroy');
         });
 
-
         // team members routes
         Route::get('/members', [TeamMemberController::class, 'index'])->name('members.index');
         Route::get('/members/{member}', [TeamMemberController::class, 'show'])->name('members.show');
@@ -90,7 +87,6 @@ Route::middleware('auth')->group(function () {
 
         Route::delete('/members/{member}', [TeamMemberController::class, 'destroy'])->name('members.destroy');
 
-
         // team invitation routes
         Route::get('/invitations', [TeamInvitationController::class, 'index'])->name('invitations.index');
         Route::get('invitations/create', [TeamInvitationController::class, 'create'])->name('invitations.create');
@@ -98,7 +94,6 @@ Route::middleware('auth')->group(function () {
 
         Route::post('invitations', [TeamInvitationController::class, 'store'])->name('invitations.store');
         Route::delete('invitations/{invitation}', [TeamInvitationController::class, 'destroy'])->name('invitations.destroy');
-
 
         // robots routes
         Route::get('/robots', [TeamRobotController::class, 'index'])->name('robots.index');
@@ -109,3 +104,15 @@ Route::middleware('auth')->group(function () {
 
 // public invitation link
 Route::get('/invitations/{token}', [TeamInvitationController::class, 'accept'])->name('invitations.accept');
+
+// Public Team Portal
+
+Route::get('/portal', [PortalController::class, 'index'])->name('portal.index');
+
+Route::get('/portal/{team:slug}', [PortalController::class, 'show'])->name('portal.show');
+
+Route::get('/portal/{team:slug}/tickets/{ticket}', [PortalController::class, 'showTicket'])->name('portal.tickets.show');
+
+Route::post('/portal/{team:slug}/tickets', [PortalController::class, 'store'])
+    ->middleware('auth')
+    ->name('portal.tickets.store');

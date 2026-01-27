@@ -23,18 +23,18 @@ class Team extends Model
         'user_id',
     ];
 
-    protected static function booted() {
+    protected static function booted()
+    {
         static::creating(function ($team) {
             $slug = \Str::slug($team->name);
 
-            if(static::where('slug', $slug)->exists()) {
-                $slug = $slug . '-' . uniqid();
+            if (static::where('slug', $slug)->exists()) {
+                $slug = $slug.'-'.uniqid();
             }
 
             $team->slug = $slug;
         });
     }
-
 
     public function owner(): BelongsTo
     {
@@ -44,6 +44,11 @@ class Team extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'team_user')->withPivot('is_admin')->withTimestamps();
+    }
+
+    public function members(): BelongsToMany
+    {
+        return $this->users();
     }
 
     public function tickets(): HasMany

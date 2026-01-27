@@ -24,41 +24,14 @@
 </head>
 <body class="bg-slate-950 text-white font-sans antialiased selection:bg-blue-500 selection:text-white">
 
-    <!-- Navigation -->
-    <header class="fixed top-0 w-full z-50 glass transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>
-                </div>
-                <span class="font-bold text-lg tracking-tight">Ticket Hub</span>
-            </div>
-
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
-                <a href="#features" class="hover:text-white transition-colors">Features</a>
-                <a href="{{ route('portal.index') }}" class="hover:text-white transition-colors">Explore</a>
-                <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
-            </nav>
-
-            <div class="flex items-center gap-4">
-                @auth
-                    <a href="{{ route('dashboard') }}" class="text-sm font-medium text-white hover:text-blue-400 transition-colors">Dashboard</a>
-                @else
-                    <a href="{{ route('login') }}" class="hidden md:block text-sm font-medium text-slate-400 hover:text-white transition-colors">Log in</a>
-                    <a href="{{ route('register') }}" class="bg-white text-slate-900 hover:bg-slate-200 text-sm font-semibold px-4 py-2 rounded-full transition-colors shadow-lg shadow-white/5">
-                        Get Started
-                    </a>
-                @endauth
-            </div>
-        </div>
-    </header>
+    <x-header />
 
     <main>
         <!-- Hero Section -->
         <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
             <!-- Background Glow -->
             <div class="absolute inset-0 hero-glow pointer-events-none"></div>
-            
+
             <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 text-center">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium mb-8 animate-fade-in-up">
                     <span class="relative flex h-2 w-2">
@@ -72,7 +45,7 @@
                     Support your customers <br>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">without the chaos.</span>
                 </h1>
-                
+
                 <p class="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
                     Ticket Hub is the modern help desk for teams that care. Delight your customers with a lightning-fast portal, powerful automation, and a design you'll actually enjoy using.
                 </p>
@@ -94,7 +67,7 @@
                     <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                         <a href="{{ route('register') }}" class="bg-white text-slate-900 font-bold px-6 py-3 rounded-full shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">See the Dashboard</a>
                     </div>
-                    
+
                     <!-- Fake UI Elements -->
                     <div class="absolute top-0 left-0 w-64 h-full border-r border-slate-800 bg-slate-950/50 hidden md:block p-6">
                         <div class="space-y-4 opacity-40">
@@ -202,7 +175,7 @@
                     <!-- Decor -->
                     <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-50"></div>
                     <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-50"></div>
-                    
+
                     <h2 class="relative text-3xl md:text-4xl font-bold text-white mb-6 tracking-tight">
                         Ready to upgrade your workflow?
                     </h2>

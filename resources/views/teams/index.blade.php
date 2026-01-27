@@ -34,8 +34,12 @@
                         <div class="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-indigo-600/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <div class="relative bg-slate-900/50 border border-slate-800 rounded-3xl p-8 hover:border-blue-500/40 hover:bg-slate-900 transition-all duration-300 shadow-xl h-full flex flex-col">
                             <div class="flex items-start justify-between mb-6">
-                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white font-black text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                    {{ substr($team->name, 0, 1) }}
+                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white font-black text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300 overflow-hidden">
+                                    @if($team->logo)
+                                        <img src="{{ asset('storage/' . $team->logo) }}" alt="{{ $team->name }}" class="w-full h-full object-cover">
+                                    @else
+                                        {{ substr($team->name, 0, 1) }}
+                                    @endif
                                 </div>
                                 <div class="flex flex-col items-end gap-2">
                                     @if($team->pivot->is_admin)

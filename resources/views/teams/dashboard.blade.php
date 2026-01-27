@@ -1,8 +1,12 @@
 <x-layouts.app title="{{ $team->name }} Dashboard - {{ config('app.name', 'Ticket Hub') }}" sidebar="team">
     <div class="mb-12">
         <div class="flex items-center gap-4 mb-4">
-            <div class="w-16 h-16 rounded-2xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-500 font-black text-2xl shadow-inner">
-                {{ substr($team->name, 0, 1) }}
+            <div class="w-16 h-16 rounded-2xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-500 font-black text-2xl shadow-inner overflow-hidden">
+                @if($team->logo)
+                    <img src="{{ asset('storage/' . $team->logo) }}" alt="{{ $team->name }}" class="w-full h-full object-cover">
+                @else
+                    {{ substr($team->name, 0, 1) }}
+                @endif
             </div>
             <div>
                 <h2 class="text-4xl font-extrabold tracking-tight text-white mb-1">{{ $team->name }}</h2>

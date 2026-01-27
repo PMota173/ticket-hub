@@ -9,7 +9,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
             <!-- Main Content (Left) -->
             <div class="lg:col-span-8 space-y-12">
-                
+
                 <!-- Your Teams Grid -->
                 <section>
                     <div class="flex items-center justify-between mb-6">
@@ -18,7 +18,7 @@
                             View All <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
                         </a>
                     </div>
-                    
+
                     @if($teams->isEmpty())
                         <div class="bg-slate-900/40 border border-slate-800 border-dashed rounded-2xl p-10 text-center">
                             <p class="text-slate-500 mb-6">You haven't joined any teams yet.</p>
@@ -29,7 +29,11 @@
                             @foreach($teams->take(4) as $team)
                                 <a href="{{ route('teams.show', $team) }}" class="flex items-center gap-4 p-5 rounded-2xl bg-slate-900/50 border border-slate-800 hover:border-blue-500/40 hover:bg-slate-900 transition-all duration-300 group shadow-lg">
                                     <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-600/20 to-indigo-600/20 flex items-center justify-center text-blue-400 font-bold text-xl border border-blue-500/10 group-hover:scale-105 transition-transform shadow-inner">
-                                        {{ substr($team->name, 0, 1) }}
+                                        @if($team->logo)
+                                            <img src="{{ asset('storage/' . $team->logo) }}" alt="{{ $team->name }}" class="w-full h-full object-cover">
+                                        @else
+                                            {{ substr($team->name ?? 'T', 0, 1) }}
+                                        @endif
                                     </div>
                                     <div class="min-w-0 flex-1">
                                         <h3 class="font-bold text-white truncate group-hover:text-blue-400 transition-colors mb-1">{{ $team->name }}</h3>
@@ -64,8 +68,8 @@
                                 <div class="flex gap-5">
                                     <div class="flex-shrink-0">
                                         @if($ticket->author?->avatar_path)
-                                            <img src="{{ asset('storage/' . $ticket->author->avatar_path) }}" 
-                                                 alt="{{ $ticket->author->name }}" 
+                                            <img src="{{ asset('storage/' . $ticket->author->avatar_path) }}"
+                                                 alt="{{ $ticket->author->name }}"
                                                  class="w-12 h-12 rounded-full object-cover border-2 border-slate-800 group-hover:border-blue-500/30 transition-colors">
                                         @else
                                             <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border-2 border-slate-800 group-hover:border-blue-500/30 transition-colors">
@@ -77,12 +81,12 @@
                                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                                             <p class="text-sm text-slate-400 font-medium">
                                                 <span class="text-white font-bold">{{ $ticket->author?->name ?? 'Unknown' }}</span>
-                                                created a ticket in 
+                                                created a ticket in
                                                 <a href="{{ route('teams.show', $ticket->team) }}" class="text-blue-400 hover:underline">{{ $ticket->team->name }}</a>
                                             </p>
                                             <span class="text-xs text-slate-500 font-medium">{{ $ticket->created_at->diffForHumans() }}</span>
                                         </div>
-                                        
+
                                         <a href="{{ route('tickets.show', [$ticket->team, $ticket]) }}" class="block mb-4">
                                             <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition-colors mb-2 leading-tight truncate">{{ $ticket->title }}</h3>
                                             <p class="text-sm text-slate-400 line-clamp-2 leading-relaxed">{{ $ticket->description }}</p>
@@ -109,7 +113,7 @@
 
             <!-- Sidebar (Right) -->
             <div class="lg:col-span-4 space-y-10">
-                
+
                 <!-- Explore Card -->
                 <section>
                     <h2 class="text-xs font-extrabold text-slate-500 uppercase tracking-[0.2em] mb-5">Discover</h2>
@@ -133,7 +137,7 @@
                 <!-- My Assigned Tickets Section -->
                 <section>
                     <h2 class="text-xs font-extrabold text-slate-500 uppercase tracking-[0.2em] mb-5">Assigned to You</h2>
-                    
+
                     @if($myAssignedTickets->isEmpty())
                         <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-8 text-center shadow-inner">
                             <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-500/10 text-green-400 mb-4 border border-green-500/10">

@@ -14,11 +14,7 @@
 
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-blue-600/10 flex items-center justify-center text-blue-500 font-bold border border-blue-500/20 shadow-lg shadow-blue-500/5 overflow-hidden">
-                @if($team->logo)
-                    <img src="{{ asset('storage/' . $team->logo) }}" alt="{{ $team->name }}" class="w-full h-full object-cover">
-                @else
-                    {{ substr($team->name ?? 'T', 0, 1) }}
-                @endif
+                {{ substr($team->name ?? 'T', 0, 1) }}
             </div>
             <div class="overflow-hidden">
                 <h1 class="text-lg font-bold tracking-tight text-white truncate">{{ $team->name ?? 'Team' }}</h1>

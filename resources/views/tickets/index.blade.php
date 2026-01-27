@@ -1,10 +1,14 @@
 <x-layouts.app title="Tickets Board - {{ config('app.name', 'Ticket Hub') }}" sidebar="team">
-    <div class="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div class="mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-            <h2 class="text-4xl font-extrabold tracking-tight text-white mb-2">Ticket Board</h2>
+            <div class="flex items-center gap-2 text-xs font-black text-slate-500 uppercase tracking-[0.2em] mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-blue-500"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                <span>Project Board</span>
+            </div>
+            <h1 class="text-4xl font-extrabold tracking-tight text-white mb-2">Tickets Board</h1>
             <p class="text-slate-400 text-lg">Organize work and track progress across your workflow.</p>
         </div>
-        <x-blue-button href="{{ route('tickets.create', $team) }}" class="rounded-full px-6 py-3 shadow-lg shadow-blue-600/20">
+        <x-blue-button href="{{ route('tickets.create', $team) }}" class="rounded-full px-6 py-3 shadow-lg shadow-blue-600/20 hover:scale-105 active:scale-95 transition-all">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus mr-2"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Open New Ticket
         </x-blue-button>

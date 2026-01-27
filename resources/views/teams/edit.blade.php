@@ -74,7 +74,9 @@
                     <div class="flex items-center justify-between p-6 bg-slate-950/50 rounded-3xl border border-slate-800/50">
                         <div>
                             <h4 class="font-bold text-white mb-1">Private Workspace</h4>
-                            <p class="text-xs font-medium text-slate-500">Only invited members can find and join this team.</p>
+                            <p class="text-xs font-medium text-slate-500 max-w-sm leading-relaxed">
+                                Hidden from the public Explore directory. Only invited members can view and access this workspace. You can change this setting later.
+                            </p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_private" id="is_private" value="1" class="sr-only peer" {{ old('is_private', $team->is_private) ? 'checked' : '' }}>

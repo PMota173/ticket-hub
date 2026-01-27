@@ -9,7 +9,7 @@
         <!-- Form Card -->
         <div class="bg-slate-900/50 border border-slate-800 rounded-3xl shadow-xl p-10 relative overflow-hidden">
             <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
-            
+
             <form action="/teams" method="POST" class="space-y-10">
                 @csrf
 
@@ -24,7 +24,7 @@
 
                     <div class="space-y-2">
                         <label for="description" class="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Description</label>
-                        <textarea name="description" id="description" rows="4" 
+                        <textarea name="description" id="description" rows="4"
                             class="w-full bg-slate-950 border border-slate-800 text-white rounded-2xl px-5 py-4 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all placeholder:text-slate-700 resize-none font-medium leading-relaxed"
                             placeholder="Briefly describe what this team is for...">{{ old('description') }}</textarea>
                     </div>
@@ -33,7 +33,9 @@
                     <div class="flex items-center justify-between p-6 bg-slate-950/50 rounded-3xl border border-slate-800/50">
                         <div>
                             <h4 class="font-bold text-white mb-1">Private Workspace</h4>
-                            <p class="text-xs font-medium text-slate-500">Only invited members can find and join this team.</p>
+                            <p class="text-xs font-medium text-slate-500 max-w-sm leading-relaxed">
+                                Hidden from the public Explore directory. Only invited members can view and access this workspace. You can change this setting later.
+                            </p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_private" id="is_private" value="1" class="sr-only peer">

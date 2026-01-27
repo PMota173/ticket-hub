@@ -1,8 +1,12 @@
 <x-layouts.app title="Team Members - {{ $team->name }} - {{ config('app.name', 'Ticket Hub') }}" sidebar="team">
     <div class="max-w-5xl mx-auto">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-12">
+        <div class="mb-12 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
             <div>
-                <h2 class="text-4xl font-extrabold tracking-tight text-white mb-2">Team Directory</h2>
+                <div class="flex items-center gap-2 text-xs font-black text-slate-500 uppercase tracking-[0.2em] mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-blue-500"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <span>Directory</span>
+                </div>
+                <h1 class="text-4xl font-extrabold tracking-tight text-white mb-2">Team Directory</h1>
                 <p class="text-slate-400 text-lg">Manage access and roles for your workspace.</p>
             </div>
             <x-blue-button href="{{ route('invitations.create', $team) }}" class="rounded-full px-6 py-3 shadow-lg shadow-blue-600/20 hover:scale-105 active:scale-95 transition-all">

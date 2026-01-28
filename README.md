@@ -4,7 +4,7 @@
 
 Ticket Hub is a modern, open-source help desk platform built for teams that value simplicity and productivity. It transforms the traditional, cluttered support experience into a streamlined interface designed with our unique "Deep Space Glass" system.
 
-![Ticket Hub Dashboard Preview](path/to/your/screenshot.png)
+![Ticket Hub Dashboard Preview](.github/assets/welcome-photo.png)
 
 ---
 

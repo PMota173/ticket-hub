@@ -100,8 +100,3 @@ If you find value in Ticket Hub, consider supporting its development:
 * **Star this repository** to help others find it.
 * **Sponsor on GitHub**: [github.com/PMota173](https://github.com/sponsors/PMota173)
 
----
-
-## License
-
-The Ticket Hub is open-sourced software licensed under the [MIT license](https://www.google.com/search?q=LICENSE).

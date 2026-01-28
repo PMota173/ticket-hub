@@ -12,7 +12,7 @@
         <nav class="hidden md:flex items-center gap-10">
             <a href="/#features" class="text-[10px] font-black uppercase tracking-[0.2em] {{ request()->is('#features') ? 'text-white' : 'text-slate-500 hover:text-white' }} transition-colors">Features</a>
             <a href="{{ route('portal.index') }}" class="text-[10px] font-black uppercase tracking-[0.2em] {{ request()->routeIs('portal.*') ? 'text-blue-400' : 'text-slate-500 hover:text-white' }} transition-colors">Explore</a>
-            <a href="/#pricing" class="text-[10px] font-black uppercase tracking-[0.2em] {{ request()->is('#pricing') ? 'text-white' : 'text-slate-500 hover:text-white' }} transition-colors">Pricing</a>
+            <a href="{{ url('/') }}#pricing" class="text-[10px] font-black uppercase tracking-[0.2em] {{ request()->is('#pricing') ? 'text-white' : 'text-slate-500 hover:text-white' }} transition-colors">Pricing</a>
         </nav>
 
         <!-- Actions -->

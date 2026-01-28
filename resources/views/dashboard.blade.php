@@ -3,7 +3,7 @@
         <!-- Welcome Section -->
         <div class="mb-12">
             <h1 class="text-4xl font-extrabold tracking-tight text-white mb-2">Welcome back, {{ auth()->user()->name }}</h1>
-            <p class="text-slate-400 text-lg">Your central hub for everything happening across your teams.</p>
+            <p class="text-slate-400 text-lg font-medium">Your central hub for everything happening across your teams.</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">

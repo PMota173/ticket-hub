@@ -20,9 +20,9 @@
                 <!-- Basic Info -->
                 <div class="space-y-8">
                     <div class="space-y-2">
-                        <label for="title" class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Ticket Title</label>
+                        <label for="title" class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Issue Overview</label>
                         <input type="text" name="title" id="title" required value="{{ old('title') }}"
-                            class="w-full bg-slate-950 border border-slate-800 text-white rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-lg placeholder:text-slate-700"
+                            class="w-full bg-slate-950 border border-slate-800 text-white rounded-2xl px-5 py-4 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-lg placeholder:text-slate-700"
                             placeholder="What needs to be fixed?">
                         @error('title') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="space-y-2">
-                        <label for="description" class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Issue Description</label>
+                        <label for="description" class="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Context & Details</label>
                         <textarea name="description" id="description" rows="6" required
                             class="w-full bg-slate-950 border border-slate-800 text-white rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-700 resize-none leading-relaxed"
                             placeholder="Provide as much context as possible. Steps to reproduce, expected results, etc.">{{ old('description') }}</textarea>

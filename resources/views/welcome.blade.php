@@ -139,7 +139,7 @@
                         </div>
                         <h4 class="text-xl font-bold text-white mb-3">Ticket Management</h4>
                         <p class="text-slate-400 leading-relaxed">
-                            Organize requests with tags, priorities, and custom statuses. Never lose track of a customer conversation again.
+                            Triage with precision. Custom workflows, tags, and priorities ensure no customer request ever slips through the cracks.
                         </p>
                     </div>
 
@@ -150,7 +150,7 @@
                         </div>
                         <h4 class="text-xl font-bold text-white mb-3">Public Portals</h4>
                         <p class="text-slate-400 leading-relaxed">
-                            Give your customers a branded home to submit requests and track progress. Fully SEO-friendly and beautiful.
+                            Your brand, front and center. Provide a seamless, SEO-optimized support hub that builds trust with every interaction.
                         </p>
                     </div>
 
@@ -161,8 +161,81 @@
                         </div>
                         <h4 class="text-xl font-bold text-white mb-3">Team Robots</h4>
                         <p class="text-slate-400 leading-relaxed">
-                            Automate repetitive tasks with API-enabled bots. Let your team focus on solving complex problems.
+                            Automate the mundane. API-first architecture lets you build custom bots to route, tag, and close tickets automatically.
                         </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Open Source / Pricing Section -->
+        <section id="pricing" class="py-24 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 text-center">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400 text-xs font-bold uppercase tracking-widest mb-8">
+                    Fair & Transparent
+                </div>
+                
+                <h2 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-6">
+                    Professional support tools. <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Zero cost. Open Source.</span>
+                </h2>
+                
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed">
+                    Ticket Hub is built for the community. Use it for free, host it yourself, or contribute to its development. No hidden fees, no per-seat pricing.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                    <!-- Card 1 -->
+                    <div class="p-8 rounded-3xl bg-slate-900/50 border border-slate-800 hover:border-slate-700 transition-all text-left">
+                        <div class="w-12 h-12 bg-white text-slate-900 rounded-xl flex items-center justify-center mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Community Edition</h3>
+                        <p class="text-slate-400 text-sm mb-6">Unrestricted access. Perfect for startups, indie hackers, and teams who want full control.</p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center gap-3 text-sm text-slate-300">
+                                <svg class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                Unlimited Teams & Tickets
+                            </li>
+                            <li class="flex items-center gap-3 text-sm text-slate-300">
+                                <svg class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                Public Portals
+                            </li>
+                            <li class="flex items-center gap-3 text-sm text-slate-300">
+                                <svg class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                API & Robot Access
+                            </li>
+                        </ul>
+                        <a href="https://github.com/PMota173/ticket-hub" target="_blank" class="block w-full py-3 rounded-xl bg-slate-800 text-white text-center text-sm font-bold hover:bg-slate-700 transition-colors">
+                            Star on GitHub
+                        </a>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="p-8 rounded-3xl bg-gradient-to-b from-blue-600/10 to-slate-900/50 border border-blue-500/30 hover:border-blue-500/50 transition-all text-left relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 blur-3xl rounded-full -mr-16 -mt-16"></div>
+                        <div class="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/20">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Sponsor the Project</h3>
+                        <p class="text-slate-400 text-sm mb-6">Accelerate innovation. Your sponsorship directly funds new features, security audits, and the future of open-source support.</p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center gap-3 text-sm text-slate-300">
+                                <svg class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                Priority Bug Fixes
+                            </li>
+                            <li class="flex items-center gap-3 text-sm text-slate-300">
+                                <svg class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                Feature Requests
+                            </li>
+                            <li class="flex items-center gap-3 text-sm text-slate-300">
+                                <svg class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                Badges on Profile
+                            </li>
+                        </ul>
+                        <a href="https://github.com/PMota173" target="_blank" class="block w-full py-3 rounded-xl bg-blue-600 text-white text-center text-sm font-bold hover:bg-blue-500 transition-colors shadow-lg shadow-blue-500/20">
+                            Become a Sponsor
+                        </a>
                     </div>
                 </div>
             </div>
@@ -180,7 +253,7 @@
                         Ready to upgrade your workflow?
                     </h2>
                     <p class="relative text-blue-100 text-lg mb-10 max-w-2xl mx-auto">
-                        Join thousands of teams delivering world-class support. Get started in less than 2 minutes.
+                        Deliver world-class support with a tool built for speed and transparency. Get started in less than 2 minutes.
                     </p>
                     <div class="relative flex flex-col sm:flex-row justify-center gap-4">
                         <a href="{{ route('register') }}" class="bg-white text-blue-600 font-bold px-8 py-3.5 rounded-full hover:bg-blue-50 transition-colors shadow-xl">

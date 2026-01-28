@@ -3,7 +3,7 @@
         <!-- Header -->
         <div class="mb-12">
             <h1 class="text-4xl font-extrabold tracking-tight text-white mb-2">Create New Workspace</h1>
-            <p class="text-slate-400 text-lg">Establish a dedicated hub for your support tickets.</p>
+            <p class="text-slate-400 text-lg font-medium">Establish a dedicated hub for your support tickets and collaboration.</p>
         </div>
 
         <!-- Form Card -->

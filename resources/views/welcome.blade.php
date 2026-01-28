@@ -174,12 +174,12 @@
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400 text-xs font-bold uppercase tracking-widest mb-8">
                     Fair & Transparent
                 </div>
-                
+
                 <h2 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-6">
                     Professional support tools. <br>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Zero cost. Open Source.</span>
                 </h2>
-                
+
                 <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed">
                     Ticket Hub is built for the community. Use it for free, host it yourself, or contribute to its development. No hidden fees, no per-seat pricing.
                 </p>
@@ -233,7 +233,7 @@
                                 Badges on Profile
                             </li>
                         </ul>
-                        <a href="https://github.com/PMota173" target="_blank" class="block w-full py-3 rounded-xl bg-blue-600 text-white text-center text-sm font-bold hover:bg-blue-500 transition-colors shadow-lg shadow-blue-500/20">
+                        <a href="https://github.com/sponsors/PMota173" target="_blank" class="block w-full py-3 rounded-xl bg-blue-600 text-white text-center text-sm font-bold hover:bg-blue-500 transition-colors shadow-lg shadow-blue-500/20">
                             Become a Sponsor
                         </a>
                     </div>

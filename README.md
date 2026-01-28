@@ -98,7 +98,7 @@ Ticket Hub is an open-source project and we welcome contributions.
 If you find value in Ticket Hub, consider supporting its development:
 
 * **Star this repository** to help others find it.
-* **Sponsor on GitHub**: [github.com/PMota173](https://github.com/PMota173)
+* **Sponsor on GitHub**: [github.com/PMota173](https://github.com/sponsors/PMota173)
 
 ---
 

@@ -21,7 +21,7 @@ class TicketCommentController extends Controller
 
         Comment::create($attributes);
 
-        return redirect(route('tickets.show', [$team, $ticket]));
+        return redirect()->back();
     }
 
     public function destroy(Team $team, Ticket $ticket, Comment $comment)
@@ -32,6 +32,6 @@ class TicketCommentController extends Controller
 
         $comment->delete();
 
-        return redirect(route('tickets.show', [$team, $ticket]));
+        return redirect()->back();
     }
 }

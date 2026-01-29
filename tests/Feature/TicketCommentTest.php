@@ -12,6 +12,7 @@ test('users can comment on tickets', function () {
     $ticket = Ticket::factory()->create(['team_id' => $team->id]);
 
     $response = $this->actingAs($user)
+        ->from(route('tickets.show', [$team, $ticket]))
         ->post(route('tickets.comments.store', [$team, $ticket]), [
             'body' => 'This is a test comment.',
         ]);
@@ -53,6 +54,7 @@ test('users can delete their own comments', function () {
     ]);
 
     $response = $this->actingAs($user)
+        ->from(route('tickets.show', [$team, $ticket]))
         ->delete(route('tickets.comments.destroy', [$team, $ticket, $comment]));
 
     $response->assertRedirect(route('tickets.show', [$team, $ticket]));

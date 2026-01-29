@@ -18,7 +18,7 @@ test('a user can see the create team form', function () {
     $response = $this->actingAs($user)->get(route('teams.create'));
 
     $response->assertStatus(200);
-    $response->assertSee('Create New Team');
+    $response->assertSee('Create New Workspace');
 });
 
 test('a user can create a team', function () {

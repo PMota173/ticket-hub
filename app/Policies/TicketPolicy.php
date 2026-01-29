@@ -14,10 +14,6 @@ class TicketPolicy
      */
     public function viewAny(User $user, Team $team): bool
     {
-        if (! $team->is_private) {
-            return true;
-        }
-
         return $team->users()->where('user_id', $user->id)->exists();
     }
 
@@ -27,10 +23,6 @@ class TicketPolicy
     public function view(User $user, Ticket $ticket): bool
     {
         $team = $ticket->team;
-
-        if (! $team->is_private) {
-            return true;
-        }
 
         return $team->users()->where('user_id', $user->id)->exists();
     }

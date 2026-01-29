@@ -15,7 +15,7 @@ test('team admin can view robots page', function () {
         ->get(route('robots.index', $team))
         ->assertOk()
         ->assertSee('Team Robots')
-        ->assertSee('Create New Robot');
+        ->assertSee('Automation Robots');
 });
 
 test('regular member cannot view robots page', function () {

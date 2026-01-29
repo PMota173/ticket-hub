@@ -27,14 +27,15 @@ test('non-member cannot view private team tickets', function () {
         ->assertForbidden();
 });
 
-test('non-member CAN view public team tickets', function () {
+test('non-member CANNOT view public team tickets', function () {
     $user = User::factory()->create();
-    $team = Team::factory()->create(['is_private' => false]);
+    $team = Team::factory()->create(['is_private' => false]); // Public team
+
     // User is NOT in team
 
     $this->actingAs($user)
         ->get(route('tickets.index', $team))
-        ->assertOk();
+        ->assertForbidden();
 });
 
 // --- CREATION ---

@@ -31,11 +31,6 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/logout', [SessionController::class, 'destroy']);
 
-    // profile routes
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile/edit', [ProfileController::class, 'update'])->name('profile.update');
-    Route::get('/profile/view/{user}', [ProfileController::class, 'show'])->name('profile.show');
-
     // teams routes
     Route::get('/teams/create', [TeamController::class, 'create'])->name('teams.create');
     Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');

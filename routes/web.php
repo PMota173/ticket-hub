@@ -77,7 +77,6 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/members/{member}/edit', [TeamMemberController::class, 'edit'])->name('members.edit');
 
-        Route::put('/members/{member}', [TeamMemberController::class, 'update'])->name('members.update');
         Route::patch('/members/{member}', [TeamMemberController::class, 'update'])->name('members.update');
 
         Route::delete('/members/{member}', [TeamMemberController::class, 'destroy'])->name('members.destroy');

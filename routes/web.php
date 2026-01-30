@@ -102,8 +102,13 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-// public invitation link
+// Public invitation link
 Route::get('/invitations/{token}', [TeamInvitationController::class, 'accept'])->name('invitations.accept');
+
+// Documentation / Guides
+Route::get('/guides', [App\Http\Controllers\GuideController::class, 'index'])->name('guides.index');
+Route::get('/guides/api/{endpoint}', [App\Http\Controllers\GuideController::class, 'api'])->name('guides.api');
+Route::get('/guides/{page}', [App\Http\Controllers\GuideController::class, 'show'])->name('guides.show');
 
 // Public Team Portal
 

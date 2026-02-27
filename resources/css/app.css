@@ -6,14 +6,38 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Inter', 'DM Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-mono: 'JetBrains Mono', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --font-display: 'JetBrains Mono', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    
+    --color-bg: #0C0C0E;
+    --color-surface-1: #111114;
+    --color-surface-2: #18181D;
+    --color-surface-3: #1F1F26;
+    
+    --color-border: #2A2A35;
+    --color-border-light: #353545;
+    
+    --color-text-primary: #F0F0F5;
+    --color-text-secondary: #8B8B9E;
+    --color-text-muted: #55556A;
+    
+    --color-accent: #4D7CFE;
+    --color-accent-hover: #6B95FF;
+    --color-accent-glow: rgba(77, 124, 254, 0.15);
+    
+    --color-success: #34D399;
+    --color-warning: #FBBF24;
+    --color-danger: #F87171;
 }
 
 @layer base {
     body {
-        @apply antialiased;
-        background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
-        background-attachment: fixed;
+        @apply antialiased bg-bg text-text-primary font-sans;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-display;
     }
 }

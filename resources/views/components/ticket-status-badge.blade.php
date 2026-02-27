@@ -4,12 +4,12 @@
     $status = $status instanceof \App\Enums\TicketStatus ? $status : \App\Enums\TicketStatus::tryFrom($status);
 @endphp
 
-<span {{ $attributes->merge(['class' => 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ' . match($status) {
-    \App\Enums\TicketStatus::OPEN => 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-    \App\Enums\TicketStatus::IN_PROGRESS => 'bg-purple-500/10 text-purple-400 border-purple-500/20',
-    \App\Enums\TicketStatus::WAITING => 'bg-orange-500/10 text-orange-400 border-orange-500/20',
-    \App\Enums\TicketStatus::CLOSED => 'bg-green-500/10 text-green-400 border-green-500/20',
-    default => 'bg-slate-500/10 text-slate-400 border-slate-500/20',
+<span {{ $attributes->merge(['class' => 'inline-flex items-center px-2 py-0.5 rounded-[4px] text-[12px] font-medium border ' . match($status) {
+    \App\Enums\TicketStatus::OPEN => 'bg-surface-2 text-text-primary border-border',
+    \App\Enums\TicketStatus::IN_PROGRESS => 'bg-accent/15 text-accent border-accent/20',
+    \App\Enums\TicketStatus::WAITING => 'bg-warning/15 text-warning border-warning/20',
+    \App\Enums\TicketStatus::CLOSED => 'bg-success/15 text-success border-success/20',
+    default => 'bg-surface-2 text-text-secondary border-border',
 }]) }}>
     {{ ucfirst(str_replace('_', ' ', $status->value ?? $status)) }}
 </span>

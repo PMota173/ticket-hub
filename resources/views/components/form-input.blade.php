@@ -1,8 +1,8 @@
 @props(['name', 'label' => null, 'type' => 'text', 'placeholder' => '', 'required' => false])
 
-<div class="space-y-2">
+<div class="space-y-1.5">
     @if($label)
-        <label for="{{ $name }}" class="text-sm font-medium text-slate-300">{{ $label }}</label>
+        <label for="{{ $name }}" class="block text-[11px] font-mono uppercase tracking-[0.08em] text-text-muted">{{ $label }}</label>
     @endif
     <input 
         type="{{ $type }}" 
@@ -10,10 +10,10 @@
         id="{{ $name }}" 
         value="{{ old($name, $attributes->get('value')) }}"
         {{ $required ? 'required' : '' }}
-        {{ $attributes->merge(['class' => 'w-full bg-slate-950/50 border border-slate-700 text-white rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-200 placeholder:text-slate-500']) }}
+        {{ $attributes->merge(['class' => 'w-full bg-surface-2 border border-border text-text-primary rounded-[6px] px-3 py-2 text-[13px] focus:outline-none focus:border-accent focus:ring-0 focus:shadow-[0_0_0_3px_var(--color-accent-glow)] transition-all duration-150 placeholder:text-text-muted']) }}
         placeholder="{{ $placeholder }}"
     >
     @error($name)
-        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+        <p class="text-[11px] font-mono text-danger mt-1">{{ $message }}</p>
     @enderror
 </div>

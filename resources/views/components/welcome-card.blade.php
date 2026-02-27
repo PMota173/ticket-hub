@@ -1,5 +1,5 @@
-<div {{ $attributes->merge(['class' => 'p-6 transition-all duration-200 bg-slate-900/50 border border-slate-700 rounded-xl hover:bg-slate-900 hover:border-slate-600 shadow-sm hover:shadow-md']) }}>
-    <div class="flex flex-col h-full space-y-4 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-white [&_p]:text-slate-400 [&_p]:leading-relaxed">
+<div {{ $attributes->merge(['class' => 'p-6 transition-all duration-150 bg-surface-1 border border-border rounded-[8px] hover:border-border-light hover:bg-surface-2 group']) }}>
+    <div class="flex flex-col h-full space-y-4 [&_h3]:text-lg [&_h3]:font-medium [&_h3]:font-display [&_h3]:text-text-primary group-hover:[&_h3]:text-accent [&_p]:text-text-secondary [&_p]:text-[13px] [&_p]:leading-relaxed">
         {{ $slot }}
     </div>
 </div>

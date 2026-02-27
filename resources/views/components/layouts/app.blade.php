@@ -6,7 +6,7 @@
     <title>{{ $title ?? config('app.name', 'Ticket Hub') }}</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=dm-sans:400,500|inter:400,500|jetbrains-mono:400,500,600&display=swap" rel="stylesheet" />
 
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -16,7 +16,7 @@
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="bg-slate-950 text-white font-sans antialiased selection:bg-blue-500 selection:text-white">
+<body class="bg-bg text-text-primary font-sans antialiased selection:bg-accent selection:text-white">
     
     <div class="flex min-h-screen">
         <!-- Sidebar -->
@@ -54,7 +54,8 @@
             // Small timeout to ensure DOM update before transition
             setTimeout(() => {
                 backdrop.classList.remove('opacity-0');
-                panel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+                panel.classList.remove('opacity-0', 'scale-95');
+                panel.classList.add('scale-100');
             }, 10);
         }
 
@@ -64,11 +65,12 @@
             const panel = document.getElementById(id + '-panel');
 
             backdrop.classList.add('opacity-0');
-            panel.classList.add('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+            panel.classList.remove('scale-100');
+            panel.classList.add('scale-95', 'opacity-0');
 
             setTimeout(() => {
                 modal.classList.add('hidden');
-            }, 300); // Match transition duration
+            }, 150); // Fast 150ms transition
         }
     </script>
 </body>

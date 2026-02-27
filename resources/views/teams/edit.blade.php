@@ -1,49 +1,48 @@
 <x-layouts.app title="Edit Team - {{ config('app.name', 'Ticket Hub') }}" sidebar="team">
     <div class="max-w-3xl mx-auto">
         <!-- Header -->
-        <div class="mb-12">
-            <h1 class="text-4xl font-extrabold tracking-tight text-white mb-2">Edit Workspace</h1>
-            <p class="text-slate-400 text-lg">Manage your team's identity and privacy settings.</p>
+        <div class="mb-8 opacity-0 animate-[fadeIn_0.3s_ease-out_forwards]">
+            <h1 class="text-3xl font-display font-medium tracking-tight text-text-primary mb-2">Edit Workspace</h1>
+            <p class="text-text-secondary text-[13px]">Manage your team's identity and privacy settings.</p>
         </div>
 
         <!-- Form Card -->
-        <div class="bg-slate-900/50 border border-slate-800 rounded-3xl shadow-xl p-10 relative overflow-hidden">
-            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
-            
-            <form action="{{ route('teams.update', $team) }}" method="POST" enctype="multipart/form-data" class="space-y-10">
+        <div class="bg-surface-1 border border-border rounded-[8px] p-8 opacity-0 animate-[fadeIn_0.3s_ease-out_50ms_forwards]">
+            <form action="{{ route('teams.update', $team) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
                 @csrf
                 @method('PATCH')
 
-                <div class="space-y-8">
-                    <!-- Name & Description -->
-                    <div class="space-y-2">
-                        <label for="name" class="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Team Name</label>
+                <div class="space-y-6">
+                    <!-- Name -->
+                    <div class="space-y-1.5">
+                        <label for="name" class="block text-[11px] font-mono text-text-muted uppercase tracking-[0.08em]">Team Name</label>
                         <input type="text" name="name" id="name" value="{{ old('name', $team->name) }}" required 
-                            class="w-full bg-slate-950 border border-slate-800 text-white rounded-2xl px-5 py-4 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold text-lg placeholder:text-slate-700">
-                        @error('name') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
+                            class="w-full bg-surface-2 border border-border text-text-primary rounded-[6px] px-4 py-2.5 focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] transition-all duration-150 text-[13px] placeholder-text-muted">
+                        @error('name') <p class="text-danger font-mono text-[11px] mt-1.5">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="space-y-2">
-                        <label for="description" class="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Description</label>
+                    <!-- Description -->
+                    <div class="space-y-1.5">
+                        <label for="description" class="block text-[11px] font-mono text-text-muted uppercase tracking-[0.08em]">Description</label>
                         <textarea name="description" id="description" rows="4" 
-                            class="w-full bg-slate-950 border border-slate-800 text-white rounded-2xl px-5 py-4 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all placeholder:text-slate-700 resize-none font-medium leading-relaxed"
+                            class="w-full bg-surface-2 border border-border text-text-primary rounded-[6px] px-4 py-3 focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] transition-all duration-150 placeholder-text-muted resize-none text-[13px] leading-relaxed"
                             placeholder="Briefly describe what this team is for...">{{ old('description', $team->description) }}</textarea>
                     </div>
 
                     <!-- Logo Input -->
-                    <div class="space-y-4">
-                        <label class="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Team Logo</label>
+                    <div class="space-y-2.5">
+                        <label class="block text-[11px] font-mono text-text-muted uppercase tracking-[0.08em]">Team Logo</label>
                         
-                        <div class="flex items-center gap-8 p-6 rounded-3xl bg-slate-950/50 border border-slate-800/50">
+                        <div class="flex items-center gap-6 p-5 rounded-[6px] bg-surface-2 border border-border">
                             <!-- Current Preview -->
                             <div class="flex-shrink-0">
                                 @if($team->logo)
                                     <img src="{{ asset('storage/' . $team->logo) }}" 
                                          alt="{{ $team->name }} Logo" 
-                                         class="w-24 h-24 rounded-3xl object-cover border-2 border-slate-800 shadow-2xl">
+                                         class="w-16 h-16 rounded-[6px] object-cover border border-border">
                                 @else
-                                    <div class="w-24 h-24 rounded-3xl bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center border-2 border-slate-800 shadow-2xl">
-                                        <span class="text-3xl font-black text-slate-700 uppercase">{{ substr($team->name, 0, 1) }}</span>
+                                    <div class="w-16 h-16 rounded-[6px] bg-surface-3 flex items-center justify-center border border-border">
+                                        <span class="text-2xl font-mono font-medium text-text-secondary uppercase">{{ substr($team->name, 0, 1) }}</span>
                                     </div>
                                 @endif
                             </div>
@@ -56,45 +55,51 @@
                                            name="logo" 
                                            id="logo" 
                                            accept="image/*"
-                                           class="block w-full text-sm text-slate-400
-                                                  file:mr-4 file:py-2.5 file:px-6
-                                                  file:rounded-xl file:border-0
-                                                  file:text-[10px] file:font-black file:uppercase file:tracking-widest
-                                                  file:bg-blue-600 file:text-white
-                                                  hover:file:bg-blue-500
-                                                  cursor-pointer transition-all">
+                                           class="block w-full text-[13px] text-text-secondary
+                                                  file:mr-4 file:py-2 file:px-4
+                                                  file:rounded-[4px] file:border-0
+                                                  file:text-[11px] file:font-mono file:uppercase file:tracking-[0.08em]
+                                                  file:bg-surface-3 file:text-text-primary file:cursor-pointer
+                                                  hover:file:bg-border-light
+                                                  cursor-pointer transition-all duration-150">
                                 </label>
-                                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-tight ml-1">JPG, PNG or GIF • Max 1MB</p>
+                                <p class="text-[10px] font-mono text-text-muted uppercase tracking-[0.08em]">JPG, PNG or GIF • Max 1MB</p>
                             </div>
                         </div>
-                        @error('logo') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
+                        @error('logo') <p class="text-danger font-mono text-[11px] mt-1.5">{{ $message }}</p> @enderror
                     </div>
 
                     <!-- Private Toggle -->
-                    <div class="flex items-center justify-between p-6 bg-slate-950/50 rounded-3xl border border-slate-800/50">
+                    <div class="flex items-center justify-between p-5 bg-surface-2 rounded-[6px] border border-border">
                         <div>
-                            <h4 class="font-bold text-white mb-1">Private Workspace</h4>
-                            <p class="text-xs font-medium text-slate-500 max-w-sm leading-relaxed">
+                            <h4 class="text-[13px] font-medium text-text-primary mb-1">Private Workspace</h4>
+                            <p class="text-[12px] text-text-secondary max-w-sm leading-relaxed">
                                 Hidden from the public Explore directory. Only invited members can view and access this workspace. You can change this setting later.
                             </p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_private" id="is_private" value="1" class="sr-only peer" {{ old('is_private', $team->is_private) ? 'checked' : '' }}>
-                            <div class="w-14 h-8 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-slate-400 after:border-slate-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-blue-600 peer-checked:after:bg-white peer-checked:after:border-white"></div>
+                            <div class="w-11 h-6 bg-surface-3 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-text-secondary after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent peer-checked:after:bg-white"></div>
                         </label>
                     </div>
                 </div>
 
                 <!-- Actions -->
-                <div class="flex items-center justify-end gap-6 pt-10 border-t border-slate-800/50">
-                    <a href="{{ route('teams.show', $team) }}" class="text-xs font-black uppercase tracking-widest text-slate-500 hover:text-white transition-colors">
+                <div class="flex items-center justify-end gap-4 pt-6 border-t border-border mt-8">
+                    <a href="{{ route('teams.show', $team) }}" class="text-[11px] font-mono uppercase tracking-[0.08em] text-text-secondary hover:text-text-primary transition-colors duration-150">
                         Cancel
                     </a>
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-black uppercase tracking-[0.2em] px-10 py-4 rounded-full transition-all shadow-xl shadow-blue-600/20 hover:scale-105 active:scale-95">
+                    <x-blue-button type="submit">
                         Save Changes
-                    </button>
+                    </x-blue-button>
                 </div>
             </form>
         </div>
     </div>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </x-layouts.app>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'Ticket Hub') }} - Precision Support</title>
+    <title>{{ config('app.name', 'Ticket Hub') }} - Open Source Help Desk</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=dm-sans:400,500|inter:400,500|jetbrains-mono:400,500,600|syne:800&display=swap" rel="stylesheet" />
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -21,167 +21,229 @@
         }
     </style>
 </head>
-<body class="bg-bg text-text-primary font-sans antialiased selection:bg-accent selection:text-white relative">
+<body class="bg-bg text-text-primary font-sans antialiased selection:bg-accent selection:text-white relative min-h-screen flex flex-col">
 
     <div class="absolute inset-0 grid-bg pointer-events-none z-0"></div>
 
-    <div class="relative z-10">
+    <div class="relative z-10 flex flex-col flex-1">
         <x-header />
 
-        <main>
-            <!-- Hero Section -->
-            <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-                <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center relative z-10">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-[4px] bg-accent/10 border border-accent/20 text-accent text-xs font-mono uppercase tracking-[0.08em] mb-8 opacity-0 animate-[fadeIn_0.3s_ease-out_forwards]">
-                        <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
-                        Ticket Hub v2.0
-                    </div>
-
-                    <h1 class="text-5xl md:text-7xl font-[Syne] font-extrabold tracking-tight text-text-primary mb-6 leading-tight max-w-4xl mx-auto opacity-0 animate-[fadeIn_0.3s_ease-out_50ms_forwards]">
-                        Control the chaos. <br>
-                        <span class="text-accent">Engineer your support.</span>
-                    </h1>
-
-                    <p class="text-lg md:text-xl text-text-secondary mb-10 max-w-2xl mx-auto leading-relaxed font-sans opacity-0 animate-[fadeIn_0.3s_ease-out_100ms_forwards]">
-                        The technical help desk for teams that value precision. Lightning-fast workflows, deep automation, and an interface built for speed.
-                    </p>
-
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-[fadeIn_0.3s_ease-out_150ms_forwards]">
-                        <a href="{{ route('register') }}" class="w-full sm:w-auto bg-accent hover:bg-accent-hover text-white text-sm font-medium px-8 py-3 rounded-[6px] transition-all duration-200 hover:shadow-[0_0_12px_var(--color-accent-glow)]">
-                            Start Free Trial
-                        </a>
-                        <a href="{{ route('portal.index') }}" class="w-full sm:w-auto bg-transparent hover:bg-surface-2 text-text-secondary hover:text-text-primary text-sm font-medium px-8 py-3 rounded-[6px] border border-border hover:border-border-light transition-all duration-200 flex items-center justify-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="9" x2="15" y1="9" y2="9"/><line x1="9" x2="15" y1="15" y2="15"/></svg>
-                            View Live Portal
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Abstract Technical Preview -->
-                <div class="mt-20 relative max-w-5xl mx-auto px-6 lg:px-8 opacity-0 animate-[fadeIn_0.5s_ease-out_250ms_forwards]">
-                    <div class="relative rounded-[8px] bg-surface-1 border border-border overflow-hidden aspect-[16/9] md:aspect-[2/1] group shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]">
-                        <!-- Top Bar -->
-                        <div class="h-10 border-b border-border bg-surface-2 flex items-center px-4 gap-2">
-                            <div class="w-3 h-3 rounded-full bg-border-light"></div>
-                            <div class="w-3 h-3 rounded-full bg-border-light"></div>
-                            <div class="w-3 h-3 rounded-full bg-border-light"></div>
-                            <div class="ml-4 font-mono text-xs text-text-muted">tickethub.dev.br / dashboard</div>
+        <main class="flex-1">
+            <!-- Hero Section (Terminal/Log Style) -->
+            <section class="relative pt-24 pb-16 lg:pt-32 lg:pb-24 border-b border-border">
+                <div class="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                    
+                    <div class="lg:col-span-7 space-y-8 opacity-0 animate-[fadeIn_0.3s_ease-out_forwards]">
+                        <div class="inline-flex items-center gap-3">
+                            <span class="w-2 h-2 bg-success animate-pulse"></span>
+                            <span class="text-text-muted font-mono text-sm tracking-tight">[status: online]</span>
+                            <span class="text-text-muted font-mono text-sm tracking-tight border-l border-border pl-3">v2.0</span>
                         </div>
-                        
-                        <!-- Sidebar and Content -->
-                        <div class="flex h-[calc(100%-2.5rem)]">
-                            <div class="w-48 border-r border-border bg-surface-1 hidden md:block p-4">
-                                <div class="space-y-2">
-                                    <div class="h-4 w-24 bg-surface-3 rounded-[4px]"></div>
-                                    <div class="h-4 w-32 bg-surface-2 rounded-[4px]"></div>
-                                    <div class="h-4 w-20 bg-surface-2 rounded-[4px]"></div>
+
+                        <h1 class="text-5xl md:text-6xl font-display font-semibold tracking-tight text-text-primary leading-[1.1]">
+                            Beautiful support.<br>
+                            <span class="text-text-secondary">Zero friction.</span>
+                        </h1>
+
+                        <p class="text-lg text-text-secondary max-w-xl leading-relaxed font-sans">
+                            The open-source help desk built for teams that value speed. A lightning-fast Kanban board for your team, and a transparent portal for your customers.
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row items-start gap-4 pt-4">
+                            <a href="{{ route('register') }}" class="group relative inline-flex items-center justify-center bg-text-primary text-bg font-mono text-sm font-semibold px-6 py-3 transition-transform hover:-translate-y-0.5 active:translate-y-0">
+                                <span class="absolute inset-0 border border-text-primary"></span>
+                                <span class="relative flex items-center gap-2">
+                                    [ Create Workspace ]
+                                </span>
+                            </a>
+                            <a href="{{ route('portal.index') }}" class="inline-flex items-center justify-center bg-transparent text-text-secondary hover:text-text-primary border border-border hover:border-text-secondary font-mono text-sm font-medium px-6 py-3 transition-colors">
+                                <span class="flex items-center gap-2">
+                                    >_ view_live_portal
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Abstract Terminal Preview -->
+                    <div class="lg:col-span-5 relative opacity-0 animate-[fadeIn_0.5s_ease-out_200ms_forwards]">
+                        <div class="rounded-none bg-surface-1 border border-border font-mono text-xs md:text-sm shadow-2xl">
+                            <!-- Terminal Header -->
+                            <div class="h-9 border-b border-border bg-surface-2 flex items-center px-4 justify-between">
+                                <div class="flex gap-2">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-border-light"></div>
+                                    <div class="w-2.5 h-2.5 rounded-full bg-border-light"></div>
+                                    <div class="w-2.5 h-2.5 rounded-full bg-border-light"></div>
+                                </div>
+                                <div class="text-text-muted">triage_log</div>
+                            </div>
+                            <!-- Terminal Body -->
+                            <div class="p-4 space-y-3 text-text-secondary">
+                                <div class="flex items-start gap-3">
+                                    <span class="text-text-muted shrink-0">14:02:11</span>
+                                    <span><span class="text-accent">GET</span> /api/tickets/recent <span class="text-success">200 OK</span></span>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="text-text-muted shrink-0">14:02:15</span>
+                                    <span>User 'pmota' <span class="text-warning">triaged</span> ticket #402 to [High Priority]</span>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="text-text-muted shrink-0">14:02:22</span>
+                                    <span><span class="text-accent">POST</span> /api/comments <span class="text-success">201 Created</span></span>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="text-text-muted shrink-0">14:02:23</span>
+                                    <span>Notification dispatched -> mail_queue</span>
+                                </div>
+                                <div class="flex items-start gap-3 mt-4 pt-4 border-t border-border/50">
+                                    <span class="text-success shrink-0">❯</span>
+                                    <span class="text-text-primary animate-pulse">_</span>
                                 </div>
                             </div>
-                            <div class="flex-1 p-6 space-y-4">
-                                <!-- Code Snippet Mock -->
-                                <div class="p-4 rounded-[6px] bg-surface-2 border border-border font-mono text-sm">
-                                    <span class="text-text-muted">// Ticket processing automation</span><br>
-                                    <span class="text-accent">const</span> <span class="text-text-primary">ticket</span> = <span class="text-accent">await</span> <span class="text-text-primary">Ticket</span>.<span class="text-success">create</span>({<br>
-                                    &nbsp;&nbsp;title: <span class="text-warning">'Connection timeout'</span>,<br>
-                                    &nbsp;&nbsp;priority: <span class="text-danger">'high'</span><br>
-                                    });
-                                </div>
-                                <div class="h-10 w-full bg-surface-2 rounded-[6px] border border-border"></div>
-                                <div class="h-10 w-3/4 bg-surface-2 rounded-[6px] border border-border"></div>
-                            </div>
-                        </div>
-                        
-                        <!-- Hover Overlay -->
-                        <div class="absolute inset-0 bg-bg/80 backdrop-blur-sm flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            <a href="{{ route('register') }}" class="bg-accent text-white font-medium px-6 py-2.5 rounded-[6px] transform translate-y-2 group-hover:translate-y-0 transition-all duration-200">Enter Dashboard</a>
                         </div>
                     </div>
+                    
                 </div>
             </section>
 
-            <!-- Features Grid -->
-            <section id="features" class="py-24 border-t border-border bg-bg relative">
+            <!-- Workflow Log Section -->
+            <section id="workflow" class="py-24 border-b border-border bg-bg">
                 <div class="max-w-7xl mx-auto px-6 lg:px-8">
-                    <div class="text-center mb-16">
-                        <h2 class="text-text-muted font-mono tracking-[0.08em] uppercase text-xs mb-3">Architecture</h2>
-                        <h3 class="text-2xl md:text-3xl font-display text-text-primary">Built for scale and precision.</h3>
+                    <div class="mb-16">
+                        <h2 class="text-text-muted font-mono tracking-widest uppercase text-xs mb-3 flex items-center gap-2">
+                            <span class="w-4 h-[1px] bg-text-muted"></span> Workflow
+                        </h2>
+                        <h3 class="text-2xl md:text-3xl font-display text-text-primary">Built for productivity and transparency.</h3>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Feature 1 -->
-                        <div class="p-8 rounded-[8px] bg-surface-1 border border-border hover:border-border-light transition-colors duration-150">
-                            <div class="mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-secondary"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>
+                    <div class="flex flex-col border-l border-border ml-2 md:ml-4 space-y-12 pl-6 md:pl-10">
+                        
+                        <!-- Item 1 -->
+                        <div class="relative group">
+                            <!-- Timeline Dot -->
+                            <div class="absolute -left-[29px] md:-left-[45px] top-1 w-3 h-3 bg-bg border-2 border-text-muted group-hover:border-accent transition-colors"></div>
+                            
+                            <div class="flex flex-col md:flex-row gap-6 items-start">
+                                <div class="md:w-1/3">
+                                    <h4 class="font-mono text-lg text-text-primary mb-2">Reactive Kanban</h4>
+                                    <p class="text-text-secondary text-sm leading-relaxed font-sans">
+                                        Drag and drop tickets seamlessly. Triage with custom tags and priorities to ensure no issue ever slips through the cracks.
+                                    </p>
+                                </div>
+                                <div class="md:w-2/3 w-full border border-border bg-surface-1 p-4 text-xs font-mono text-text-muted">
+                                    // Status update payload<br>
+                                    {<br>
+                                    &nbsp;&nbsp;"ticket_id": "TKT-802",<br>
+                                    &nbsp;&nbsp;"status": "<span class="text-warning">in_progress</span>",<br>
+                                    &nbsp;&nbsp;"assignee": "system"<br>
+                                    }
+                                </div>
                             </div>
-                            <h4 class="text-lg font-medium text-text-primary mb-2">Technical Workflows</h4>
-                            <p class="text-text-secondary text-sm leading-relaxed">
-                                Triage with keyboard shortcuts, powerful filters, and precise state management. No fluff, just speed.
-                            </p>
                         </div>
 
-                        <!-- Feature 2 -->
-                        <div class="p-8 rounded-[8px] bg-surface-1 border border-border hover:border-border-light transition-colors duration-150">
-                            <div class="mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-secondary"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                        <!-- Item 2 -->
+                        <div class="relative group">
+                            <div class="absolute -left-[29px] md:-left-[45px] top-1 w-3 h-3 bg-bg border-2 border-text-muted group-hover:border-accent transition-colors"></div>
+                            
+                            <div class="flex flex-col md:flex-row gap-6 items-start">
+                                <div class="md:w-1/3">
+                                    <h4 class="font-mono text-lg text-text-primary mb-2">Transparent Portals</h4>
+                                    <p class="text-text-secondary text-sm leading-relaxed font-sans">
+                                        Give your customers a branded, lightning-fast home to submit requests and track their progress in real-time.
+                                    </p>
+                                </div>
+                                <div class="md:w-2/3 w-full border border-border bg-surface-1 p-4 text-xs font-mono text-text-muted">
+                                    > Loading customer portal...<br>
+                                    > Authenticated as: guest_user<br>
+                                    > Rendering ticket history [■■■■■■■■■■] 100%<br>
+                                    <span class="text-success">Portal ready.</span>
+                                </div>
                             </div>
-                            <h4 class="text-lg font-medium text-text-primary mb-2">Public API & Portals</h4>
-                            <p class="text-text-secondary text-sm leading-relaxed">
-                                Expose your support hub seamlessly. Headless architecture allows full integration with your existing stack.
-                            </p>
                         </div>
 
-                        <!-- Feature 3 -->
-                        <div class="p-8 rounded-[8px] bg-surface-1 border border-border hover:border-border-light transition-colors duration-150">
-                            <div class="mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-secondary"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                        <!-- Item 3 -->
+                        <div class="relative group">
+                            <div class="absolute -left-[29px] md:-left-[45px] top-1 w-3 h-3 bg-bg border-2 border-text-muted group-hover:border-accent transition-colors"></div>
+                            
+                            <div class="flex flex-col md:flex-row gap-6 items-start">
+                                <div class="md:w-1/3">
+                                    <h4 class="font-mono text-lg text-text-primary mb-2">Automation Robots</h4>
+                                    <p class="text-text-secondary text-sm leading-relaxed font-sans">
+                                        Programmatic support. Create API keys to automatically ingest tickets from external forms, apps, or services.
+                                    </p>
+                                </div>
+                                <div class="md:w-2/3 w-full border border-border bg-surface-1 p-4 text-xs font-mono text-text-muted">
+                                    $ curl -X POST https://tickethub.dev.br/api/tickets \<br>
+                                    &nbsp;&nbsp;-H "Authorization: Bearer th_robot_***" \<br>
+                                    &nbsp;&nbsp;-d '{"title":"Deployment failed","priority":"urgent"}'
+                                </div>
                             </div>
-                            <h4 class="text-lg font-medium text-text-primary mb-2">Webhooks & Robots</h4>
-                            <p class="text-text-secondary text-sm leading-relaxed">
-                                Programmatic support. React to events instantly and automate routing via powerful API integrations.
-                            </p>
                         </div>
+
                     </div>
                 </div>
             </section>
 
-            <!-- Pricing Section -->
-            <section id="pricing" class="py-24 border-t border-border bg-surface-1">
-                <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-                    <h2 class="text-2xl md:text-3xl font-display text-text-primary mb-4">
-                        Open source foundation.
-                    </h2>
-                    <p class="text-text-secondary mb-10 max-w-xl mx-auto">
-                        Host it yourself for full data sovereignty, or sponsor the project to steer development.
-                    </p>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-                        <div class="p-6 rounded-[8px] bg-bg border border-border hover:border-border-light transition-colors">
-                            <h3 class="font-mono text-sm text-text-primary mb-2">> Self Hosted</h3>
-                            <p class="text-text-secondary text-sm mb-6">Full control over your infrastructure. MIT Licensed.</p>
-                            <a href="https://github.com/PMota173/ticket-hub" target="_blank" class="block w-full py-2.5 rounded-[6px] bg-surface-2 border border-border text-text-primary text-center text-sm font-medium hover:bg-surface-3 transition-colors">
-                                View GitHub Repo
-                            </a>
+            <!-- Open Source Section -->
+            <section id="pricing" class="py-24 bg-surface-1">
+                <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                    <div class="flex flex-col md:flex-row gap-12 items-center">
+                        <div class="md:w-1/2">
+                            <h2 class="text-3xl md:text-4xl font-display font-medium text-text-primary mb-4">
+                                Own your data.<br>
+                                <span class="text-text-secondary">Escape per-agent pricing.</span>
+                            </h2>
+                            <p class="text-text-secondary mb-8 font-sans leading-relaxed">
+                                100% open-source and self-hostable. Maintain full control over your infrastructure, or sponsor the project to steer its future.
+                            </p>
+                            <div class="flex items-center gap-4">
+                                <a href="https://github.com/PMota173/ticket-hub" target="_blank" class="inline-flex items-center gap-2 font-mono text-sm text-text-primary border-b border-text-primary pb-0.5 hover:text-accent hover:border-accent transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                                    View Repository
+                                </a>
+                                <span class="text-text-muted">|</span>
+                                <a href="https://github.com/sponsors/PMota173" target="_blank" class="inline-flex items-center gap-2 font-mono text-sm text-text-secondary hover:text-text-primary transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                                    Sponsor Project
+                                </a>
+                            </div>
                         </div>
-                        <div class="p-6 rounded-[8px] bg-bg border border-accent/30 hover:border-accent/50 transition-colors">
-                            <h3 class="font-mono text-sm text-accent mb-2">> Sponsor</h3>
-                            <p class="text-text-secondary text-sm mb-6">Directly fund development and prioritize feature requests.</p>
-                            <a href="https://github.com/sponsors/PMota173" target="_blank" class="block w-full py-2.5 rounded-[6px] bg-accent/10 border border-accent/20 text-accent text-center text-sm font-medium hover:bg-accent/20 transition-colors">
-                                Sponsor Project
-                            </a>
+
+                        <div class="md:w-1/2 w-full">
+                            <div class="bg-bg border border-border p-6 font-mono text-sm">
+                                <div class="text-text-muted mb-4">// System requirements check</div>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between">
+                                        <span class="text-text-secondary">PHP</span>
+                                        <span class="text-success">>= 8.2 [OK]</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-text-secondary">Laravel</span>
+                                        <span class="text-success">12.x [OK]</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-text-secondary">Database</span>
+                                        <span class="text-success">SQLite / MySQL / PgSQL [OK]</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-text-secondary">License</span>
+                                        <span class="text-text-primary">MIT</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
         </main>
 
-        <footer class="bg-bg border-t border-border py-8">
+        <footer class="bg-bg border-t border-border py-6">
             <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-2">
-                    <div class="w-5 h-5 bg-accent rounded-[4px] flex items-center justify-center"></div>
-                    <span class="font-display font-medium text-text-primary text-sm">Ticket Hub</span>
+                <div class="flex items-center gap-2 text-text-primary font-mono text-sm">
+                    <span class="w-3 h-3 bg-text-primary border border-text-primary"></span>
+                    tickethub_
                 </div>
                 <p class="text-xs text-text-muted font-mono">
-                    &copy; {{ date('Y') }} MIT License.
+                    &copy; {{ date('Y') }} MIT License. Run your own support.
                 </p>
             </div>
         </footer>

@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
 
         // tickets routes
         Route::scopeBindings()->group(function () {
+            Route::get('/tickets/inbox', [TicketsController::class, 'inbox'])->name('tickets.inbox');
             Route::get('/tickets/create', [TicketsController::class, 'create'])->name('tickets.create');
             Route::post('/tickets', [TicketsController::class, 'store'])->name('tickets.store');
             Route::get('/tickets', [TicketsController::class, 'index'])->name('tickets.index');

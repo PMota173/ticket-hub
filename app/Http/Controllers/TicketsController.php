@@ -22,6 +22,22 @@ class TicketsController extends Controller
     }
 
     /**
+     * Display the triage inbox.
+     */
+    public function inbox(Team $team)
+    {
+        $this->authorize('viewAny', [Ticket::class, $team]);
+
+        $tickets = $team->tickets()
+            ->where('status', \App\Enums\TicketStatus::TRIAGE)
+            ->with(['author', 'tags'])
+            ->latest()
+            ->get();
+
+        return view('tickets.inbox', compact('team', 'tickets'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create(Team $team)

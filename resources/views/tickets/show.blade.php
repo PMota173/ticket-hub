@@ -159,6 +159,7 @@
                                 <div class="relative group">
                                     <select name="status" onchange="this.form.submit()" 
                                         class="w-full bg-surface-2 border border-border text-text-primary text-[13px] rounded-[6px] focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] p-2.5 appearance-none cursor-pointer transition-all duration-150">
+                                        <option value="triage" {{ $ticket->status === \App\Enums\TicketStatus::TRIAGE ? 'selected' : '' }}>Triage</option>
                                         <option value="open" {{ $ticket->status === \App\Enums\TicketStatus::OPEN ? 'selected' : '' }}>Open</option>
                                         <option value="in_progress" {{ $ticket->status === \App\Enums\TicketStatus::IN_PROGRESS ? 'selected' : '' }}>In Progress</option>
                                         <option value="waiting" {{ $ticket->status === \App\Enums\TicketStatus::WAITING ? 'selected' : '' }}>Waiting</option>

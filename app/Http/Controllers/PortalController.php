@@ -110,7 +110,7 @@ class PortalController extends Controller
 
         $ticket = $team->tickets()->make($request->validated());
         $ticket->author()->associate($request->user());
-        $ticket->status = TicketStatus::OPEN;
+        $ticket->status = TicketStatus::TRIAGE;
         $ticket->priority = TicketPriority::MEDIUM; // Default priority
         $ticket->save();
 

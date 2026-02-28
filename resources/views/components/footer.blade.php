@@ -1,20 +1,21 @@
-<footer {{ $attributes->merge(['class' => 'bg-bg border-t border-border py-12']) }}>
+<footer {{ $attributes->merge(['class' => 'bg-bg border-t border-border py-8']) }}>
     <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-[6px] bg-accent flex items-center justify-center font-display font-medium text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>
-            </div>
-            <span class="text-base font-display font-medium text-text-primary tracking-tight">Ticket Hub</span>
+            <a href="/" class="flex items-center gap-3 group transition-colors duration-150">
+                <div class="flex items-center justify-center w-3 h-3 bg-text-primary border border-text-primary transition-transform duration-150 group-hover:scale-90"></div>
+                <span class="font-mono font-bold tracking-tight text-text-primary group-hover:text-text-secondary transition-colors duration-150 text-sm">tickethub_</span>
+            </a>
         </div>
         
-        <p class="text-[13px] text-text-muted font-mono uppercase tracking-[0.08em]">
-            &copy; {{ date('Y') }} MIT License.
+        <p class="text-[11px] text-text-muted font-mono tracking-widest">
+            &copy; {{ date('Y') }} MIT License. Run your own support.
         </p>
         
         <div class="flex gap-6">
-            <a href="#" class="text-[11px] font-mono uppercase tracking-[0.08em] text-text-muted hover:text-text-primary transition-colors duration-150">Privacy</a>
-            <a href="#" class="text-[11px] font-mono uppercase tracking-[0.08em] text-text-muted hover:text-text-primary transition-colors duration-150">Terms</a>
-            <a href="#" class="text-[11px] font-mono uppercase tracking-[0.08em] text-text-muted hover:text-text-primary transition-colors duration-150">Contact</a>
+            <a href="https://github.com/PMota173/ticket-hub" target="_blank" class="text-[11px] font-mono tracking-widest text-text-muted hover:text-text-primary transition-colors duration-150 flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                GitHub
+            </a>
         </div>
     </div>
 </footer>

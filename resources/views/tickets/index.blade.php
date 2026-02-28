@@ -37,78 +37,100 @@
     </div>
 
     <!-- Kanban Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-start opacity-0 animate-[fadeIn_0.3s_ease-out_50ms_forwards]">
-        <!-- Open Column -->
-        <div id="col-open" class="flex flex-col bg-surface-1 border border-border rounded-none overflow-hidden transition-colors duration-150 relative">
-            <div class="absolute top-0 left-0 right-0 h-0.5 bg-text-secondary"></div>
-            <div class="px-4 py-3 border-b border-border flex items-center justify-between bg-surface-2">
-                <div class="flex items-center gap-2">
-                    <h3 class="font-mono text-xs font-semibold text-text-primary uppercase tracking-widest">open_</h3>
+    <div class="opacity-0 animate-[fadeIn_0.3s_ease-out_50ms_forwards]">
+        @if($tickets->isEmpty())
+            <div class="bg-surface-1 border border-border border-dashed p-20 text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-none bg-surface-2 mb-6 border border-border">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" class="text-text-muted">
+                        <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>
+                    </svg>
                 </div>
-                <span id="count-open" class="text-[10px] font-mono text-text-secondary bg-bg px-2 py-0.5 border border-border">
-                    {{ $tickets->where('status', \App\Enums\TicketStatus::OPEN)->count() }}
-                </span>
+                <h2 class="text-xl font-display font-medium text-text-primary mb-2">Board is empty</h2>
+                <p class="text-text-secondary text-sm max-w-sm mx-auto mb-8 font-sans">No tickets have been moved to the active board yet. Check the Triage Inbox for incoming requests.</p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="{{ route('tickets.inbox', $team) }}" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-surface-2 border border-border text-text-primary font-mono text-sm hover:bg-surface-3 transition-colors">
+                        [ Open Triage ]
+                    </a>
+                    <x-blue-button href="{{ route('tickets.create', $team) }}">
+                        Create Ticket
+                    </x-blue-button>
+                </div>
             </div>
-            <div class="p-3 space-y-3 min-h-[200px] md:min-h-[600px] transition-all bg-bg" id="open">
-                @foreach($tickets->where('status', \App\Enums\TicketStatus::OPEN) as $ticket)
-                    <x-kanban-card :ticket="$ticket" :team="$team" />
-                @endforeach
-            </div>
-        </div>
+        @else
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
+                <!-- Open Column -->
+                <div id="col-open" class="flex flex-col bg-surface-1 border border-border rounded-none overflow-hidden transition-colors duration-150 relative">
+                    <div class="absolute top-0 left-0 right-0 h-0.5 bg-text-secondary"></div>
+                    <div class="px-4 py-3 border-b border-border flex items-center justify-between bg-surface-2">
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-mono text-xs font-semibold text-text-primary uppercase tracking-widest">open_</h3>
+                        </div>
+                        <span id="count-open" class="text-[10px] font-mono text-text-secondary bg-bg px-2 py-0.5 border border-border">
+                            {{ $tickets->where('status', \App\Enums\TicketStatus::OPEN)->count() }}
+                        </span>
+                    </div>
+                    <div class="p-3 space-y-3 min-h-[200px] md:min-h-[600px] transition-all bg-bg" id="open">
+                        @foreach($tickets->where('status', \App\Enums\TicketStatus::OPEN) as $ticket)
+                            <x-kanban-card :ticket="$ticket" :team="$team" />
+                        @endforeach
+                    </div>
+                </div>
 
-        <!-- In Progress Column -->
-        <div id="col-in_progress" class="hidden md:flex flex-col bg-surface-1 border border-border rounded-none overflow-hidden transition-colors duration-150 relative">
-            <div class="absolute top-0 left-0 right-0 h-0.5 bg-accent"></div>
-            <div class="px-4 py-3 border-b border-border flex items-center justify-between bg-surface-2">
-                <div class="flex items-center gap-2">
-                    <h3 class="font-mono text-xs font-semibold text-text-primary uppercase tracking-widest">active_</h3>
+                <!-- In Progress Column -->
+                <div id="col-in_progress" class="hidden md:flex flex-col bg-surface-1 border border-border rounded-none overflow-hidden transition-colors duration-150 relative">
+                    <div class="absolute top-0 left-0 right-0 h-0.5 bg-accent"></div>
+                    <div class="px-4 py-3 border-b border-border flex items-center justify-between bg-surface-2">
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-mono text-xs font-semibold text-text-primary uppercase tracking-widest">active_</h3>
+                        </div>
+                        <span id="count-in_progress" class="text-[10px] font-mono text-accent bg-bg px-2 py-0.5 border border-border">
+                            {{ $tickets->where('status', \App\Enums\TicketStatus::IN_PROGRESS)->count() }}
+                        </span>
+                    </div>
+                    <div class="p-3 space-y-3 min-h-[200px] md:min-h-[600px] transition-all bg-bg" id="in_progress">
+                        @foreach($tickets->where('status', \App\Enums\TicketStatus::IN_PROGRESS) as $ticket)
+                            <x-kanban-card :ticket="$ticket" :team="$team" />
+                        @endforeach
+                    </div>
                 </div>
-                <span id="count-in_progress" class="text-[10px] font-mono text-accent bg-bg px-2 py-0.5 border border-border">
-                    {{ $tickets->where('status', \App\Enums\TicketStatus::IN_PROGRESS)->count() }}
-                </span>
-            </div>
-            <div class="p-3 space-y-3 min-h-[200px] md:min-h-[600px] transition-all bg-bg" id="in_progress">
-                @foreach($tickets->where('status', \App\Enums\TicketStatus::IN_PROGRESS) as $ticket)
-                    <x-kanban-card :ticket="$ticket" :team="$team" />
-                @endforeach
-            </div>
-        </div>
 
-        <!-- Waiting Column -->
-        <div id="col-waiting" class="hidden md:flex flex-col bg-surface-1 border border-border rounded-none overflow-hidden transition-colors duration-150 relative">
-            <div class="absolute top-0 left-0 right-0 h-0.5 bg-warning"></div>
-            <div class="px-4 py-3 border-b border-border flex items-center justify-between bg-surface-2">
-                <div class="flex items-center gap-2">
-                    <h3 class="font-mono text-xs font-semibold text-text-primary uppercase tracking-widest">waiting_</h3>
+                <!-- Waiting Column -->
+                <div id="col-waiting" class="hidden md:flex flex-col bg-surface-1 border border-border rounded-none overflow-hidden transition-colors duration-150 relative">
+                    <div class="absolute top-0 left-0 right-0 h-0.5 bg-warning"></div>
+                    <div class="px-4 py-3 border-b border-border flex items-center justify-between bg-surface-2">
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-mono text-xs font-semibold text-text-primary uppercase tracking-widest">waiting_</h3>
+                        </div>
+                        <span id="count-waiting" class="text-[10px] font-mono text-warning bg-bg px-2 py-0.5 border border-border">
+                            {{ $tickets->where('status', \App\Enums\TicketStatus::WAITING)->count() }}
+                        </span>
+                    </div>
+                    <div class="p-3 space-y-3 min-h-[200px] md:min-h-[600px] transition-all bg-bg" id="waiting">
+                        @foreach($tickets->where('status', \App\Enums\TicketStatus::WAITING) as $ticket)
+                            <x-kanban-card :ticket="$ticket" :team="$team" />
+                        @endforeach
+                    </div>
                 </div>
-                <span id="count-waiting" class="text-[10px] font-mono text-warning bg-bg px-2 py-0.5 border border-border">
-                    {{ $tickets->where('status', \App\Enums\TicketStatus::WAITING)->count() }}
-                </span>
-            </div>
-            <div class="p-3 space-y-3 min-h-[200px] md:min-h-[600px] transition-all bg-bg" id="waiting">
-                @foreach($tickets->where('status', \App\Enums\TicketStatus::WAITING) as $ticket)
-                    <x-kanban-card :ticket="$ticket" :team="$team" />
-                @endforeach
-            </div>
-        </div>
 
-        <!-- Solved Column -->
-        <div id="col-closed" class="hidden md:flex flex-col bg-surface-1 border border-border rounded-none overflow-hidden transition-colors duration-150 relative">
-            <div class="absolute top-0 left-0 right-0 h-0.5 bg-success"></div>
-            <div class="px-4 py-3 border-b border-border flex items-center justify-between bg-surface-2">
-                <div class="flex items-center gap-2">
-                    <h3 class="font-mono text-xs font-semibold text-text-primary uppercase tracking-widest">solved_</h3>
+                <!-- Solved Column -->
+                <div id="col-closed" class="hidden md:flex flex-col bg-surface-1 border border-border rounded-none overflow-hidden transition-colors duration-150 relative">
+                    <div class="absolute top-0 left-0 right-0 h-0.5 bg-success"></div>
+                    <div class="px-4 py-3 border-b border-border flex items-center justify-between bg-surface-2">
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-mono text-xs font-semibold text-text-primary uppercase tracking-widest">solved_</h3>
+                        </div>
+                        <span id="count-closed" class="text-[10px] font-mono text-success bg-bg px-2 py-0.5 border border-border">
+                            {{ $tickets->where('status', \App\Enums\TicketStatus::CLOSED)->count() }}
+                        </span>
+                    </div>
+                    <div class="p-3 space-y-3 min-h-[200px] md:min-h-[600px] transition-all bg-bg" id="closed">
+                        @foreach($tickets->where('status', \App\Enums\TicketStatus::CLOSED) as $ticket)
+                            <x-kanban-card :ticket="$ticket" :team="$team" />
+                        @endforeach
+                    </div>
                 </div>
-                <span id="count-closed" class="text-[10px] font-mono text-success bg-bg px-2 py-0.5 border border-border">
-                    {{ $tickets->where('status', \App\Enums\TicketStatus::CLOSED)->count() }}
-                </span>
             </div>
-            <div class="p-3 space-y-3 min-h-[200px] md:min-h-[600px] transition-all bg-bg" id="closed">
-                @foreach($tickets->where('status', \App\Enums\TicketStatus::CLOSED) as $ticket)
-                    <x-kanban-card :ticket="$ticket" :team="$team" />
-                @endforeach
-            </div>
-        </div>
+        @endif
     </div>
 
     <x-confirm-modal 

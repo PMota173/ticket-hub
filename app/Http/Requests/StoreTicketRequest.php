@@ -29,7 +29,10 @@ class StoreTicketRequest extends FormRequest
             'description' => ['required', 'string'],
             'priority' => Rule::enum(TicketPriority::class),
             'status' => Rule::enum(TicketStatus::class),
-            'assigned_id' => ['nullable', 'exists:users,id'],
+            'assigned_id' => [
+                'nullable',
+                Rule::exists('team_user', 'user_id')->where('team_id', $this->route('team')?->id),
+            ],
         ];
     }
 }

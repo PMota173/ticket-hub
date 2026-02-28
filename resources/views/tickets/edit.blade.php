@@ -11,7 +11,7 @@
         </div>
 
         <!-- Form Container -->
-        <div class="bg-surface-1 border border-border rounded-[8px] p-8 opacity-0 animate-[fadeIn_0.3s_ease-out_50ms_forwards] mb-8">
+        <div class="bg-surface-1 border border-border rounded-none p-8 opacity-0 animate-[fadeIn_0.3s_ease-out_50ms_forwards] mb-8">
             <form action="{{ route('tickets.update', [$team, $ticket]) }}" method="POST" class="space-y-8">
                 @csrf
                 @method('PATCH')
@@ -21,7 +21,7 @@
                     <div class="space-y-1.5">
                         <label for="title" class="block text-[11px] font-mono text-text-muted uppercase tracking-[0.08em]">Ticket Title</label>
                         <input type="text" name="title" id="title" required value="{{ old('title', $ticket->title) }}"
-                            class="w-full bg-surface-2 border border-border text-text-primary rounded-[6px] px-4 py-2.5 focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] transition-all duration-150 text-[13px] placeholder-text-muted">
+                            class="w-full bg-surface-2 border border-border text-text-primary rounded-none px-4 py-2.5 focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] transition-all duration-150 text-[13px] placeholder-text-muted">
                         @error('title') <p class="text-danger font-mono text-[11px] mt-1.5">{{ $message }}</p> @enderror
                     </div>
 
@@ -31,7 +31,7 @@
                                 <label for="assigned_id" class="block text-[11px] font-mono text-text-muted uppercase tracking-[0.08em]">Assigned Agent</label>
                                 <div class="relative group">
                                     <select name="assigned_id" id="assigned_id"
-                                        class="w-full bg-surface-2 border border-border text-text-primary rounded-[6px] px-4 py-2.5 focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] transition-all duration-150 appearance-none cursor-pointer text-[13px]">
+                                        class="w-full bg-surface-2 border border-border text-text-primary rounded-none px-4 py-2.5 focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] transition-all duration-150 appearance-none cursor-pointer text-[13px]">
                                         <option value="">Unassigned</option>
                                         @foreach($members as $member)
                                             <option value="{{ $member->id }}" {{ old('assigned_id', $ticket->assigned_id) == $member->id ? 'selected' : '' }}>{{ $member->name }}</option>
@@ -48,7 +48,7 @@
                     <div class="space-y-1.5">
                         <label for="description" class="block text-[11px] font-mono text-text-muted uppercase tracking-[0.08em]">Description</label>
                         <textarea name="description" id="description" rows="6" required
-                            class="w-full bg-surface-2 border border-border text-text-primary rounded-[6px] px-4 py-3 focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] transition-all duration-150 placeholder-text-muted resize-none text-[13px] leading-relaxed"
+                            class="w-full bg-surface-2 border border-border text-text-primary rounded-none px-4 py-3 focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] transition-all duration-150 placeholder-text-muted resize-none text-[13px] leading-relaxed"
                         >{{ old('description', $ticket->description) }}</textarea>
                         @error('description') <p class="text-danger font-mono text-[11px] mt-1.5">{{ $message }}</p> @enderror
                     </div>
@@ -61,7 +61,7 @@
                         <!-- Low -->
                         <label class="relative cursor-pointer group">
                             <input type="radio" name="priority" value="low" class="peer sr-only" {{ old('priority', $ticket->priority->value) == 'low' ? 'checked' : '' }}>
-                            <div class="p-4 rounded-[6px] border border-border bg-surface-2 peer-checked:border-accent peer-checked:bg-accent/5 transition-all duration-150 hover:border-border-light flex flex-col items-center text-center gap-3">
+                            <div class="p-4 rounded-none border border-border bg-surface-2 peer-checked:border-accent peer-checked:bg-accent/5 transition-all duration-150 hover:border-border-light flex flex-col items-center text-center gap-3">
                                 <div class="text-success">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
                                 </div>
@@ -75,7 +75,7 @@
                         <!-- Medium -->
                         <label class="relative cursor-pointer group">
                             <input type="radio" name="priority" value="medium" class="peer sr-only" {{ old('priority', $ticket->priority->value) == 'medium' ? 'checked' : '' }}>
-                            <div class="p-4 rounded-[6px] border border-border bg-surface-2 peer-checked:border-accent peer-checked:bg-accent/5 transition-all duration-150 hover:border-border-light flex flex-col items-center text-center gap-3">
+                            <div class="p-4 rounded-none border border-border bg-surface-2 peer-checked:border-accent peer-checked:bg-accent/5 transition-all duration-150 hover:border-border-light flex flex-col items-center text-center gap-3">
                                 <div class="text-warning">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>
                                 </div>
@@ -89,7 +89,7 @@
                         <!-- High -->
                         <label class="relative cursor-pointer group">
                             <input type="radio" name="priority" value="high" class="peer sr-only" {{ old('priority', $ticket->priority->value) == 'high' ? 'checked' : '' }}>
-                            <div class="p-4 rounded-[6px] border border-border bg-surface-2 peer-checked:border-accent peer-checked:bg-accent/5 transition-all duration-150 hover:border-border-light flex flex-col items-center text-center gap-3">
+                            <div class="p-4 rounded-none border border-border bg-surface-2 peer-checked:border-accent peer-checked:bg-accent/5 transition-all duration-150 hover:border-border-light flex flex-col items-center text-center gap-3">
                                 <div class="text-danger">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
                                 </div>
@@ -115,7 +115,7 @@
         </div>
 
         <!-- Danger Zone -->
-        <div class="bg-danger/5 border border-danger/20 rounded-[8px] p-6 flex flex-col sm:flex-row items-center justify-between gap-6 opacity-0 animate-[fadeIn_0.3s_ease-out_100ms_forwards]">
+        <div class="bg-danger/5 border border-danger/20 rounded-none p-6 flex flex-col sm:flex-row items-center justify-between gap-6 opacity-0 animate-[fadeIn_0.3s_ease-out_100ms_forwards]">
             <div class="text-center sm:text-left">
                 <h4 class="text-[15px] font-medium text-danger tracking-tight">Danger Zone</h4>
                 <p class="text-text-secondary text-[13px]">Once you archive this ticket, it can only be restored by an admin.</p>
@@ -123,7 +123,7 @@
             <button 
                 type="button" 
                 onclick="openModal('delete-ticket-modal', '{{ route('tickets.destroy', [$team, $ticket]) }}')" 
-                class="bg-danger/10 text-danger border border-danger/20 hover:bg-danger hover:text-white px-5 py-2 rounded-[6px] text-[11px] font-mono uppercase tracking-[0.08em] transition-all duration-150"
+                class="bg-danger/10 text-danger border border-danger/20 hover:bg-danger hover:text-white px-5 py-2 rounded-none text-[11px] font-mono uppercase tracking-[0.08em] transition-all duration-150"
             >
                 Archive Ticket
             </button>

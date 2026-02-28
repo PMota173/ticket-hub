@@ -4,7 +4,7 @@
     $status = $status instanceof \App\Enums\TicketStatus ? $status : \App\Enums\TicketStatus::tryFrom($status);
 @endphp
 
-<span {{ $attributes->merge(['class' => 'inline-flex items-center px-2 py-0.5 rounded-[4px] text-[12px] font-medium border ' . match($status) {
+<span {{ $attributes->merge(['class' => 'inline-flex items-center px-2 py-0.5 rounded-none text-[12px] font-medium border ' . match($status) {
     \App\Enums\TicketStatus::TRIAGE => 'bg-surface-3 text-text-secondary border-border border-dashed',
     \App\Enums\TicketStatus::OPEN => 'bg-surface-2 text-text-primary border-border',
     \App\Enums\TicketStatus::IN_PROGRESS => 'bg-accent/15 text-accent border-accent/20',

@@ -29,7 +29,11 @@ class UpdateTicketRequest extends FormRequest
             'description' => ['sometimes', 'required', 'string'],
             'priority' => ['sometimes', Rule::enum(TicketPriority::class)],
             'status' => ['sometimes', Rule::enum(TicketStatus::class)],
-            'assigned_id' => ['sometimes', 'nullable', 'exists:users,id'],
+            'assigned_id' => [
+                'sometimes',
+                'nullable',
+                Rule::exists('team_user', 'user_id')->where('team_id', $this->route('team')?->id),
+            ],
         ];
     }
 }

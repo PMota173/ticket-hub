@@ -82,32 +82,48 @@
                         <div class="h-px flex-1 bg-border"></div>
                     </h3>
 
-                    <div class="space-y-8 mb-12">
-                        @forelse($ticket->comments as $comment)
-                            <div class="flex gap-4 group">
-                                <div class="flex-shrink-0">
-                                    @if($comment->author->avatar_path ?? false)
-                                        <img src="{{ asset('storage/' . $comment->author->avatar_path) }}" 
-                                             alt="{{ $comment->author->name }}" 
-                                             class="w-9 h-9 rounded-[4px] object-cover border border-border transition-colors duration-150 group-hover:border-border-light">
-                                    @else
-                                        <div class="w-9 h-9 rounded-[4px] bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-xs border border-border transition-colors duration-150 group-hover:border-border-light">
-                                            {{ substr($comment->author->name, 0, 1) }}
+                    @php
+                        $events = collect()
+                            ->concat($ticket->comments->map(fn($c) => ['type' => 'comment', 'model' => $c, 'date' => $c->created_at]))
+                            ->concat($ticket->activityLogs->map(fn($l) => ['type' => 'log', 'model' => $l, 'date' => $l->created_at]))
+                            ->sortBy('date')
+                            ->values();
+                    @endphp
+
+                    <div class="space-y-8 mb-12 relative">
+                        <div class="absolute left-4 top-8 bottom-0 w-px bg-border hidden sm:block"></div>
+                        @forelse($events as $event)
+                            @if($event['type'] === 'comment')
+                                @php $comment = $event['model']; @endphp
+                                <div class="flex gap-4 relative z-10 group">
+                                    <div class="flex-shrink-0 hidden sm:block">
+                                        @if($comment->author->avatar_path ?? false)
+                                            <img src="{{ asset('storage/' . $comment->author->avatar_path) }}" 
+                                                 alt="{{ $comment->author->name }}" 
+                                                 class="w-9 h-9 rounded-[4px] object-cover border border-border transition-colors duration-150 group-hover:border-border-light bg-surface-2">
+                                        @else
+                                            <div class="w-9 h-9 rounded-[4px] bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-xs border border-border transition-colors duration-150 group-hover:border-border-light">
+                                                {{ substr($comment->author->name, 0, 1) }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="flex-grow min-w-0">
+                                        <div class="flex items-center justify-between mb-1.5">
+                                            <div class="flex items-center gap-3">
+                                                <span class="text-[13px] font-medium text-text-primary">{{ $comment->author->name }}</span>
+                                                <span class="text-[10px] font-mono text-text-muted uppercase tracking-[0.08em]">{{ $comment->created_at->diffForHumans() }}</span>
+                                            </div>
                                         </div>
-                                    @endif
-                                </div>
-                                <div class="flex-grow min-w-0">
-                                    <div class="flex items-center justify-between mb-1.5">
-                                        <div class="flex items-center gap-3">
-                                            <span class="text-[13px] font-medium text-text-primary">{{ $comment->author->name }}</span>
-                                            <span class="text-[10px] font-mono text-text-muted uppercase tracking-[0.08em]">{{ $comment->created_at->diffForHumans() }}</span>
+                                        <div class="bg-surface-1 border border-border rounded-[6px] p-4 text-text-secondary text-[14px] leading-relaxed group-hover:border-border-light transition-colors duration-150">
+                                            {!! nl2br(e($comment->body)) !!}
                                         </div>
                                     </div>
-                                    <div class="bg-surface-1 border border-border rounded-[6px] p-4 text-text-secondary text-[14px] leading-relaxed group-hover:border-border-light transition-colors duration-150">
-                                        {!! nl2br(e($comment->body)) !!}
-                                    </div>
                                 </div>
-                            </div>
+                            @else
+                                <div class="relative z-10 pl-0 sm:pl-[52px]">
+                                    <x-activity-log-item :log="$event['model']" />
+                                </div>
+                            @endif
                         @empty
                             <div class="text-center py-12 bg-surface-1 rounded-[8px] border border-border border-dashed">
                                 <p class="text-text-muted font-mono uppercase tracking-[0.08em] text-[11px]">No activity recorded</p>

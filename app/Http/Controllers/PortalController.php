@@ -89,7 +89,7 @@ class PortalController extends Controller
             abort(404);
         }
 
-        $ticket->load(['author', 'comments.author', 'tags']);
+        $ticket->load(['author', 'comments.author', 'activityLogs.actor', 'tags']);
 
         return view('portal.ticket', [
             'team' => $team,

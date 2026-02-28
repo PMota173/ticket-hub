@@ -77,4 +77,14 @@ class Ticket extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    protected static function booted(): void
+    {
+        static::observe(\App\Observers\TicketObserver::class);
+    }
+
+    public function activityLogs()
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
 }

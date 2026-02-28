@@ -55,50 +55,64 @@
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-lg font-medium text-text-primary tracking-tight flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-secondary"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                            Activity & Discussion
+                            Activity Timeline
                         </h3>
-                        <span class="text-[11px] font-mono text-text-secondary bg-surface-2 px-2 py-0.5 rounded-[4px] border border-border">{{ $ticket->comments->count() }} Comments</span>
+                        <span class="text-[11px] font-mono text-text-secondary bg-surface-2 px-2 py-0.5 rounded-[4px] border border-border">{{ $ticket->comments->count() + $ticket->activityLogs->count() }} Events</span>
                     </div>
 
-                    <!-- Comment List -->
+                    @php
+                        $events = collect()
+                            ->concat($ticket->comments->map(fn($c) => ['type' => 'comment', 'model' => $c, 'date' => $c->created_at]))
+                            ->concat($ticket->activityLogs->map(fn($l) => ['type' => 'log', 'model' => $l, 'date' => $l->created_at]))
+                            ->sortBy('date')
+                            ->values();
+                    @endphp
+
+                    <!-- Event List -->
                     <div class="space-y-4 mb-8">
-                        @forelse($ticket->comments as $comment)
-                            <div class="flex gap-4 group">
-                                <div class="flex-shrink-0">
-                                    @if($comment->author->avatar_path ?? false)
-                                        <img src="{{ asset('storage/' . $comment->author->avatar_path) }}" 
-                                             alt="{{ $comment->author->name }}" 
-                                             class="w-8 h-8 rounded-[4px] object-cover border border-border">
-                                    @else
-                                        <div class="w-8 h-8 rounded-[4px] bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-xs border border-border">
-                                            {{ substr($comment->author->name, 0, 1) }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="flex-grow min-w-0">
-                                    <div class="flex items-center justify-between mb-1.5">
-                                        <div class="flex items-center gap-2">
-                                            <span class="text-[13px] font-medium text-text-primary">{{ $comment->author->name }}</span>
-                                            <span class="text-[10px] font-mono text-text-muted uppercase tracking-[0.08em]">{{ $comment->created_at->diffForHumans() }}</span>
-                                        </div>
-                                        @can('delete', $comment)
-                                            <form action="{{ route('tickets.comments.destroy', [$team, $ticket, $comment]) }}" method="POST" class="opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="p-1 text-text-muted hover:text-danger transition-colors duration-150" title="Delete comment">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                                                </button>
-                                            </form>
-                                        @endcan
+                        @forelse($events as $event)
+                            @if($event['type'] === 'comment')
+                                @php $comment = $event['model']; @endphp
+                                <div class="flex gap-4 group relative">
+                                    <div class="absolute left-4 top-8 bottom-[-16px] w-px bg-border group-last:hidden"></div>
+                                    <div class="relative z-10 flex-shrink-0 mt-1">
+                                        @if($comment->author->avatar_path ?? false)
+                                            <img src="{{ asset('storage/' . $comment->author->avatar_path) }}" 
+                                                 alt="{{ $comment->author->name }}" 
+                                                 class="w-8 h-8 rounded-[4px] object-cover border border-border bg-surface-2">
+                                        @else
+                                            <div class="w-8 h-8 rounded-[4px] bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-xs border border-border">
+                                                {{ substr($comment->author->name, 0, 1) }}
+                                            </div>
+                                        @endif
                                     </div>
-                                    <div class="text-text-secondary text-[14px] leading-relaxed bg-surface-1 rounded-[6px] p-4 border border-border">
-                                        {!! nl2br(e($comment->body)) !!}
+                                    <div class="flex-grow min-w-0">
+                                        <div class="flex items-center justify-between mb-1.5">
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-[13px] font-medium text-text-primary">{{ $comment->author->name }}</span>
+                                                <span class="text-[10px] font-mono text-text-muted uppercase tracking-[0.08em]">{{ $comment->created_at->diffForHumans() }}</span>
+                                            </div>
+                                            @can('delete', $comment)
+                                                <form action="{{ route('tickets.comments.destroy', [$team, $ticket, $comment]) }}" method="POST" class="opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="p-1 text-text-muted hover:text-danger transition-colors duration-150" title="Delete comment">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                                                    </button>
+                                                </form>
+                                            @endcan
+                                        </div>
+                                        <div class="text-text-secondary text-[14px] leading-relaxed bg-surface-1 rounded-[6px] p-4 border border-border">
+                                            {!! nl2br(e($comment->body)) !!}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @else
+                                <x-activity-log-item :log="$event['model']" />
+                            @endif
                         @empty
                             <div class="py-8 text-center bg-surface-1 rounded-[6px] border border-border border-dashed">
-                                <p class="text-text-secondary text-[13px] italic">No conversation has started yet.</p>
+                                <p class="text-text-secondary text-[13px] italic">No activity recorded yet.</p>
                             </div>
                         @endforelse
                     </div>

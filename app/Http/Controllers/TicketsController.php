@@ -77,7 +77,7 @@ class TicketsController extends Controller
     {
         $this->authorize('view', $ticket);
 
-        $ticket->load(['comments.author', 'author', 'tags', 'assignee']);
+        $ticket->load(['comments.author', 'activityLogs.actor', 'author', 'tags', 'assignee']);
 
         return view('tickets.show', compact('team', 'ticket'));
     }

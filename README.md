@@ -25,7 +25,7 @@ By making it **100% open-source and self-hostable**, you retain full ownership o
 ## 📸 Screenshots
 
 ### Landing Page
-![Ticket Hub Welcome Page](.github/assets/welcome-photo.png)
+![Ticket Hub Welcome Page](.github/assets/welcome.png)
 *A sleek, modern public landing page to welcome your customers.*
 
 ### Team Dashboard

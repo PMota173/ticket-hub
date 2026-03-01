@@ -44,9 +44,9 @@
                             @if($ticket->author?->avatar_path)
                                 <img src="{{ asset('storage/' . $ticket->author->avatar_path) }}" 
                                      alt="{{ $ticket->author->name }}" 
-                                     class="w-10 h-10 rounded-[4px] object-cover border border-border">
+                                     class="w-10 h-10 rounded-none object-cover border border-border">
                             @else
-                                <div class="w-10 h-10 rounded-[4px] bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-sm border border-border">
+                                <div class="w-10 h-10 rounded-none bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-sm border border-border">
                                     {{ substr($ticket->author?->name ?? '?', 0, 1) }}
                                 </div>
                             @endif
@@ -59,7 +59,7 @@
                 </div>
 
                 <!-- Description -->
-                <div class="bg-surface-1 border border-border rounded-[8px] p-6">
+                <div class="bg-surface-1 border border-border rounded-none p-6">
                     <div class="prose prose-invert max-w-none text-text-secondary text-[15px] leading-relaxed">
                         {!! nl2br(e($ticket->description)) !!}
                     </div>
@@ -68,7 +68,7 @@
                 @if($ticket->tags->isNotEmpty())
                     <div class="flex flex-wrap gap-2 pt-2">
                         @foreach($ticket->tags as $tag)
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-[4px] text-[10px] font-mono uppercase tracking-[0.08em] bg-surface-2 text-text-secondary border border-border">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-none text-[10px] font-mono uppercase tracking-[0.08em] bg-surface-2 text-text-secondary border border-border">
                                 {{ $tag->name }}
                             </span>
                         @endforeach
@@ -100,9 +100,9 @@
                                         @if($comment->author->avatar_path ?? false)
                                             <img src="{{ asset('storage/' . $comment->author->avatar_path) }}" 
                                                  alt="{{ $comment->author->name }}" 
-                                                 class="w-9 h-9 rounded-[4px] object-cover border border-border transition-colors duration-150 group-hover:border-border-light bg-surface-2">
+                                                 class="w-9 h-9 rounded-none object-cover border border-border transition-colors duration-150 group-hover:border-border-light bg-surface-2">
                                         @else
-                                            <div class="w-9 h-9 rounded-[4px] bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-xs border border-border transition-colors duration-150 group-hover:border-border-light">
+                                            <div class="w-9 h-9 rounded-none bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-xs border border-border transition-colors duration-150 group-hover:border-border-light">
                                                 {{ substr($comment->author->name, 0, 1) }}
                                             </div>
                                         @endif
@@ -114,7 +114,7 @@
                                                 <span class="text-[10px] font-mono text-text-muted uppercase tracking-[0.08em]">{{ $comment->created_at->diffForHumans() }}</span>
                                             </div>
                                         </div>
-                                        <div class="bg-surface-1 border border-border rounded-[6px] p-4 text-text-secondary text-[14px] leading-relaxed group-hover:border-border-light transition-colors duration-150">
+                                        <div class="bg-surface-1 border border-border rounded-none p-4 text-text-secondary text-[14px] leading-relaxed group-hover:border-border-light transition-colors duration-150">
                                             {!! nl2br(e($comment->body)) !!}
                                         </div>
                                     </div>
@@ -125,7 +125,7 @@
                                 </div>
                             @endif
                         @empty
-                            <div class="text-center py-12 bg-surface-1 rounded-[8px] border border-border border-dashed">
+                            <div class="text-center py-12 bg-surface-1 rounded-none border border-border border-dashed">
                                 <p class="text-text-muted font-mono uppercase tracking-[0.08em] text-[11px]">No activity recorded</p>
                             </div>
                         @endforelse
@@ -133,7 +133,7 @@
 
                     <!-- Post Comment -->
                     @auth
-                        <div class="bg-surface-1 border border-border rounded-[8px] p-6 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]">
+                        <div class="bg-surface-1 border border-border rounded-none p-6 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]">
                             <form action="{{ route('tickets.comments.store', [$team, $ticket]) }}" method="POST">
                                 @csrf
                                 <div class="space-y-5">
@@ -146,7 +146,7 @@
                                         name="body" 
                                         rows="4" 
                                         placeholder="Add your input to this thread..." 
-                                        class="w-full bg-surface-2 border border-border text-text-primary rounded-[6px] p-4 focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] placeholder-text-muted resize-none min-h-[120px] transition-all duration-150 text-[14px] leading-relaxed"
+                                        class="w-full bg-surface-2 border border-border text-text-primary rounded-none p-4 focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] placeholder-text-muted resize-none min-h-[120px] transition-all duration-150 text-[14px] leading-relaxed"
                                         required
                                     ></textarea>
                                     
@@ -163,10 +163,10 @@
                             </form>
                         </div>
                     @else
-                        <div class="bg-surface-1/50 rounded-[8px] p-10 text-center border border-border">
+                        <div class="bg-surface-1/50 rounded-none p-10 text-center border border-border">
                             <h4 class="text-[15px] font-medium text-text-primary uppercase tracking-[0.08em] mb-3">Thread Gated</h4>
                             <p class="text-text-secondary text-[13px] mb-8 max-w-sm mx-auto">You must be authenticated within the network to contribute to this discussion.</p>
-                            <a href="{{ route('login') }}?redirect={{ url()->current() }}" class="inline-flex bg-text-primary text-bg text-[11px] font-mono uppercase tracking-[0.08em] px-6 py-2.5 rounded-[6px] hover:bg-text-primary/90 transition-all duration-150">
+                            <a href="{{ route('login') }}?redirect={{ url()->current() }}" class="inline-flex bg-text-primary text-bg text-[11px] font-mono uppercase tracking-[0.08em] px-6 py-2.5 rounded-none hover:bg-text-primary/90 transition-all duration-150">
                                 Verify Identity
                             </a>
                         </div>
@@ -177,12 +177,12 @@
             <!-- Sidebar -->
             <div class="lg:col-span-4 space-y-6 opacity-0 animate-[fadeIn_0.3s_ease-out_100ms_forwards]">
                 <!-- Team Card -->
-                <div class="bg-surface-1 border border-border rounded-[8px] p-6 hover:border-border-light transition-all duration-150 group">
+                <div class="bg-surface-1 border border-border rounded-none p-6 hover:border-border-light transition-all duration-150 group">
                     <div class="flex items-center gap-4 mb-5">
                         @if($team->logo)
-                            <img src="{{ asset('storage/' . $team->logo) }}" alt="{{ $team->name }}" class="w-10 h-10 rounded-[4px] object-cover border border-border">
+                            <img src="{{ asset('storage/' . $team->logo) }}" alt="{{ $team->name }}" class="w-10 h-10 rounded-none object-cover border border-border">
                         @else
-                            <div class="w-10 h-10 rounded-[4px] bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-lg border border-border">
+                            <div class="w-10 h-10 rounded-none bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-lg border border-border">
                                 {{ substr($team->name, 0, 1) }}
                             </div>
                         @endif
@@ -198,14 +198,14 @@
                     </p>
                     
                     @auth
-                        <button onclick="document.getElementById('create-ticket-modal').showModal()" class="w-full bg-surface-2 hover:bg-surface-3 border border-border text-text-primary text-[11px] font-mono uppercase tracking-[0.08em] py-2.5 rounded-[6px] transition-all duration-150">
+                        <button onclick="document.getElementById('create-ticket-modal').showModal()" class="w-full bg-surface-2 hover:bg-surface-3 border border-border text-text-primary text-[11px] font-mono uppercase tracking-[0.08em] py-2.5 rounded-none transition-all duration-150">
                             New Submission
                         </button>
                     @endauth
                 </div>
 
                 <!-- Info Card -->
-                <div class="bg-surface-1 border border-border rounded-[8px] p-6">
+                <div class="bg-surface-1 border border-border rounded-none p-6">
                     <h3 class="text-[10px] font-mono text-text-muted uppercase tracking-[0.08em] mb-6">Report Metadata</h3>
                     <div class="space-y-4">
                         <div class="flex justify-between items-center">
@@ -229,11 +229,11 @@
     <!-- Create Ticket Modal -->
     @auth
     <dialog id="create-ticket-modal" class="hidden open:flex bg-transparent backdrop:bg-bg/90 p-0 w-full h-full fixed inset-0 z-50 items-center justify-center open:animate-fade-in">
-        <div class="bg-surface-1 border border-border rounded-[8px] overflow-hidden w-full max-w-2xl max-h-[90vh] flex flex-col relative mx-4 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]">
+        <div class="bg-surface-1 border border-border rounded-none overflow-hidden w-full max-w-2xl max-h-[90vh] flex flex-col relative mx-4 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]">
             <div class="px-6 py-4 border-b border-border flex items-center justify-between bg-surface-2">
                 <h3 class="text-[11px] font-mono text-text-primary uppercase tracking-[0.08em]">Initiate Submission</h3>
                 <form method="dialog">
-                    <button class="text-text-secondary hover:text-text-primary transition-colors p-1.5 rounded-[4px] hover:bg-surface-3">
+                    <button class="text-text-secondary hover:text-text-primary transition-colors p-1.5 rounded-none hover:bg-surface-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                     </button>
                 </form>
@@ -245,18 +245,18 @@
                     <div class="space-y-1.5">
                         <label for="title" class="block text-[11px] font-mono text-text-muted uppercase tracking-[0.08em]">Issue Overview</label>
                         <input type="text" name="title" id="title" required placeholder="What needs attention?" 
-                            class="w-full bg-surface-2 border border-border rounded-[6px] px-4 py-2.5 text-text-primary placeholder-text-muted focus:border-accent focus:ring-0 focus:shadow-[0_0_0_3px_var(--color-accent-glow)] transition-all duration-150 outline-none text-[13px]">
+                            class="w-full bg-surface-2 border border-border rounded-none px-4 py-2.5 text-text-primary placeholder-text-muted focus:border-accent focus:ring-0 focus:shadow-[0_0_0_3px_var(--color-accent-glow)] transition-all duration-150 outline-none text-[13px]">
                     </div>
                     <div class="space-y-1.5">
                         <label for="description" class="block text-[11px] font-mono text-text-muted uppercase tracking-[0.08em]">Context & Details</label>
                         <textarea name="description" id="description" rows="5" required placeholder="Describe the problem in high detail..." 
-                            class="w-full bg-surface-2 border border-border rounded-[6px] px-4 py-3 text-text-primary placeholder-text-muted focus:border-accent focus:ring-0 focus:shadow-[0_0_0_3px_var(--color-accent-glow)] transition-all duration-150 outline-none resize-none text-[13px] leading-relaxed"></textarea>
+                            class="w-full bg-surface-2 border border-border rounded-none px-4 py-3 text-text-primary placeholder-text-muted focus:border-accent focus:ring-0 focus:shadow-[0_0_0_3px_var(--color-accent-glow)] transition-all duration-150 outline-none resize-none text-[13px] leading-relaxed"></textarea>
                     </div>
                     <div class="grid grid-cols-1 gap-5">
                         <div class="space-y-1.5">
                             <label for="priority" class="block text-[11px] font-mono text-text-muted uppercase tracking-[0.08em]">Priority Level</label>
                             <div class="relative">
-                                <select name="priority" id="priority" class="w-full bg-surface-2 border border-border rounded-[6px] px-4 py-2.5 text-text-primary focus:border-accent focus:ring-0 focus:shadow-[0_0_0_3px_var(--color-accent-glow)] outline-none appearance-none font-mono text-[11px] uppercase tracking-[0.08em] cursor-pointer transition-all">
+                                <select name="priority" id="priority" class="w-full bg-surface-2 border border-border rounded-none px-4 py-2.5 text-text-primary focus:border-accent focus:ring-0 focus:shadow-[0_0_0_3px_var(--color-accent-glow)] outline-none appearance-none font-mono text-[11px] uppercase tracking-[0.08em] cursor-pointer transition-all">
                                     <option value="low">Low</option>
                                     <option value="medium" selected>Medium</option>
                                     <option value="high">High</option>

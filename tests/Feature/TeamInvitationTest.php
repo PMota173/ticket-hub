@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Notification;
 
 test('team admin can invite a user', function () {
     Notification::fake();
-    
+
     $user = User::factory()->create();
     $team = Team::factory()->create(['user_id' => $user->id]);
     $team->users()->attach($user, ['is_admin' => true]);
@@ -29,7 +29,7 @@ test('team admin can invite a user', function () {
         new Illuminate\Notifications\AnonymousNotifiable,
         TeamInvitationNotification::class,
         function ($notification, $channels, $notifiable) {
-             return $notifiable->routes['mail'] === 'colleague@example.com';
+            return $notifiable->routes['mail'] === 'colleague@example.com';
         }
     );
 });
@@ -52,15 +52,15 @@ test('team admin can view pending invitations', function () {
 
 test('non-admin cannot invite users', function () {
     $user = User::factory()->create();
-    $team = Team::factory()->create(); 
+    $team = Team::factory()->create();
     // User is not even a member
-    
+
     $this->actingAs($user)
         ->post(route('invitations.store', $team), [
             'email' => 'colleague@example.com',
         ])
         ->assertForbidden();
-        
+
     $this->assertDatabaseMissing('team_invitations', ['email' => 'colleague@example.com']);
 });
 
@@ -157,7 +157,7 @@ test('user cannot accept invitation for different email', function () {
     $this->actingAs($user)
         ->get(route('invitations.accept', 'valid-token'))
         ->assertForbidden();
-        
+
     expect($invitation->fresh()->accepted_at)->toBeNull();
 });
 
@@ -200,7 +200,7 @@ test('guest is redirected to register when accepting invitation', function () {
 
     $this->get(route('invitations.accept', 'valid-token'))
         ->assertRedirect(route('register', ['email' => 'new@example.com']));
-        
+
     expect(session('url.intended'))->toBe(route('invitations.accept', 'valid-token'));
 });
 

@@ -9,7 +9,7 @@
     <!-- Base URL -->
     <div class="mb-8">
         <h2 class="text-base font-display font-medium text-text-primary mb-4">Base URL</h2>
-        <div class="bg-bg border border-border rounded-[6px] p-4 font-mono text-[13px] text-accent">
+        <div class="bg-bg border border-border rounded-none p-4 font-mono text-[13px] text-accent">
             {{ url('/api/v1') }}
         </div>
     </div>
@@ -18,44 +18,44 @@
     <p class="text-text-secondary mb-8">Each request has its own page with request examples and sample responses.</p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <a href="{{ route('guides.api', 'tickets-list') }}" class="block bg-surface-1 border border-border rounded-[8px] p-6 hover:border-border-light hover:bg-surface-2 transition-all">
+        <a href="{{ route('guides.api', 'tickets-list') }}" class="block bg-surface-1 border border-border rounded-none p-6 hover:border-border-light hover:bg-surface-2 transition-all">
             <div class="flex items-center gap-3 mb-2">
-                <span class="bg-accent/10 text-accent border border-accent/20 px-2.5 py-1 rounded text-xs font-bold font-mono">GET</span>
+                <span class="bg-accent/10 text-accent border border-accent/20 px-2.5 py-1 rounded-none text-xs font-bold font-mono">GET</span>
                 <h3 class="text-base font-display font-medium text-text-primary">/tickets</h3>
             </div>
             <p class="text-text-secondary text-[13px]">List all tickets for the robot's team.</p>
         </a>
-        <a href="{{ route('guides.api', 'tickets-show') }}" class="block bg-surface-1 border border-border rounded-[8px] p-6 hover:border-border-light hover:bg-surface-2 transition-all">
+        <a href="{{ route('guides.api', 'tickets-show') }}" class="block bg-surface-1 border border-border rounded-none p-6 hover:border-border-light hover:bg-surface-2 transition-all">
             <div class="flex items-center gap-3 mb-2">
-                <span class="bg-accent/10 text-accent border border-accent/20 px-2.5 py-1 rounded text-xs font-bold font-mono">GET</span>
+                <span class="bg-accent/10 text-accent border border-accent/20 px-2.5 py-1 rounded-none text-xs font-bold font-mono">GET</span>
                 <h3 class="text-base font-display font-medium text-text-primary">/tickets/{id}</h3>
             </div>
             <p class="text-text-secondary text-[13px]">Fetch a single ticket by ID.</p>
         </a>
-        <a href="{{ route('guides.api', 'tickets-create') }}" class="block bg-surface-1 border border-border rounded-[8px] p-6 hover:border-success/30 hover:bg-surface-2 transition-all">
+        <a href="{{ route('guides.api', 'tickets-create') }}" class="block bg-surface-1 border border-border rounded-none p-6 hover:border-success/30 hover:bg-surface-2 transition-all">
             <div class="flex items-center gap-3 mb-2">
-                <span class="bg-success/10 text-success border border-success/20 px-2.5 py-1 rounded text-xs font-bold font-mono">POST</span>
+                <span class="bg-success/10 text-success border border-success/20 px-2.5 py-1 rounded-none text-xs font-bold font-mono">POST</span>
                 <h3 class="text-base font-display font-medium text-text-primary">/tickets</h3>
             </div>
             <p class="text-text-secondary text-[13px]">Create a new ticket.</p>
         </a>
-        <a href="{{ route('guides.api', 'tickets-update') }}" class="block bg-surface-1 border border-border rounded-[8px] p-6 hover:border-border-light hover:bg-surface-2 transition-all">
+        <a href="{{ route('guides.api', 'tickets-update') }}" class="block bg-surface-1 border border-border rounded-none p-6 hover:border-border-light hover:bg-surface-2 transition-all">
             <div class="flex items-center gap-3 mb-2">
-                <span class="bg-[#B07BFF]/10 text-[#B07BFF] border border-[#B07BFF]/20 px-2.5 py-1 rounded text-xs font-bold font-mono">PATCH</span>
+                <span class="bg-[#B07BFF]/10 text-[#B07BFF] border border-[#B07BFF]/20 px-2.5 py-1 rounded-none text-xs font-bold font-mono">PATCH</span>
                 <h3 class="text-base font-display font-medium text-text-primary">/tickets/{id}</h3>
             </div>
             <p class="text-text-secondary text-[13px]">Update ticket fields.</p>
         </a>
-        <a href="{{ route('guides.api', 'tickets-comments-create') }}" class="block bg-surface-1 border border-border rounded-[8px] p-6 hover:border-success/30 hover:bg-surface-2 transition-all">
+        <a href="{{ route('guides.api', 'tickets-comments-create') }}" class="block bg-surface-1 border border-border rounded-none p-6 hover:border-success/30 hover:bg-surface-2 transition-all">
             <div class="flex items-center gap-3 mb-2">
-                <span class="bg-success/10 text-success border border-success/20 px-2.5 py-1 rounded text-xs font-bold font-mono">POST</span>
+                <span class="bg-success/10 text-success border border-success/20 px-2.5 py-1 rounded-none text-xs font-bold font-mono">POST</span>
                 <h3 class="text-base font-display font-medium text-text-primary">/tickets/{id}/comments</h3>
             </div>
             <p class="text-text-secondary text-[13px]">Create a comment for a ticket.</p>
         </a>
-        <a href="{{ route('guides.api', 'team-members') }}" class="block bg-surface-1 border border-border rounded-[8px] p-6 hover:border-border-light hover:bg-surface-2 transition-all">
+        <a href="{{ route('guides.api', 'team-members') }}" class="block bg-surface-1 border border-border rounded-none p-6 hover:border-border-light hover:bg-surface-2 transition-all">
             <div class="flex items-center gap-3 mb-2">
-                <span class="bg-accent/10 text-accent border border-accent/20 px-2.5 py-1 rounded text-xs font-bold font-mono">GET</span>
+                <span class="bg-accent/10 text-accent border border-accent/20 px-2.5 py-1 rounded-none text-xs font-bold font-mono">GET</span>
                 <h3 class="text-base font-display font-medium text-text-primary">/team/members</h3>
             </div>
             <p class="text-text-secondary text-[13px]">List members for assignment lookups.</p>

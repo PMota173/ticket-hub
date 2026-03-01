@@ -79,17 +79,17 @@ class TeamPolicy
     public function removeMember(User $user, Team $team, User $targetMember): Response
     {
         // 1. Check if the user is an admin of the team
-        if (!$team->hasAdmin($user)) {
-            return Response::deny("Only team admins can remove members.");
+        if (! $team->hasAdmin($user)) {
+            return Response::deny('Only team admins can remove members.');
         }
 
         // 2. Check if the user is trying to remove himself
         if ($user->id === $targetMember->id) {
-            return Response::deny("You cannot remove yourself from the team.");
+            return Response::deny('You cannot remove yourself from the team.');
         }
 
         // 3. Check if the target member belongs to the team
-        if (!$team->users()->where('user_id', $targetMember->id)->exists()) {
+        if (! $team->users()->where('user_id', $targetMember->id)->exists()) {
             return Response::denyAsNotFound('The specified user is not a member of the team.');
         }
 
@@ -99,17 +99,17 @@ class TeamPolicy
     public function updateMember(User $user, Team $team, User $targetMember): Response
     {
         // 1. check if user is an admin of the team
-        if (!$team->hasAdmin($user)) {
-            return Response::deny("Only team admins can update member roles.");
+        if (! $team->hasAdmin($user)) {
+            return Response::deny('Only team admins can update member roles.');
         }
 
         // 2. check if user is trying to update himself
         if ($user->id === $targetMember->id) {
-            return Response::deny("You cannot update your own role.");
+            return Response::deny('You cannot update your own role.');
         }
 
         // 3. check if target member belongs to the team
-        if (!$team->users()->where('user_id', $targetMember->id)->exists()) {
+        if (! $team->users()->where('user_id', $targetMember->id)->exists()) {
             return Response::denyAsNotFound('The specified user is not a member of the team.');
         }
 

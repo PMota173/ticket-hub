@@ -2,22 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Laravel\Sanctum\HasApiTokens;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-
 class TeamRobot extends Model implements Authenticatable
 {
-    use HasApiTokens, AuthenticatableTrait, HasFactory;
+    use AuthenticatableTrait, HasApiTokens, HasFactory;
 
     protected $fillable = [
         'team_id',
-        'name'
+        'name',
     ];
 
     public function team(): BelongsTo

@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\TeamRobot;
 use App\Models\Ticket;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
@@ -36,8 +34,7 @@ class TicketController extends Controller
             'assigned_id' => ['nullable', 'exists:users,id'],
         ]);
 
-        if (isset($attributes['assigned_id']))
-        {
+        if (isset($attributes['assigned_id'])) {
             $isMember = $robot->team->users()->where('user_id', $attributes['assigned_id'])->exists();
 
             if (! $isMember) {
@@ -89,8 +86,7 @@ class TicketController extends Controller
             'assigned_id' => ['nullable', 'exists:users,id'],
         ]);
 
-        if (isset($attributes['assigned_id']))
-        {
+        if (isset($attributes['assigned_id'])) {
             $isMember = $robot->team->users()->where('user_id', $attributes['assigned_id'])->exists();
 
             if (! $isMember) {

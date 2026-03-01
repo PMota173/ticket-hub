@@ -61,8 +61,12 @@ class Team extends Model
         return $this->hasMany(Tag::class);
     }
 
-    public function hasAdmin(User $user): bool
+    public function hasAdmin(?User $user): bool
     {
+        if (! $user) {
+            return false;
+        }
+
         return $this->users()->where('user_id', $user->id)->wherePivot('is_admin', true)->exists();
     }
 
@@ -74,5 +78,10 @@ class Team extends Model
     public function robots(): HasMany
     {
         return $this->hasMany(TeamRobot::class);
+    }
+
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Article::class);
     }
 }

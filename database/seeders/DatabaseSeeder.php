@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
             // Add random members
             $teamMembers = $users->random(rand(5, 10));
             foreach ($teamMembers as $member) {
-                if (!$team->users()->where('user_id', $member->id)->exists()) {
+                if (! $team->users()->where('user_id', $member->id)->exists()) {
                     $team->users()->attach($member->id, ['is_admin' => fake()->boolean(20)]);
                 }
             }
@@ -63,7 +63,7 @@ class DatabaseSeeder extends Seeder
                 'author_id' => $team->users->random()->id,
                 'author_type' => User::class,
                 'assigned_id' => fake()->boolean(70) ? $team->users->random()->id : null, // 70% chance of assignment
-            ])->each(function ($ticket) use ($team, $users, $tags, $mainUser) {
+            ])->each(function ($ticket) use ($users, $tags) {
                 // Attach random tags
                 $ticket->tags()->attach($tags->random(rand(1, 3)));
 

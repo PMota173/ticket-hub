@@ -18,7 +18,7 @@ test('public profile page can be rendered', function () {
 test('public profile shows public teams', function () {
     $user = User::factory()->create();
     $viewer = User::factory()->create();
-    
+
     $publicTeam = Team::factory()->create(['user_id' => $user->id, 'is_private' => false]);
     $privateTeam = Team::factory()->create(['user_id' => $user->id, 'is_private' => true]);
 
@@ -51,7 +51,7 @@ test('profile information can be updated', function () {
         ]);
 
     $response->assertRedirect(route('users.show', $user));
-    
+
     $user->refresh();
 
     expect($user->name)->toBe('Test User Updated');
@@ -84,14 +84,14 @@ test('old avatar is deleted when replacing', function () {
 
     $user = User::factory()->create();
     $oldFile = UploadedFile::fake()->create('old_avatar.jpg', 100);
-    
+
     // Upload first avatar
     $this->actingAs($user)
         ->patch(route('profile.update'), [
             'name' => $user->name,
             'avatar' => $oldFile,
         ]);
-        
+
     $user->refresh();
     $oldPath = $user->avatar_path;
     Storage::disk('public')->assertExists($oldPath);

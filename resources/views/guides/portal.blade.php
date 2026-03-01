@@ -9,12 +9,12 @@
 
     <!-- EXPLORE -->
     <h2 class="text-2xl font-display font-medium text-text-primary mb-4 mt-12 flex items-center gap-3">
-        <span class="w-8 h-1 bg-accent rounded-full"></span>
+        <span class="w-8 h-1 bg-accent rounded-none"></span>
         Explore Directory
     </h2>
     <ul class="space-y-4 mb-8">
         <li class="flex gap-4 items-start">
-            <div class="bg-surface-3 p-2 rounded-[6px]">
+            <div class="bg-surface-3 p-2 rounded-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-primary"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>
             </div>
             <div>
@@ -23,7 +23,7 @@
             </div>
         </li>
         <li class="flex gap-4 items-start">
-            <div class="bg-surface-3 p-2 rounded-[6px]">
+            <div class="bg-surface-3 p-2 rounded-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-primary"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             </div>
             <div>
@@ -35,17 +35,17 @@
 
     <!-- TEAM PORTAL -->
     <h2 class="text-2xl font-display font-medium text-text-primary mb-4 mt-12 flex items-center gap-3">
-        <span class="w-8 h-1 bg-accent rounded-full"></span>
+        <span class="w-8 h-1 bg-accent rounded-none"></span>
         Team Portal
     </h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <div class="bg-surface-2 p-6 rounded-[8px] border border-border">
+        <div class="bg-surface-2 p-6 rounded-none border border-border">
             <h3 class="font-medium text-text-primary mb-2">Ticket Feed</h3>
             <p class="text-text-secondary text-[13px] leading-relaxed">
                 Visitors can browse tickets, search by title/description, and sort by newest, oldest, status, or priority.
             </p>
         </div>
-        <div class="bg-surface-2 p-6 rounded-[8px] border border-border">
+        <div class="bg-surface-2 p-6 rounded-none border border-border">
             <h3 class="font-medium text-text-primary mb-2">Public Ticket View</h3>
             <p class="text-text-secondary text-[13px] leading-relaxed">
                 Each ticket shows status, priority, author, tags, and the comment thread.
@@ -55,12 +55,12 @@
 
     <!-- SUBMISSIONS -->
     <h2 class="text-2xl font-display font-medium text-text-primary mb-4 mt-12 flex items-center gap-3">
-        <span class="w-8 h-1 bg-accent rounded-full"></span>
+        <span class="w-8 h-1 bg-accent rounded-none"></span>
         Submitting Tickets
     </h2>
     <ul class="space-y-4 mb-8">
         <li class="flex gap-4 items-start">
-            <div class="bg-surface-3 p-2 rounded-[6px]">
+            <div class="bg-surface-3 p-2 rounded-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-primary"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
             </div>
             <div>
@@ -69,7 +69,7 @@
             </div>
         </li>
         <li class="flex gap-4 items-start">
-            <div class="bg-surface-3 p-2 rounded-[6px]">
+            <div class="bg-surface-3 p-2 rounded-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-primary"><path d="M20 6 9 17 4 12"/></svg>
             </div>
             <div>
@@ -81,7 +81,7 @@
 
     <!-- COMMENTS -->
     <h2 class="text-2xl font-display font-medium text-text-primary mb-4 mt-12 flex items-center gap-3">
-        <span class="w-8 h-1 bg-accent rounded-full"></span>
+        <span class="w-8 h-1 bg-accent rounded-none"></span>
         Comments
     </h2>
     <p class="text-text-secondary mb-8">

@@ -96,11 +96,11 @@ test('non-member cannot view private team dashboard', function () {
 });
 
 // the business logic to this test needs to be validated
-//test('non-member can view public team dashboard', function () {
+// test('non-member can view public team dashboard', function () {
 //    $user = User::factory()->create();
 //    $team = Team::factory()->create(['is_private' => false]);
 //
 //    $this->actingAs($user)
 //        ->get(route('teams.show', $team))
 //        ->assertOk();
-//});
+// });

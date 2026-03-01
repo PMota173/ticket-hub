@@ -14,17 +14,17 @@ return new class extends Migration
         Schema::create('activity_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ticket_id')->constrained()->cascadeOnDelete();
-            
+
             // The user or robot who performed the action
-            $table->morphs('actor'); 
-            
+            $table->morphs('actor');
+
             $table->string('action'); // e.g., 'created', 'status_changed', 'priority_changed', 'assigned'
-            
+
             // Store previous and new states generically to allow recreating the history log precisely
             $table->string('field')->nullable(); // e.g., 'status', 'assigned_id'
             $table->string('old_value')->nullable();
             $table->string('new_value')->nullable();
-            
+
             $table->timestamps();
         });
     }

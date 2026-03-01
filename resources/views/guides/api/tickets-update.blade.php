@@ -5,7 +5,7 @@
     <p class="text-text-secondary text-base mb-8 leading-relaxed">Update a ticket's fields. Status and priority are strings.</p>
 
     <h2 class="text-base font-display font-medium text-text-primary mb-4">Body Parameters</h2>
-    <div class="overflow-hidden rounded-[6px] border border-border mb-8 shadow-lg">
+    <div class="overflow-hidden rounded-none border border-border mb-8 shadow-lg">
         <table class="w-full text-left text-[13px] text-text-secondary">
             <thead class="bg-bg text-text-primary uppercase tracking-[0.08em] font-bold text-xs">
                 <tr>
@@ -45,7 +45,7 @@
     </div>
 
     <h2 class="text-base font-display font-medium text-text-primary mb-4">Request Examples</h2>
-    <div id="block-update" class="bg-surface-2 border border-border rounded-[6px] overflow-hidden shadow-xl mb-10">
+    <div id="block-update" class="bg-surface-2 border border-border rounded-none overflow-hidden shadow-xl mb-10">
         <div class="flex border-b border-border bg-bg">
             <button onclick="switchTab('block-update', 'curl')" class="btn-curl tab-btn px-6 py-3 text-[11px] font-mono uppercase tracking-[0.08em] text-accent border-b-2 border-accent bg-surface-2">cURL</button>
             <button onclick="switchTab('block-update', 'js')" class="btn-js tab-btn px-6 py-3 text-[11px] font-mono uppercase tracking-[0.08em] text-text-secondary border-b-2 border-transparent hover:text-accent-hover">JavaScript</button>
@@ -83,7 +83,7 @@
     </div>
 
     <h2 class="text-base font-display font-medium text-text-primary mb-4">Sample Response</h2>
-    <div class="bg-bg p-6 rounded-[6px] border border-border font-mono text-[13px] overflow-x-auto">
+    <div class="bg-bg p-6 rounded-none border border-border font-mono text-[13px] overflow-x-auto">
 <pre class="text-accent">
 {
   <span class="text-success">"id"</span>: <span class="text-warning">1</span>,

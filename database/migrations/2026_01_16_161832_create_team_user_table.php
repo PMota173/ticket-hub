@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Team::class)->constrained()->cascadeOnDelete();;
+            $table->foreignIdFor(Team::class)->constrained()->cascadeOnDelete();
             $table->boolean('is_admin')->default(false);
         });
     }

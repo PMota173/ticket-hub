@@ -1,11 +1,11 @@
 <?php
 
+use App\Enums\TicketPriority;
+use App\Enums\TicketStatus;
+use App\Models\ActivityLog;
 use App\Models\Team;
 use App\Models\Ticket;
 use App\Models\User;
-use App\Models\ActivityLog;
-use App\Enums\TicketStatus;
-use App\Enums\TicketPriority;
 
 beforeEach(function () {
     $this->team = Team::factory()->create();

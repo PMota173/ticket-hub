@@ -124,7 +124,7 @@
 
                 <!-- Main Content -->
                 <main class="flex-1 min-w-0 opacity-0 animate-[fadeIn_0.3s_ease-out_50ms_forwards]">
-                    <article class="text-text-secondary leading-relaxed text-[15px]">
+                    <article class="prose prose-invert max-w-none">
                         @yield('content')
                     </article>
 
@@ -145,18 +145,6 @@
             from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* Documentation specific styles to override default prose if needed */
-        article h1 { @apply text-3xl font-display font-medium text-text-primary mb-6 tracking-tight; }
-        article h2 { @apply text-2xl font-display font-medium text-text-primary mt-12 mb-4 tracking-tight; }
-        article h3 { @apply text-lg font-display font-medium text-text-primary mt-8 mb-4 tracking-tight; }
-        article p { @apply mb-6; }
-        article ul { @apply list-disc list-inside mb-6 space-y-2 pl-4; }
-        article pre { @apply bg-surface-1 border border-border rounded-[8px] p-4 mb-6 overflow-x-auto font-mono text-[13px]; }
-        article code { @apply font-mono text-[13px] bg-surface-2 px-1.5 py-0.5 rounded-[4px] border border-border text-text-primary; }
-        article pre code { @apply bg-transparent border-none p-0 text-text-secondary; }
-        article a { @apply text-accent hover:text-accent-hover transition-colors; }
-        article blockquote { @apply border-l-[2px] border-accent bg-accent/5 py-3 pr-4 pl-5 my-6 rounded-r-[6px] text-text-primary italic; }
     </style>
 
     <script>

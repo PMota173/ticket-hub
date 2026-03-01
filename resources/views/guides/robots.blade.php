@@ -8,7 +8,7 @@
     </p>
 
     <!-- LIMITS -->
-    <div class="bg-surface-2 border-l-4 border-purple-500 p-6 rounded-r-xl mb-8">
+    <div class="bg-surface-2 border-l-4 border-purple-500 p-6 rounded-none mb-8">
         <h3 class="font-medium text-text-primary mb-2">🤖 Limit: 3 Robots per Team</h3>
         <p class="text-text-secondary text-[13px]">
             Each team can have up to 3 robots. Delete an existing robot to free a slot.
@@ -16,7 +16,7 @@
     </div>
 
     <h2 class="text-2xl font-display font-medium text-text-primary mb-4 mt-12 flex items-center gap-3">
-        <span class="w-8 h-1 bg-purple-500 rounded-full"></span>
+        <span class="w-8 h-1 bg-purple-500 rounded-none"></span>
         Managing Robots
     </h2>
     
@@ -26,7 +26,7 @@
             <p class="text-text-secondary text-[13px] mb-4">
                 Only <strong>Team Admins</strong> can create robots. Go to <code>Team Settings > Robots</code> and create a new integration.
             </p>
-            <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-[6px]">
+            <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-none">
                 <p class="text-red-300 text-xs font-bold">
                     ⚠️ IMPORTANT: The access token is shown ONLY once upon creation. If you lose it, you must delete and recreate the robot.
                 </p>
@@ -42,20 +42,20 @@
     </div>
 
     <h2 class="text-2xl font-display font-medium text-text-primary mb-4 mt-12 flex items-center gap-3">
-        <span class="w-8 h-1 bg-purple-500 rounded-full"></span>
+        <span class="w-8 h-1 bg-purple-500 rounded-none"></span>
         Token Usage
     </h2>
 
-    <div class="bg-surface-1 p-6 rounded-[8px] border border-border mb-8">
+    <div class="bg-surface-1 p-6 rounded-none border border-border mb-8">
         <p class="text-text-secondary text-[13px] leading-relaxed">
             Use the robot token as a <code>Bearer</code> token in the <code>Authorization</code> header when calling the API. Each token is tied to the robot's team.
         </p>
     </div>
 
-    <div class="mt-12 p-6 bg-surface-2 border border-accent/20 rounded-[8px] text-center">
+    <div class="mt-12 p-6 bg-surface-2 border border-accent/20 rounded-none text-center">
         <h3 class="text-base font-medium text-text-primary mb-2">Ready to start coding?</h3>
         <p class="text-text-secondary mb-6">Check out the full API reference for endpoints and parameters.</p>
-        <a href="{{ route('guides.show', 'api-reference') }}" class="inline-flex bg-blue-600 hover:bg-accent text-text-primary font-bold py-3 px-8 rounded-full transition-all shadow-lg hover:scale-105">
+        <a href="{{ route('guides.show', 'api-reference') }}" class="inline-flex bg-blue-600 hover:bg-accent text-text-primary font-bold py-3 px-8 rounded-none transition-all shadow-lg hover:scale-105">
             View API Reference
         </a>
     </div>

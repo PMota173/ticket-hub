@@ -22,7 +22,7 @@ class Comment extends Model
     {
         return $this->morphTo();
     }
-    
+
     // Legacy support accessor if needed, but better to refactor usage
     public function getUserAttribute()
     {

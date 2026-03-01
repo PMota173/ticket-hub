@@ -9,7 +9,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('/v1/tickets', [TicketController::class, 'index'])->name('api.tickets.index');

@@ -17,7 +17,7 @@ class TeamInvitation extends Model
         'token',
         'invited_by',
         'accepted_at',
-        'expires_at'
+        'expires_at',
     ];
 
     protected $casts = [

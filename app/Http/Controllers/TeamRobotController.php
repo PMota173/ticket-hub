@@ -29,13 +29,12 @@ class TeamRobotController extends Controller
     {
         $this->authorize('update', $team);
 
-        if ($team->robots()->count() >= 3)
-        {
+        if ($team->robots()->count() >= 3) {
             return back()->with('error', 'You can only have 3 robots per team.');
         }
 
         $request->validate([
-            'name' => ['required', 'string', 'max:255']
+            'name' => ['required', 'string', 'max:255'],
         ]);
 
         $robot = $team->robots()->create(['name' => $request->name]);

@@ -47,7 +47,7 @@ test('admin can uncheck private status', function () {
     $user = User::factory()->create();
     $team = Team::factory()->create([
         'user_id' => $user->id,
-        'is_private' => true
+        'is_private' => true,
     ]);
     $team->users()->attach($user, ['is_admin' => true]);
 

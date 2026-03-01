@@ -28,7 +28,7 @@ class StoreTeamInvitationRequest extends FormRequest
                 // Check if already a member
                 function ($attribute, $value, $fail) {
                     if ($this->route('team')->users()->where('email', $value)->exists()) {
-                       $fail('This user is already a member of the team.');
+                        $fail('This user is already a member of the team.');
                     }
                 },
                 // Check if already invited

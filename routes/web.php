@@ -69,6 +69,14 @@ Route::middleware('auth')->group(function () {
             // tickets-comment routes
             Route::post('/tickets/{ticket}/comments', [TicketCommentController::class, 'store'])->name('tickets.comments.store');
             Route::delete('/tickets/{ticket}/comments/{comment}', [TicketCommentController::class, 'destroy'])->name('tickets.comments.destroy');
+
+            // articles (KB) routes
+            Route::get('/articles', [\App\Http\Controllers\ArticleController::class, 'index'])->name('articles.index');
+            Route::get('/articles/create', [\App\Http\Controllers\ArticleController::class, 'create'])->name('articles.create');
+            Route::post('/articles', [\App\Http\Controllers\ArticleController::class, 'store'])->name('articles.store');
+            Route::get('/articles/{article:slug}/edit', [\App\Http\Controllers\ArticleController::class, 'edit'])->name('articles.edit');
+            Route::patch('/articles/{article:slug}', [\App\Http\Controllers\ArticleController::class, 'update'])->name('articles.update');
+            Route::delete('/articles/{article:slug}', [\App\Http\Controllers\ArticleController::class, 'destroy'])->name('articles.destroy');
         });
 
         // team members routes
@@ -110,6 +118,8 @@ Route::get('/guides/{page}', [App\Http\Controllers\GuideController::class, 'show
 Route::get('/portal', [PortalController::class, 'index'])->name('portal.index');
 
 Route::get('/portal/{team:slug}', [PortalController::class, 'show'])->name('portal.show');
+
+Route::get('/portal/{team:slug}/articles/{article:slug}', [PortalController::class, 'showArticle'])->name('portal.articles.show');
 
 Route::get('/portal/{team:slug}/tickets/{ticket}', [PortalController::class, 'showTicket'])->name('portal.tickets.show');
 

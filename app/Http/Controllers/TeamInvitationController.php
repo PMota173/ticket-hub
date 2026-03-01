@@ -140,5 +140,4 @@ class TeamInvitationController extends Controller
 
         return redirect()->route('my-invitations.index')->with('status', 'Invitation declined.');
     }
-
 }

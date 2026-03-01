@@ -21,7 +21,7 @@ class TagFactory extends Factory
                 'Bug', 'Feature', 'Enhancement', 'Critical', 'Low Priority',
                 'Documentation', 'UI/UX', 'Backend', 'Frontend', 'Database',
                 'Security', 'Performance', 'Refactor', 'Testing', 'Deployment',
-                'Hotfix', 'Research', 'Question', 'WontFix', 'Duplicate'
+                'Hotfix', 'Research', 'Question', 'WontFix', 'Duplicate',
             ]),
         ];
     }

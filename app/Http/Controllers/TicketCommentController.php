@@ -6,7 +6,6 @@ use App\Http\Requests\StoreCommentRequest;
 use App\Models\Comment;
 use App\Models\Team;
 use App\Models\Ticket;
-use Illuminate\Http\Request;
 
 class TicketCommentController extends Controller
 {

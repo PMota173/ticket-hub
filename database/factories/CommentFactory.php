@@ -29,7 +29,7 @@ class CommentFactory extends Factory
                 'Fixed in commit #a1b2c3d.',
                 'Customer is asking for an update.',
                 'Deployment failed again.',
-            ]) . ' ' . fake()->sentence(),
+            ]).' '.fake()->sentence(),
             'author_id' => User::factory(),
             'author_type' => User::class,
             'ticket_id' => \App\Models\Ticket::factory(),

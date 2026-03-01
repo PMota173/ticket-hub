@@ -54,6 +54,12 @@
                 ticket_board_
             </a>
 
+            <a href="{{ route('articles.index', $team) }}"
+               class="flex items-center gap-3 px-6 py-2 text-sm transition-all duration-150 group relative {{ request()->routeIs('articles.*') ? 'text-text-primary bg-surface-1 border-l border-text-primary' : 'text-text-secondary hover:text-text-primary hover:bg-surface-1 border-l border-transparent' }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" class="{{ request()->routeIs('articles.*') ? 'text-text-primary' : 'text-text-secondary group-hover:text-text-primary' }} transition-colors duration-150"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
+                knowledge_base_
+            </a>
+
             <a href="{{ route('tickets.create', $team) }}"
                class="flex items-center gap-3 px-6 py-2 text-sm transition-all duration-150 group relative {{ request()->routeIs('tickets.create') ? 'text-text-primary bg-surface-1 border-l border-text-primary' : 'text-text-secondary hover:text-text-primary hover:bg-surface-1 border-l border-transparent' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" class="{{ request()->routeIs('tickets.create') ? 'text-text-primary' : 'text-text-secondary group-hover:text-text-primary' }} transition-colors duration-150"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
@@ -88,6 +94,7 @@
 
     <!-- User Profile Footer -->
     <div class="mt-auto border-t border-border bg-surface-1">
+        @auth
         <a href="{{ route('members.show', ['team' => $team, 'member' => auth()->user()]) }}" class="block group p-4 hover:bg-surface-2 transition-colors duration-150">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 flex-shrink-0">
@@ -121,5 +128,6 @@
                 </div>
             </div>
         </a>
+        @endauth
     </div>
 </aside>

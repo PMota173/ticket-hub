@@ -3,14 +3,13 @@
 use App\Models\Team;
 use App\Models\TeamRobot;
 use App\Models\Ticket;
-use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 
 test('robot can comment on team ticket', function () {
     $team = Team::factory()->create();
     $robot = TeamRobot::factory()->create(['team_id' => $team->id]);
     $ticket = Ticket::factory()->create(['team_id' => $team->id]);
-    
+
     Sanctum::actingAs($robot, ['*']);
 
     $response = $this->postJson(route('api.tickets.comments.store', $ticket), [
@@ -30,10 +29,10 @@ test('robot can comment on team ticket', function () {
 test('robot cannot comment on ticket from another team', function () {
     $team = Team::factory()->create();
     $robot = TeamRobot::factory()->create(['team_id' => $team->id]);
-    
+
     $otherTeam = Team::factory()->create();
     $otherTicket = Ticket::factory()->create(['team_id' => $otherTeam->id]);
-    
+
     Sanctum::actingAs($robot, ['*']);
 
     $response = $this->postJson(route('api.tickets.comments.store', $otherTicket), [
@@ -47,7 +46,7 @@ test('comment body is required', function () {
     $team = Team::factory()->create();
     $robot = TeamRobot::factory()->create(['team_id' => $team->id]);
     $ticket = Ticket::factory()->create(['team_id' => $team->id]);
-    
+
     Sanctum::actingAs($robot, ['*']);
 
     $response = $this->postJson(route('api.tickets.comments.store', $ticket), [

@@ -71,12 +71,34 @@ class PortalController extends Controller
 
         $tickets = $query->paginate(10)->withQueryString();
 
+        $articles = $team->articles()->where('is_published', true)->latest()->take(5)->get();
+
         return view('portal.show', [
             'team' => $team,
             'tickets' => $tickets,
+            'articles' => $articles,
             'currentSort' => $sort,
             'search' => $search,
         ]);
+    }
+
+    public function showArticle(Team $team, \App\Models\Article $article)
+    {
+        $isMember = \Illuminate\Support\Facades\Auth::check() && $team->users()->where('user_id', \Illuminate\Support\Facades\Auth::id())->exists();
+
+        if ($team->is_private && ! $isMember) {
+            abort(403);
+        }
+
+        if (! $article->is_published && ! $isMember) {
+            abort(404);
+        }
+
+        if ($article->is_published) {
+            $article->increment('view_count');
+        }
+
+        return view('portal.article', compact('team', 'article'));
     }
 
     public function showTicket(Team $team, Ticket $ticket)

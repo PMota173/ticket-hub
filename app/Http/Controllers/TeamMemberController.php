@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreTeamRequest;
 use App\Http\Requests\UpdateTeamMemberRequest;
 use App\Models\Team;
 use App\Models\User;
@@ -53,7 +52,7 @@ class TeamMemberController extends Controller
         // fetch the pivot data here so it's available in the view
         $memberWithPivot = $team->users()->where('user_id', $member->id)->first();
 
-        if (!$memberWithPivot) {
+        if (! $memberWithPivot) {
             abort(404, 'Member not found in this team.');
         }
 
@@ -74,7 +73,7 @@ class TeamMemberController extends Controller
 
         $memberWithPivot = $team->users()->where('user_id', $member->id)->first();
 
-        if (!$memberWithPivot) {
+        if (! $memberWithPivot) {
             abort(404, 'Member not found in this team.');
         }
 
@@ -118,7 +117,7 @@ class TeamMemberController extends Controller
 
         $members = $team->users()->get();
 
-//        return view('teams.members.index', compact('team', 'members'));
+        //        return view('teams.members.index', compact('team', 'members'));
         return redirect()->route('members.index', ['team' => $team->slug])
             ->with('status', 'Member removed successfully.');
     }

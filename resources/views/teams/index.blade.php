@@ -3,11 +3,11 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8 opacity-0 animate-[fadeIn_0.3s_ease-out_forwards]">
             <div>
                 <h2 class="text-3xl font-display font-medium tracking-tight text-text-primary mb-2">My Workspaces</h2>
-                <p class="text-text-secondary text-sm">Manage your existing teams or bootstrap a new one.</p>
+                <p class="text-text-secondary text-sm">Manage your existing workspaces or bootstrap a new one.</p>
             </div>
             <x-blue-button href="{{ route('teams.create') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                Create Team
+                Create Workspace
             </x-blue-button>
         </div>
 
@@ -23,9 +23,9 @@
                         </svg>
                     </div>
                     <h3 class="text-lg font-medium text-text-primary mb-2">Zero workspaces found</h3>
-                    <p class="text-text-secondary max-w-md mx-auto mb-8 text-[13px] leading-relaxed">It looks like you're not part of any teams yet. Create your first workspace to start collaborating.</p>
+                    <p class="text-text-secondary max-w-md mx-auto mb-8 text-[13px] leading-relaxed">It looks like you're not part of any workspaces yet. Create your first workspace to start collaborating.</p>
                     <x-blue-button href="{{ route('teams.create') }}">
-                        Build My First Team
+                        Build My First Workspace
                     </x-blue-button>
                 </div>
             @else

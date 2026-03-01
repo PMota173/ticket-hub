@@ -46,7 +46,7 @@
                                 <li>
                                     <a href="{{ route('guides.show', 'teams') }}" 
                                        class="block text-[13px] font-medium transition-colors duration-150 {{ request()->is('guides/teams') ? 'text-accent' : 'text-text-secondary hover:text-text-primary' }}">
-                                        Teams & Members
+                                        Workspaces & Members
                                     </a>
                                 </li>
                                 <li>

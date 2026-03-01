@@ -50,9 +50,9 @@
 
                             <!-- CTA Button -->
                             @auth
-                                <button onclick="document.getElementById('create-ticket-modal').showModal()" class="w-full bg-accent hover:bg-accent-hover text-white text-[11px] font-mono uppercase tracking-[0.08em] py-3 rounded-none transition-all duration-150 flex items-center justify-center gap-2 hover:-translate-y-[1px] hover:shadow-[0_0_12px_var(--color-accent-glow)]">
+                                <button onclick="document.getElementById('create-ticket-modal').showModal()" class="w-full bg-accent hover:bg-accent-hover text-white text-[11px] font-mono uppercase tracking-[0.08em] py-3 rounded-none transition-all duration-150 flex items-center justify-center gap-2 hover:-translate-y-[1px] hover:shadow-[0_0_0_3px_rgba(var(--color-accent-rgb),0.3)]">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                                    New Submission
+                                    Open a Ticket
                                 </button>
                             @else
                                 <a href="{{ route('login') }}?redirect={{ url()->current() }}" class="w-full bg-surface-2 hover:bg-surface-3 border border-border text-text-primary text-[11px] font-mono uppercase tracking-[0.08em] py-3 rounded-none transition-colors duration-150 flex items-center justify-center gap-2">
@@ -75,11 +75,11 @@
                                 <div class="grid grid-cols-2 gap-3">
                                     <div class="bg-bg rounded-none p-3 border border-border">
                                         <div class="text-xl font-mono text-text-primary mb-1">{{ $team->tickets()->count() }}</div>
-                                        <div class="text-[10px] font-mono text-text-secondary uppercase tracking-[0.08em]">Reports</div>
+                                        <div class="text-[10px] font-mono text-text-secondary uppercase tracking-[0.08em]">Tickets</div>
                                     </div>
                                     <div class="bg-bg rounded-none p-3 border border-border">
                                         <div class="text-xl font-mono text-text-primary mb-1">{{ $team->users()->count() }}</div>
-                                        <div class="text-[10px] font-mono text-text-secondary uppercase tracking-[0.08em]">Agents</div>
+                                        <div class="text-[10px] font-mono text-text-secondary uppercase tracking-[0.08em]">Members</div>
                                     </div>
                                 </div>
                             </div>
@@ -131,7 +131,7 @@
                     <!-- Community Reports Section -->
                     <div class="bg-surface-1 border border-border rounded-none overflow-hidden">
                         <div class="px-6 py-5 border-b border-border bg-surface-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                            <h2 class="text-[13px] font-mono text-text-primary uppercase tracking-[0.08em]">Community Reports</h2>
+                            <h2 class="text-[13px] font-mono text-text-primary uppercase tracking-[0.08em]">Public Activity</h2>
 
                             <form action="{{ route('portal.show', $team) }}" method="GET" class="flex flex-col sm:flex-row gap-3">
                                 <div class="relative group">
@@ -197,8 +197,8 @@
                                     <div class="w-12 h-12 bg-surface-2 rounded-none flex items-center justify-center mx-auto mb-4 border border-border">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-secondary"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
                                     </div>
-                                    <h3 class="text-[15px] font-medium text-text-primary mb-1">No activity detected</h3>
-                                    <p class="text-[13px] text-text-secondary">This feed is currently silent. Be the first to initiate a report.</p>
+                                    <h3 class="text-[15px] font-medium text-text-primary mb-1">Everything looks good here</h3>
+                                    <p class="text-[13px] text-text-secondary">This feed is currently silent. Start by opening the first ticket.</p>
                                 </div>
                             @endforelse
                         </div>
@@ -218,7 +218,7 @@
         <dialog id="create-ticket-modal" class="hidden open:flex bg-transparent backdrop:bg-bg/90 p-0 w-full h-full fixed inset-0 z-50 items-center justify-center open:animate-fade-in">
             <div class="bg-surface-1 border border-border rounded-none overflow-hidden w-full max-w-2xl max-h-[90vh] flex flex-col relative mx-4 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]">
                 <div class="px-6 py-4 border-b border-border flex items-center justify-between bg-surface-2">
-                    <h3 class="text-[11px] font-mono text-text-primary uppercase tracking-[0.08em]">Initiate Submission</h3>
+                    <h3 class="text-[11px] font-mono text-text-primary uppercase tracking-[0.08em]">Open a New Ticket</h3>
                     <form method="dialog">
                         <button class="text-text-secondary hover:text-text-primary transition-colors p-1.5 rounded-none hover:bg-surface-3">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -261,10 +261,10 @@
 
                     <div class="pt-5 flex items-center justify-end gap-4 border-t border-border mt-6">
                         <form method="dialog">
-                            <button class="text-[11px] font-mono uppercase tracking-[0.08em] text-text-secondary hover:text-text-primary transition-colors duration-150">Discard</button>
+                            <button class="text-[11px] font-mono uppercase tracking-[0.08em] text-text-secondary hover:text-text-primary transition-colors duration-150">Cancel</button>
                         </form>
                         <x-blue-button type="submit">
-                            Submit Report
+                            Create Ticket
                         </x-blue-button>
                     </div>
                 </form>

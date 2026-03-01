@@ -2,8 +2,8 @@
     <div class="max-w-6xl mx-auto">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8 opacity-0 animate-[fadeIn_0.3s_ease-out_forwards]">
             <div>
-                <h1 class="text-3xl font-display font-medium tracking-tight text-text-primary mb-2">Automation Robots</h1>
-                <p class="text-text-secondary text-[13px]">Create API clients to automate ticket creation and management.</p>
+                <h1 class="text-3xl font-display font-medium tracking-tight text-text-primary mb-2">Robot Agents</h1>
+                <p class="text-text-secondary text-[13px]">Create automated agents to manage tickets and notifications via API.</p>
             </div>
             
             <div class="inline-flex items-center gap-3 bg-surface-1 border border-border rounded-[6px] px-3 py-1.5">
@@ -41,7 +41,7 @@
             <!-- Create Robot Form -->
             <div class="lg:col-span-1">
                 <div class="bg-surface-1 border border-border rounded-[8px] p-6 sticky top-8">
-                    <h3 class="text-[11px] font-mono text-text-muted uppercase tracking-[0.08em] mb-6">New Integration</h3>
+                    <h3 class="text-[11px] font-mono text-text-muted uppercase tracking-[0.08em] mb-6">Add New Robot</h3>
                     
                     @if($robots->count() >= 3)
                         <div class="bg-warning/5 border border-warning/20 rounded-[6px] p-4 mb-6">
@@ -53,7 +53,7 @@
                         @csrf
                         <div class="space-y-5">
                             <div class="space-y-1.5">
-                                <label for="name" class="block text-[11px] font-mono text-text-muted uppercase tracking-[0.08em]">Bot Identity</label>
+                                <label for="name" class="block text-[11px] font-mono text-text-muted uppercase tracking-[0.08em]">Robot Name</label>
                                 <input type="text" name="name" id="name" required placeholder="e.g., CI/CD Pipeline" 
                                     @if($robots->count() >= 3) disabled @endif
                                     class="w-full bg-surface-2 border border-border rounded-[6px] px-4 py-2.5 text-text-primary placeholder-text-muted focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] text-[13px] transition-all duration-150">
@@ -62,7 +62,7 @@
                                 @enderror
                             </div>
                             <x-blue-button type="submit" class="w-full" :disabled="$robots->count() >= 3">
-                                Initialize Robot
+                                Create Robot
                             </x-blue-button>
                         </div>
                     </form>
@@ -73,7 +73,7 @@
             <div class="lg:col-span-2">
                 <div class="bg-surface-1 border border-border rounded-[8px] overflow-hidden">
                     <div class="px-6 py-4 border-b border-border bg-surface-2">
-                        <h3 class="text-[11px] font-mono text-text-primary uppercase tracking-[0.08em]">Active Clients</h3>
+                        <h3 class="text-[11px] font-mono text-text-primary uppercase tracking-[0.08em]">Active Robots</h3>
                     </div>
 
                     @if($robots->isEmpty())

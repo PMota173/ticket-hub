@@ -46,7 +46,7 @@
                         </h1>
 
                         <p class="text-lg text-text-secondary max-w-xl leading-relaxed font-sans">
-                            The open-source help desk built for teams that value speed. A lightning-fast Kanban board for your team, and a transparent portal for your customers.
+                            The open-source help desk built for teams that value speed. A lightning-fast Kanban board for your workspace, and a transparent public portal for your customers.
                         </p>
 
                         <div class="flex flex-col sm:flex-row items-start gap-4 pt-4">
@@ -58,7 +58,7 @@
                             </a>
                             <a href="{{ route('portal.index') }}" class="inline-flex items-center justify-center bg-transparent text-text-secondary hover:text-text-primary border border-border hover:border-text-secondary font-mono text-sm font-medium px-6 py-3 transition-colors">
                                 <span class="flex items-center gap-2">
-                                    >_ view_live_portal
+                                    >_ view_public_portal
                                 </span>
                             </a>
                         </div>
@@ -146,13 +146,13 @@
                             
                             <div class="flex flex-col md:flex-row gap-6 items-start">
                                 <div class="md:w-1/3">
-                                    <h4 class="font-mono text-lg text-text-primary mb-2">Transparent Portals</h4>
+                                    <h4 class="font-mono text-lg text-text-primary mb-2">Public Portals</h4>
                                     <p class="text-text-secondary text-sm leading-relaxed font-sans">
                                         Give your customers a branded, lightning-fast home to submit requests and track their progress in real-time.
                                     </p>
                                 </div>
                                 <div class="md:w-2/3 w-full border border-border bg-surface-1 p-4 text-xs font-mono text-text-muted">
-                                    > Loading customer portal...<br>
+                                    > Loading public portal...<br>
                                     > Authenticated as: guest_user<br>
                                     > Rendering ticket history [■■■■■■■■■■] 100%<br>
                                     <span class="text-success">Portal ready.</span>

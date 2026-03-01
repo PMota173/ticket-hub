@@ -4,7 +4,7 @@
         <div class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 opacity-0 animate-[fadeIn_0.3s_ease-out_forwards]">
             <div>
                 <h1 class="text-3xl font-display font-medium tracking-tight text-text-primary mb-2">Knowledge Base</h1>
-                <p class="text-text-secondary text-sm">Manage public guides and documentation for your workspace.</p>
+                <p class="text-text-secondary text-sm">Manage public articles and documentation for your workspace.</p>
             </div>
             <a href="{{ route('articles.create', $team) }}" class="inline-flex items-center justify-center gap-2 bg-text-primary hover:bg-text-secondary text-bg px-4 py-2 text-sm font-medium transition-colors duration-150">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>

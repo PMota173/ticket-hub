@@ -164,10 +164,10 @@
                         </div>
                     @else
                         <div class="bg-surface-1/50 rounded-none p-10 text-center border border-border">
-                            <h4 class="text-[15px] font-medium text-text-primary uppercase tracking-[0.08em] mb-3">Thread Gated</h4>
-                            <p class="text-text-secondary text-[13px] mb-8 max-w-sm mx-auto">You must be authenticated within the network to contribute to this discussion.</p>
+                            <h4 class="text-[15px] font-medium text-text-primary uppercase tracking-[0.08em] mb-3">Sign in to join the conversation</h4>
+                            <p class="text-text-secondary text-[13px] mb-8 max-w-sm mx-auto">Please log in to your account to post a comment or follow the progress of this ticket.</p>
                             <a href="{{ route('login') }}?redirect={{ url()->current() }}" class="inline-flex bg-text-primary text-bg text-[11px] font-mono uppercase tracking-[0.08em] px-6 py-2.5 rounded-none hover:bg-text-primary/90 transition-all duration-150">
-                                Verify Identity
+                                Sign In
                             </a>
                         </div>
                     @endauth

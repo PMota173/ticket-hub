@@ -17,8 +17,21 @@ class TicketCommentController extends Controller
         $attributes['author_type'] = \App\Models\User::class;
 
         $attributes['ticket_id'] = $ticket->id;
+        unset($attributes['attachments']);
 
-        Comment::create($attributes);
+        $comment = Comment::create($attributes);
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $path = $file->store('attachments', 'public');
+                $comment->attachments()->create([
+                    'file_name' => $file->getClientOriginalName(),
+                    'file_path' => $path,
+                    'mime_type' => $file->getClientMimeType(),
+                    'size' => $file->getSize(),
+                ]);
+            }
+        }
 
         return redirect()->back();
     }

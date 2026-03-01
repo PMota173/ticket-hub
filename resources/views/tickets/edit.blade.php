@@ -12,7 +12,7 @@
 
         <!-- Form Container -->
         <div class="bg-surface-1 border border-border rounded-none p-8 opacity-0 animate-[fadeIn_0.3s_ease-out_50ms_forwards] mb-8">
-            <form action="{{ route('tickets.update', [$team, $ticket]) }}" method="POST" class="space-y-8">
+            <form action="{{ route('tickets.update', [$team, $ticket]) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
                 @csrf
                 @method('PATCH')
 
@@ -51,6 +51,21 @@
                             class="w-full bg-surface-2 border border-border text-text-primary rounded-none px-4 py-3 focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] transition-all duration-150 placeholder-text-muted resize-none text-[13px] leading-relaxed"
                         >{{ old('description', $ticket->description) }}</textarea>
                         @error('description') <p class="text-danger font-mono text-[11px] mt-1.5">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="space-y-1.5 relative group overflow-hidden">
+                        <label for="attachments" class="block text-[11px] font-mono text-text-muted uppercase tracking-[0.08em] mb-2">Add Attachments</label>
+                        <div class="flex items-center gap-4">
+                            <label for="attachments" class="inline-flex items-center gap-2 px-4 py-2 bg-surface-2 border border-border text-text-secondary hover:text-text-primary hover:border-accent cursor-pointer transition-all duration-150 text-[11px] font-mono uppercase tracking-[0.08em]">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                                Select Files
+                            </label>
+                            <span id="edit-file-count" class="text-[11px] font-mono text-text-muted">No files selected</span>
+                        </div>
+                        <input type="file" name="attachments[]" id="attachments" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer pointer-events-none" onchange="document.getElementById('edit-file-count').textContent = this.files.length > 0 ? this.files.length + ' file(s) selected' : 'No files selected'">
+                        <p class="text-text-muted font-mono text-[10px] mt-1.5">Max 5 files (Images, PDFs, Docs up to 10MB each).</p>
+                        @error('attachments.*') <p class="text-danger font-mono text-[11px] mt-1.5">{{ $message }}</p> @enderror
+                        @error('attachments') <p class="text-danger font-mono text-[11px] mt-1.5">{{ $message }}</p> @enderror
                     </div>
                 </div>
 

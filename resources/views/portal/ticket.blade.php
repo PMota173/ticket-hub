@@ -120,9 +120,7 @@
                                     </div>
                                 </div>
                             @else
-                                <div class="relative z-10 pl-0 sm:pl-[52px]">
-                                    <x-activity-log-item :log="$event['model']" />
-                                </div>
+                                <x-activity-log-item :log="$event['model']" />
                             @endif
                         @empty
                             <div class="text-center py-12 bg-surface-1 rounded-none border border-border border-dashed">

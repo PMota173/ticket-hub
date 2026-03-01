@@ -19,7 +19,7 @@
     <div class="flex-grow min-w-0 bg-surface-1/50 border border-border border-dashed p-3 rounded-none text-[13px]">
         <div class="flex items-center gap-2 mb-1">
             <span class="font-medium text-text-primary">{{ $log->actor->name ?? 'System' }}</span>
-            <span class="text-[10px] font-mono text-text-muted uppercase tracking-widest">{{ $log->created_at->diffForHumans() }}</span>
+            <span class="text-[10px] font-mono text-text-muted uppercase tracking-[0.08em]">{{ $log->created_at->diffForHumans() }}</span>
         </div>
         
         <div class="text-text-secondary font-sans">

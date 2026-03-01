@@ -65,7 +65,21 @@ class TicketsController extends Controller
             unset($attributes['assigned_id']);
         }
 
-        $team->tickets()->create($attributes);
+        unset($attributes['attachments']);
+
+        $ticket = $team->tickets()->create($attributes);
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $path = $file->store('attachments', 'public');
+                $ticket->attachments()->create([
+                    'file_name' => $file->getClientOriginalName(),
+                    'file_path' => $path,
+                    'mime_type' => $file->getClientMimeType(),
+                    'size' => $file->getSize(),
+                ]);
+            }
+        }
 
         return redirect()->route('tickets.index', $team);
     }
@@ -77,7 +91,7 @@ class TicketsController extends Controller
     {
         $this->authorize('view', $ticket);
 
-        $ticket->load(['comments.author', 'activityLogs.actor', 'author', 'tags', 'assignee']);
+        $ticket->load(['comments.author', 'comments.attachments', 'activityLogs.actor', 'author', 'tags', 'assignee', 'attachments']);
 
         return view('tickets.show', compact('team', 'ticket'));
     }
@@ -102,8 +116,21 @@ class TicketsController extends Controller
         $this->authorize('update', $ticket);
 
         $attributes = $request->validated();
+        unset($attributes['attachments']);
 
         $ticket->update($attributes);
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $path = $file->store('attachments', 'public');
+                $ticket->attachments()->create([
+                    'file_name' => $file->getClientOriginalName(),
+                    'file_path' => $path,
+                    'mime_type' => $file->getClientMimeType(),
+                    'size' => $file->getSize(),
+                ]);
+            }
+        }
 
         if ($request->has('status') && ! $request->has('title')) {
             return back();

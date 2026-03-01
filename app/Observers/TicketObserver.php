@@ -53,4 +53,14 @@ class TicketObserver
             }
         }
     }
+
+    /**
+     * Handle the Ticket "deleted" event.
+     */
+    public function deleted(Ticket $ticket): void
+    {
+        $ticket->attachments()->each(function ($attachment) {
+            $attachment->delete();
+        });
+    }
 }

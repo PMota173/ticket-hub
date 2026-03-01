@@ -30,9 +30,9 @@
                             @if($ticket->author?->avatar_path)
                                 <img src="{{ asset('storage/' . $ticket->author->avatar_path) }}" 
                                      alt="{{ $ticket->author->name }}" 
-                                     class="w-8 h-8 rounded-[4px] object-cover border border-border">
+                                     class="w-8 h-8 rounded-none object-cover border border-border">
                             @else
-                                <div class="w-8 h-8 rounded-[4px] bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-sm border border-border">
+                                <div class="w-8 h-8 rounded-none bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-sm border border-border">
                                     {{ substr($ticket->author?->name ?? '?', 0, 1) }}
                                 </div>
                             @endif
@@ -45,9 +45,32 @@
                 </div>
 
                 <!-- Description Card -->
-                <div class="bg-surface-1 border border-border rounded-[8px] p-6">
+                <div class="bg-surface-1 border border-border rounded-none p-6">
                     <h3 class="text-[11px] font-mono text-text-muted uppercase tracking-[0.08em] mb-4">Description</h3>
                     <div class="prose prose-invert max-w-none text-text-secondary leading-relaxed text-[15px] whitespace-pre-wrap">{{ $ticket->description }}</div>
+                    
+                    @if($ticket->attachments->count() > 0)
+                        <div class="mt-6 pt-4 border-t border-border">
+                            <h4 class="text-[11px] font-mono text-text-muted uppercase tracking-[0.08em] mb-3">Attachments</h4>
+                            <div class="flex flex-wrap gap-3">
+                                @foreach($ticket->attachments as $attachment)
+                                    <a href="{{ asset('storage/' . $attachment->file_path) }}" target="_blank" class="block group relative rounded-none overflow-hidden border border-border hover:border-accent transition-colors w-32 h-24 bg-surface-2">
+                                        @if(in_array(strtolower(pathinfo($attachment->file_name, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif', 'webp']))
+                                            <img src="{{ asset('storage/' . $attachment->file_path) }}" alt="{{ $attachment->file_name }}" class="w-full h-full object-cover">
+                                        @else
+                                            <div class="w-full h-full flex flex-col items-center justify-center p-2 text-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-muted mb-1 group-hover:text-accent transition-colors"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                                                <span class="text-[10px] font-medium text-text-primary truncate w-full">{{ $attachment->file_name }}</span>
+                                            </div>
+                                        @endif
+                                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Activity Section -->
@@ -57,7 +80,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-secondary"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                             Activity Timeline
                         </h3>
-                        <span class="text-[11px] font-mono text-text-secondary bg-surface-2 px-2 py-0.5 rounded-[4px] border border-border">{{ $ticket->comments->count() + $ticket->activityLogs->count() }} Events</span>
+                        <span class="text-[11px] font-mono text-text-secondary bg-surface-2 px-2 py-0.5 rounded-none border border-border">{{ $ticket->comments->count() + $ticket->activityLogs->count() }} Events</span>
                     </div>
 
                     @php
@@ -79,9 +102,9 @@
                                         @if($comment->author->avatar_path ?? false)
                                             <img src="{{ asset('storage/' . $comment->author->avatar_path) }}" 
                                                  alt="{{ $comment->author->name }}" 
-                                                 class="w-8 h-8 rounded-[4px] object-cover border border-border bg-surface-2">
+                                                 class="w-8 h-8 rounded-none object-cover border border-border bg-surface-2">
                                         @else
-                                            <div class="w-8 h-8 rounded-[4px] bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-xs border border-border">
+                                            <div class="w-8 h-8 rounded-none bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-xs border border-border">
                                                 {{ substr($comment->author->name, 0, 1) }}
                                             </div>
                                         @endif
@@ -102,8 +125,30 @@
                                                 </form>
                                             @endcan
                                         </div>
-                                        <div class="text-text-secondary text-[14px] leading-relaxed bg-surface-1 rounded-[6px] p-4 border border-border">
+                                        <div class="text-text-secondary text-[14px] leading-relaxed bg-surface-1 rounded-none p-4 border border-border">
                                             {!! nl2br(e($comment->body)) !!}
+                                            
+                                            @if($comment->attachments->count() > 0)
+                                                <div class="mt-4 pt-3 border-t border-border/50">
+                                                    <div class="flex flex-wrap gap-2">
+                                                        @foreach($comment->attachments as $attachment)
+                                                            <a href="{{ asset('storage/' . $attachment->file_path) }}" target="_blank" class="block group relative rounded-none overflow-hidden border border-border hover:border-accent transition-colors w-24 h-16 bg-surface-2">
+                                                                @if(in_array(strtolower(pathinfo($attachment->file_name, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif', 'webp']))
+                                                                    <img src="{{ asset('storage/' . $attachment->file_path) }}" alt="{{ $attachment->file_name }}" class="w-full h-full object-cover">
+                                                                @else
+                                                                    <div class="w-full h-full flex flex-col items-center justify-center p-1.5 text-center">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-muted mb-0.5 group-hover:text-accent transition-colors"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                                                                        <span class="text-[9px] font-medium text-text-primary truncate w-full">{{ $attachment->file_name }}</span>
+                                                                    </div>
+                                                                @endif
+                                                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                                                </div>
+                                                            </a>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -111,24 +156,24 @@
                                 <x-activity-log-item :log="$event['model']" />
                             @endif
                         @empty
-                            <div class="py-8 text-center bg-surface-1 rounded-[6px] border border-border border-dashed">
+                            <div class="py-8 text-center bg-surface-1 rounded-none border border-border border-dashed">
                                 <p class="text-text-secondary text-[13px] italic">No activity recorded yet.</p>
                             </div>
                         @endforelse
                     </div>
 
                     <!-- Add Comment Form -->
-                    <div class="bg-surface-1 border border-border rounded-[8px] p-5">
-                        <form action="{{ route('tickets.comments.store', [$team, $ticket]) }}" method="POST">
+                    <div class="bg-surface-1 border border-border rounded-none p-5">
+                        <form action="{{ route('tickets.comments.store', [$team, $ticket]) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="flex gap-4">
                                 <div class="flex-shrink-0 hidden sm:block">
                                     @if(auth()->user()->avatar_path)
                                         <img src="{{ asset('storage/' . auth()->user()->avatar_path) }}" 
                                              alt="{{ auth()->user()->name }}" 
-                                             class="w-8 h-8 rounded-[4px] object-cover border border-border">
+                                             class="w-8 h-8 rounded-none object-cover border border-border">
                                     @else
-                                        <div class="w-8 h-8 rounded-[4px] bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-xs border border-border">
+                                        <div class="w-8 h-8 rounded-none bg-surface-2 flex items-center justify-center text-text-secondary font-mono text-xs border border-border">
                                             {{ substr(auth()->user()->name, 0, 1) }}
                                         </div>
                                     @endif
@@ -138,13 +183,24 @@
                                         name="body" 
                                         rows="3" 
                                         placeholder="Type your message here..." 
-                                        class="w-full bg-surface-2 border border-border text-text-primary text-[14px] rounded-[6px] p-3 focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] placeholder-text-muted resize-none min-h-[100px] transition-all duration-150"
+                                        class="w-full bg-surface-2 border border-border text-text-primary text-[14px] rounded-none p-3 focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] placeholder-text-muted resize-none min-h-[100px] transition-all duration-150 mb-3"
                                         required
                                     ></textarea>
                                     @error('body')
-                                        <p class="text-danger text-[11px] font-mono mt-1.5">{{ $message }}</p>
+                                        <p class="text-danger text-[11px] font-mono mt-1.5 mb-2">{{ $message }}</p>
                                     @enderror
-                                    <div class="mt-3 flex justify-end">
+                                    
+                                    <div class="flex items-center justify-between border-t border-border pt-3">
+                                        <div class="flex-1 relative group overflow-hidden">
+                                            <label for="comment_attachments" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-none bg-surface-2 border border-border text-text-secondary hover:text-text-primary hover:border-accent cursor-pointer transition-all duration-150 text-[11px] font-mono uppercase tracking-[0.08em]">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                                                Attach Files
+                                            </label>
+                                            <input type="file" name="attachments[]" id="comment_attachments" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="document.getElementById('file-count').textContent = this.files.length > 0 ? this.files.length + ' file(s) selected' : ''">
+                                            <span id="file-count" class="ml-3 text-[10px] text-text-muted font-mono"></span>
+                                            @error('attachments.*') <p class="text-danger font-mono text-[10px] mt-1">{{ $message }}</p> @enderror
+                                            @error('attachments') <p class="text-danger font-mono text-[10px] mt-1">{{ $message }}</p> @enderror
+                                        </div>
                                         <x-blue-button type="submit">
                                             Post Reply
                                         </x-blue-button>
@@ -160,7 +216,7 @@
             <div class="lg:col-span-4 space-y-6">
                 
                 <!-- Status & Control Card -->
-                <section class="bg-surface-1 border border-border rounded-[8px] p-5">
+                <section class="bg-surface-1 border border-border rounded-none p-5">
                     <h3 class="text-[11px] font-mono text-text-muted uppercase tracking-[0.08em] mb-4">Management</h3>
                     
                     <div class="space-y-5">
@@ -172,7 +228,7 @@
                                 @method('PATCH')
                                 <div class="relative group">
                                     <select name="status" onchange="this.form.submit()" 
-                                        class="w-full bg-surface-2 border border-border text-text-primary text-[13px] rounded-[6px] focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] p-2.5 appearance-none cursor-pointer transition-all duration-150">
+                                        class="w-full bg-surface-2 border border-border text-text-primary text-[13px] rounded-none focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] p-2.5 appearance-none cursor-pointer transition-all duration-150">
                                         <option value="triage" {{ $ticket->status === \App\Enums\TicketStatus::TRIAGE ? 'selected' : '' }}>Triage</option>
                                         <option value="open" {{ $ticket->status === \App\Enums\TicketStatus::OPEN ? 'selected' : '' }}>Open</option>
                                         <option value="in_progress" {{ $ticket->status === \App\Enums\TicketStatus::IN_PROGRESS ? 'selected' : '' }}>In Progress</option>
@@ -194,7 +250,7 @@
                 </section>
 
                 <!-- Assignee Card -->
-                <section class="bg-surface-1 border border-border rounded-[8px] p-5">
+                <section class="bg-surface-1 border border-border rounded-none p-5">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-[11px] font-mono text-text-muted uppercase tracking-[0.08em]">Ownership</h3>
                         @if($team->users->contains(auth()->user()))
@@ -218,14 +274,14 @@
                     </div>
 
                     @if($ticket->assignee)
-                        <div class="flex items-center gap-3 bg-surface-2 p-2.5 rounded-[6px] border border-border">
+                        <div class="flex items-center gap-3 bg-surface-2 p-2.5 rounded-none border border-border">
                             <div class="flex-shrink-0">
                                 @if($ticket->assignee->avatar_path)
                                     <img src="{{ asset('storage/' . $ticket->assignee->avatar_path) }}" 
                                          alt="{{ $ticket->assignee->name }}" 
-                                         class="w-8 h-8 rounded-[4px] object-cover border border-border">
+                                         class="w-8 h-8 rounded-none object-cover border border-border">
                                 @else
-                                    <div class="w-8 h-8 rounded-[4px] bg-accent/10 flex items-center justify-center text-accent font-mono text-xs border border-accent/20">
+                                    <div class="w-8 h-8 rounded-none bg-accent/10 flex items-center justify-center text-accent font-mono text-xs border border-accent/20">
                                         {{ substr($ticket->assignee->name, 0, 1) }}
                                     </div>
                                 @endif
@@ -236,8 +292,8 @@
                             </div>
                         </div>
                     @else
-                        <div class="flex items-center gap-3 bg-bg p-3 rounded-[6px] border border-border border-dashed">
-                            <div class="w-8 h-8 rounded-[4px] bg-surface-2 flex items-center justify-center text-text-secondary border border-border">
+                        <div class="flex items-center gap-3 bg-bg p-3 rounded-none border border-border border-dashed">
+                            <div class="w-8 h-8 rounded-none bg-surface-2 flex items-center justify-center text-text-secondary border border-border">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
                             </div>
                             <span class="text-[13px] text-text-secondary italic">Unclaimed</span>
@@ -246,12 +302,12 @@
                 </section>
 
                 <!-- Tags Section -->
-                <section class="bg-surface-1 border border-border rounded-[8px] p-5">
+                <section class="bg-surface-1 border border-border rounded-none p-5">
                     <h3 class="text-[11px] font-mono text-text-muted uppercase tracking-[0.08em] mb-4">Categorization</h3>
                     
                     <div class="flex flex-wrap gap-2 mb-5">
                         @foreach($ticket->tags as $tag)
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-[4px] text-[11px] font-mono bg-surface-2 text-text-primary border border-border uppercase tracking-[0.08em]">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-none text-[11px] font-mono bg-surface-2 text-text-primary border border-border uppercase tracking-[0.08em]">
                                 {{ $tag->name }}
                                 <form action="{{ route('tickets.tags.destroy', [$team, $ticket, $tag]) }}" method="POST" class="inline-flex ml-1.5">
                                     @csrf
@@ -277,7 +333,7 @@
                                     <form action="{{ route('tickets.tags.store', [$team, $ticket]) }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="name" value="{{ $tag->name }}">
-                                        <button type="submit" class="px-2 py-0.5 text-[10px] font-mono rounded-[4px] bg-bg text-text-secondary border border-border hover:border-border-light hover:text-text-primary transition-all duration-150">
+                                        <button type="submit" class="px-2 py-0.5 text-[10px] font-mono rounded-none bg-bg text-text-secondary border border-border hover:border-border-light hover:text-text-primary transition-all duration-150">
                                             + {{ $tag->name }}
                                         </button>
                                     </form>
@@ -292,10 +348,10 @@
                             type="text" 
                             name="name" 
                             placeholder="New tag..." 
-                            class="flex-1 bg-surface-2 border border-border text-text-primary text-[12px] font-mono rounded-[6px] px-3 py-2 focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] placeholder-text-muted transition-all duration-150"
+                            class="flex-1 bg-surface-2 border border-border text-text-primary text-[12px] font-mono rounded-none px-3 py-2 focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow)] placeholder-text-muted transition-all duration-150"
                             required
                         >
-                        <button type="submit" class="bg-surface-2 hover:bg-surface-3 text-text-primary rounded-[6px] px-3 border border-border transition-colors duration-150">
+                        <button type="submit" class="bg-surface-2 hover:bg-surface-3 text-text-primary rounded-none px-3 border border-border transition-colors duration-150">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                         </button>
                     </form>

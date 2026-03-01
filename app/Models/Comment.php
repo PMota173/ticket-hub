@@ -18,6 +18,11 @@ class Comment extends Model
         return $this->belongsTo(Ticket::class);
     }
 
+    public function attachments()
+    {
+        return $this->morphMany(Attachment::class, 'attachable');
+    }
+
     public function author(): MorphTo
     {
         return $this->morphTo();
@@ -27,5 +32,10 @@ class Comment extends Model
     public function getUserAttribute()
     {
         return $this->author;
+    }
+
+    protected static function booted(): void
+    {
+        static::observe(\App\Observers\CommentObserver::class);
     }
 }

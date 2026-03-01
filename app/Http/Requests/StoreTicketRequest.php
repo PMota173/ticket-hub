@@ -33,6 +33,8 @@ class StoreTicketRequest extends FormRequest
                 'nullable',
                 Rule::exists('team_user', 'user_id')->where('team_id', $this->route('team')?->id),
             ],
+            'attachments' => ['nullable', 'array', 'max:5'],
+            'attachments.*' => ['file', 'mimes:jpg,jpeg,png,gif,webp,pdf,doc,docx,xls,xlsx,txt', 'max:10240'],
         ];
     }
 }

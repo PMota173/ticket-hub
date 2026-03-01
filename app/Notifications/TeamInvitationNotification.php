@@ -15,7 +15,7 @@ class TeamInvitationNotification extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      */
-    public function __construct(public TeamInvitation $invitation)
+    public function __construct(public TeamInvitation $invitation, public string $token)
     {
         //
     }
@@ -40,7 +40,7 @@ class TeamInvitationNotification extends Notification implements ShouldQueue
             ->greeting('Hello!')
             ->line('You have been invited by '.$this->invitation->invitedBy->name.' to join the team **'.$this->invitation->team->name.'** on '.config('app.name').'.')
             ->line('If you do not have an account, you will be asked to create one after clicking the button below.')
-            ->action('Accept Invitation', route('invitations.accept', ['token' => $this->invitation->token]))
+            ->action('Accept Invitation', route('invitations.accept', ['token' => $this->token]))
             ->line('If you did not expect this invitation, you can safely ignore this email.');
     }
 

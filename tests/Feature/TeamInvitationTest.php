@@ -136,7 +136,7 @@ test('user can accept an invitation', function () {
     $invitation = TeamInvitation::factory()->create([
         'team_id' => $team->id,
         'email' => 'invitee@example.com',
-        'token' => 'valid-token',
+        'token' => hash('sha256', 'valid-token'),
     ]);
 
     $this->actingAs($user)
@@ -151,7 +151,7 @@ test('user cannot accept invitation for different email', function () {
     $user = User::factory()->create(['email' => 'wrong@example.com']);
     $invitation = TeamInvitation::factory()->create([
         'email' => 'correct@example.com',
-        'token' => 'valid-token',
+        'token' => hash('sha256', 'valid-token'),
     ]);
 
     $this->actingAs($user)
@@ -169,7 +169,7 @@ test('cannot accept invitation with invalid token', function () {
 test('cannot accept expired invitation', function () {
     $invitation = TeamInvitation::factory()->create([
         'expires_at' => now()->subDay(),
-        'token' => 'expired-token',
+        'token' => hash('sha256', 'expired-token'),
     ]);
 
     $this->get(route('invitations.accept', 'expired-token'))
@@ -182,7 +182,7 @@ test('redirects to dashboard if invitation already accepted', function () {
     $invitation = TeamInvitation::factory()->create([
         'team_id' => $team->id,
         'email' => 'accepted@example.com',
-        'token' => 'accepted-token',
+        'token' => hash('sha256', 'accepted-token'),
         'accepted_at' => now(),
     ]);
 
@@ -195,7 +195,7 @@ test('redirects to dashboard if invitation already accepted', function () {
 test('guest is redirected to register when accepting invitation', function () {
     $invitation = TeamInvitation::factory()->create([
         'email' => 'new@example.com',
-        'token' => 'valid-token',
+        'token' => hash('sha256', 'valid-token'),
     ]);
 
     $this->get(route('invitations.accept', 'valid-token'))
@@ -208,7 +208,7 @@ test('guest with existing account is redirected to login when accepting', functi
     $user = User::factory()->create(['email' => 'existing@example.com']);
     $invitation = TeamInvitation::factory()->create([
         'email' => 'existing@example.com',
-        'token' => 'valid-token',
+        'token' => hash('sha256', 'valid-token'),
     ]);
 
     $this->get(route('invitations.accept', 'valid-token'))

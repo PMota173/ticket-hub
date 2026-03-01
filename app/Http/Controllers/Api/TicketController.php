@@ -30,7 +30,7 @@ class TicketController extends Controller
         $attributes = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'priority' => ['nullable', 'string'],
+            'priority' => ['nullable', \Illuminate\Validation\Rule::enum(\App\Enums\TicketPriority::class)],
             'assigned_id' => ['nullable', 'exists:users,id'],
         ]);
 
@@ -81,8 +81,8 @@ class TicketController extends Controller
         $attributes = $request->validate([
             'title' => ['string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'priority' => ['nullable', 'string'],
-            'status' => ['nullable', 'string'],
+            'priority' => ['nullable', \Illuminate\Validation\Rule::enum(\App\Enums\TicketPriority::class)],
+            'status' => ['nullable', \Illuminate\Validation\Rule::enum(\App\Enums\TicketStatus::class)],
             'assigned_id' => ['nullable', 'exists:users,id'],
         ]);
 

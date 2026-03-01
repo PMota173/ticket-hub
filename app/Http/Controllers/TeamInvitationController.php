@@ -47,14 +47,14 @@ class TeamInvitationController extends Controller
         $attributes['team_id'] = $team->id;
         $attributes['invited_by'] = auth()->id();
 
-        // I am not sure if this is the best choice to a token with 64 chars
-        $attributes['token'] = Str::random(64);
+        $token = Str::random(64);
+        $attributes['token'] = hash('sha256', $token);
 
         $invitation = TeamInvitation::create($attributes);
 
         // notification (email with link)
         Notification::route('mail', $invitation->email)
-            ->notify(new TeamInvitationNotification($invitation));
+            ->notify(new TeamInvitationNotification($invitation, $token));
 
         // route teams.invitations.index is to be created too
         return redirect()->route('invitations.index', compact('team'));
@@ -73,7 +73,7 @@ class TeamInvitationController extends Controller
     public function accept(string $token)
     {
         // get invitation
-        $invitation = TeamInvitation::where('token', $token)->firstOrFail();
+        $invitation = TeamInvitation::where('token', hash('sha256', $token))->firstOrFail();
 
         $team = $invitation->team;
 

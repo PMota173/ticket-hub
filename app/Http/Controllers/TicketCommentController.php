@@ -38,7 +38,9 @@ class TicketCommentController extends Controller
 
     public function destroy(Team $team, Ticket $ticket, Comment $comment)
     {
-        $comment = Comment::findOrFail($comment->id);
+        if ($comment->ticket_id !== $ticket->id) {
+            abort(404);
+        }
 
         $this->authorize('delete', $comment);
 

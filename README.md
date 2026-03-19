@@ -12,7 +12,7 @@ Ticket Hub is a modern, open-source, and self-hostable help desk platform built 
 
 ---
 
-## 📖 The Story Behind Ticket Hub
+## Behind Ticket Hub
 
 Traditional help desk software often feels bloated, slow, and overly complex for most teams. We wanted a solution that gets out of the way, focusing entirely on resolving customer issues quickly while maintaining a beautiful, intuitive interface. 
 
@@ -22,7 +22,7 @@ By making it **100% open-source and self-hostable**, you retain full ownership o
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 ### Landing Page
 ![Ticket Hub Welcome Page](.github/assets/welcome.png)
@@ -38,7 +38,7 @@ By making it **100% open-source and self-hostable**, you retain full ownership o
 
 ---
 
-## ✨ Features
+## Features
 
 ### For the Support Team
 - **Reactive Kanban Board:** Triage and manage tickets with a drag-and-drop interface. Move tickets through statuses seamlessly.
@@ -53,7 +53,7 @@ By making it **100% open-source and self-hostable**, you retain full ownership o
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## Tech Stack & Architecture
 
 Ticket Hub is built on the shoulders of modern PHP giants, adhering strictly to **Test-Driven Development (TDD)** to ensure reliability.
 
@@ -64,7 +64,7 @@ Ticket Hub is built on the shoulders of modern PHP giants, adhering strictly to 
 
 ---
 
-## 🚀 Installation & Self-Hosting
+## Installation & Self-Hosting
 
 ### Requirements
 - PHP >= 8.2
@@ -122,18 +122,6 @@ Ticket Hub is a standard Laravel application. For production deployments, we rec
 
 ---
 
-## 🗺️ Roadmap
-
-- [x] Ticket Management & Kanban Board
-- [x] Public Customer Portals
-- [x] Automation Robots (API ingestion)
-- [x] Team Invitations & Role Management
-- [ ] Email Pipeline Integration (Reply via Email)
-- [ ] Knowledge Base / FAQ Section
-- [ ] Webhook support for external notifications (Slack/Discord)
-
----
-
 ## 🤝 Contributing
 
 Ticket Hub is an open-source project and we absolutely love community contributions! Whether it's a bug fix, a new feature, or a documentation improvement, your help makes Ticket Hub better for everyone.
@@ -145,12 +133,3 @@ Ticket Hub is an open-source project and we absolutely love community contributi
 5. Open a Pull Request.
 
 Please ensure you run `php artisan test` and `vendor/bin/pint` before submitting your PR to maintain code quality.
-
----
-
-## ❤️ Support & Sponsorship
-
-If you find value in Ticket Hub, consider supporting its ongoing development. Your support helps cover hosting costs, domain renewals, and the energy to keep shipping new features.
-
-* 🌟 **Star this repository** to help others find it!
-* 💖 **Sponsor on GitHub**: [github.com/sponsors/PMota173](https://github.com/sponsors/PMota173)
